@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -10,39 +12,57 @@
 
     <title>CGONLADLSSI</title>
 
+
     <style>
 
-        /* =========================
+        /* =====================================
            PAGE
-        ========================= */
+        ===================================== */
 
         body {
+
             margin: 0;
+
             min-height: 100vh;
 
             background: #080808;
+
             color: #e8e4d6;
 
-            font-family: "Courier New", monospace;
+            font-family:
+                "Courier New",
+                monospace;
 
             overflow: hidden;
+
         }
 
 
+
+        /* =====================================
+           MAIN AREA
+        ===================================== */
+
         .main {
+
             height: 100vh;
 
             display: flex;
+
             flex-direction: column;
 
             justify-content: center;
+
             align-items: center;
 
             text-align: center;
+
         }
 
 
+
         h1 {
+
             margin: 0;
 
             font-size: 18px;
@@ -52,23 +72,34 @@
             letter-spacing: 8px;
 
             opacity: 0.65;
+
         }
 
+
+
+        /* =====================================
+           COUNTDOWN
+        ===================================== */
 
         #countdown {
+
             margin-top: 25px;
 
-            font-size: clamp(
-                35px,
-                7vw,
-                85px
-            );
+            font-size:
+                clamp(
+                    35px,
+                    7vw,
+                    85px
+                );
 
             letter-spacing: 4px;
+
         }
+
 
 
         #broadcastStatus {
+
             margin-top: 20px;
 
             font-size: 11px;
@@ -76,10 +107,13 @@
             letter-spacing: 4px;
 
             opacity: 0.45;
+
         }
 
 
+
         #soundNotice {
+
             margin-top: 10px;
 
             font-size: 9px;
@@ -87,27 +121,33 @@
             letter-spacing: 2px;
 
             opacity: 0.35;
+
         }
 
 
 
-        /* =========================
-           RADIO IMAGE
-        ========================= */
+        /* =====================================
+           RADIO
+        ===================================== */
 
         .radio-image-container {
+
             position: fixed;
 
             right: 20px;
+
             bottom: 20px;
 
             text-align: center;
 
             user-select: none;
+
         }
 
 
+
         #radioImage {
+
             width: 220px;
 
             max-width: 35vw;
@@ -116,47 +156,82 @@
 
             cursor: pointer;
 
+
             transition:
+
                 transform 0.15s,
+
                 filter 0.3s,
+
                 opacity 0.3s;
+
         }
+
 
 
         #radioImage:hover {
-            transform: scale(1.03);
+
+            transform:
+                scale(1.03);
+
         }
+
 
 
         #radioImage:active {
-            transform: scale(0.96);
+
+            transform:
+                scale(0.96);
+
         }
 
 
-        /* Radio turned on */
+
+        /* =====================================
+           RADIO ON
+        ===================================== */
 
         #radioImage.radio-playing {
+
             filter:
-                brightness(1.12)
+
+                brightness(1.15)
+
                 drop-shadow(
                     0 0 10px
-                    rgba(255, 220, 150, 0.35)
+                    rgba(
+                        255,
+                        220,
+                        150,
+                        0.4
+                    )
                 );
+
         }
 
 
-        /* Radio dead at 25 days */
+
+        /* =====================================
+           RADIO DEAD
+        ===================================== */
 
         #radioImage.radio-dead {
+
             filter:
+
                 grayscale(100%)
+
                 brightness(0.55);
 
+
             cursor: default;
+
         }
+
 
 
         #radioStatus {
+
             margin-top: 5px;
 
             font-size: 9px;
@@ -166,120 +241,173 @@
             color: #aaa;
 
             opacity: 0.8;
+
         }
 
 
 
-        /* =========================
-           PHONE SUPPORT
-        ========================= */
+        /* =====================================
+           MOBILE
+        ===================================== */
 
-        @media (max-width: 600px) {
+        @media (
+            max-width: 600px
+        ) {
+
 
             #countdown {
+
                 font-size: 30px;
+
             }
 
 
             h1 {
+
                 font-size: 13px;
+
             }
 
 
             .radio-image-container {
+
                 right: 10px;
+
                 bottom: 10px;
+
             }
 
 
             #radioImage {
+
                 width: 140px;
+
             }
 
         }
 
     </style>
+
 </head>
+
 
 
 <body>
 
 
-    <!-- =========================
-         MAIN COUNTDOWN
-    ========================== -->
+    <!-- =====================================
+         MAIN PAGE
+    ====================================== -->
 
     <div class="main">
 
+
         <h1>
+
             CGONLADLSSI
+
         </h1>
 
 
+
         <div id="countdown">
+
             LOADING
+
         </div>
+
 
 
         <div id="broadcastStatus">
+
             BROADCAST ACTIVE
+
         </div>
+
 
 
         <div id="soundNotice">
+
             CLICK ANYWHERE TO ENABLE AUDIO
+
         </div>
+
 
     </div>
 
 
 
-    <!-- =========================
-         RADIO
-    ========================== -->
+    <!-- =====================================
+         RADIO IMAGE
+    ====================================== -->
 
     <div class="radio-image-container">
 
+
         <img
+
             src="radio.png"
+
             id="radioImage"
+
             alt="Radio"
+
         >
 
+
+
         <div id="radioStatus">
+
             OFF
+
         </div>
+
 
     </div>
 
 
 
-    <!-- =========================
-         AUDIO
-    ========================== -->
+    <!-- =====================================
+         AUDIO FILES
+    ====================================== -->
 
 
-    <!-- Radio music -->
+    <!-- RADIO MUSIC -->
 
     <audio
+
         id="radioAudio"
+
         preload="metadata"
+
     ></audio>
 
 
-    <!-- Clock sounds -->
+
+    <!-- TICK -->
 
     <audio
+
         id="tickSound"
-        src="sounds/tick.mp3"
+
+        src="tick.mp3"
+
         preload="auto"
+
     ></audio>
 
 
+
+    <!-- TOCK -->
+
     <audio
+
         id="tockSound"
-        src="sounds/tock.mp3"
+
+        src="tock.mp3"
+
         preload="auto"
+
     ></audio>
 
 
@@ -287,56 +415,82 @@
     <script>
 
 
-        /* ====================================
+        /* =====================================
            GLOBAL COUNTDOWN
-        ==================================== */
+        ====================================== */
 
 
         /*
-            SAME END DATE FOR EVERYBODY
+            SAME DATE FOR EVERYONE
 
-            December 25, 2026
+            DECEMBER 25 2026
             12:00 AM
-            Newfoundland Standard Time
+
+            NEWFOUNDLAND TIME
         */
 
 
-        const endDate = new Date(
-            "2026-12-25T00:00:00-03:30"
-        ).getTime();
+        const endDate =
 
+            new Date(
+
+                "2026-12-25T00:00:00-03:30"
+
+            ).getTime();
+
+
+
+        /* =====================================
+           ELEMENTS
+        ====================================== */
 
 
         const countdownElement =
+
             document.getElementById(
+
                 "countdown"
+
             );
+
 
 
         const broadcastStatus =
+
             document.getElementById(
+
                 "broadcastStatus"
+
             );
+
 
 
         const soundNotice =
+
             document.getElementById(
+
                 "soundNotice"
+
             );
 
 
 
-        /* ====================================
+        /* =====================================
            TIME FUNCTIONS
-        ==================================== */
+        ====================================== */
 
 
         function getTimeRemaining() {
 
+
             return (
+
                 endDate
+
                 -
+
                 Date.now()
+
             );
 
         }
@@ -345,18 +499,20 @@
 
         function getDaysRemaining() {
 
-            const distance =
-                getTimeRemaining();
-
 
             return Math.floor(
 
-                distance
+                getTimeRemaining()
+
                 /
+
                 (
-                    1000 *
-                    60 *
-                    60 *
+                    1000
+                    *
+                    60
+                    *
+                    60
+                    *
                     24
                 )
 
@@ -366,37 +522,48 @@
 
 
 
-        /* ====================================
+        /* =====================================
            UPDATE COUNTDOWN
-        ==================================== */
+        ====================================== */
 
 
         function updateCountdown() {
 
+
             const distance =
+
                 getTimeRemaining();
 
 
 
-            /*
-                COUNTDOWN FINISHED
-            */
+            /* TIMER FINISHED */
 
 
-            if (distance <= 0) {
+            if (
+
+                distance <= 0
+
+            ) {
+
 
                 countdownElement.textContent =
+
                     "0D 00H 00M 00S";
 
 
+
                 broadcastStatus.textContent =
+
                     "TRANSMISSION ENDED";
+
 
 
                 disableRadio();
 
 
+
                 clockEnabled = false;
+
 
 
                 return;
@@ -405,14 +572,24 @@
 
 
 
+            /* DAYS */
+
+
             const days =
+
                 Math.floor(
 
-                    distance /
+                    distance
+
+                    /
+
                     (
-                        1000 *
-                        60 *
-                        60 *
+                        1000
+                        *
+                        60
+                        *
+                        60
+                        *
                         24
                     )
 
@@ -420,76 +597,138 @@
 
 
 
+            /* HOURS */
+
+
             const hours =
+
                 Math.floor(
 
-                    distance /
+                    distance
+
+                    /
+
                     (
-                        1000 *
-                        60 *
+                        1000
+                        *
+                        60
+                        *
                         60
                     )
 
-                ) % 24;
+                )
 
+                %
+
+                24;
+
+
+
+            /* MINUTES */
 
 
             const minutes =
+
                 Math.floor(
 
-                    distance /
+                    distance
+
+                    /
+
                     (
-                        1000 *
+                        1000
+                        *
                         60
                     )
 
-                ) % 60;
+                )
 
+                %
+
+                60;
+
+
+
+            /* SECONDS */
 
 
             const seconds =
+
                 Math.floor(
 
-                    distance /
+                    distance
+
+                    /
+
                     1000
 
-                ) % 60;
+                )
+
+                %
+
+                60;
 
 
 
             countdownElement.textContent =
 
-                days +
 
-                "D " +
+                days
+
+
+                +
+
+
+                "D "
+
+
+                +
+
 
                 String(hours)
+
                     .padStart(
                         2,
                         "0"
                     )
 
+
                 +
 
-                "H " +
+
+                "H "
+
+
+                +
+
 
                 String(minutes)
+
                     .padStart(
                         2,
                         "0"
                     )
 
+
                 +
 
-                "M " +
+
+                "M "
+
+
+                +
+
 
                 String(seconds)
+
                     .padStart(
                         2,
                         "0"
                     )
 
+
                 +
+
 
                 "S";
 
@@ -501,25 +740,33 @@
 
 
 
-        /* ====================================
-           TICK TOCK
-        ==================================== */
+        /* =====================================
+           CLOCK AUDIO
+        ====================================== */
 
 
         const tickSound =
+
             document.getElementById(
+
                 "tickSound"
+
             );
 
 
+
         const tockSound =
+
             document.getElementById(
+
                 "tockSound"
+
             );
 
 
 
         tickSound.volume = 0.18;
+
 
         tockSound.volume = 0.18;
 
@@ -527,25 +774,23 @@
 
         let tickNext = true;
 
+
         let clockEnabled = false;
 
+
+
+        /* =====================================
+           PLAY TICK / TOCK
+        ====================================== */
 
 
         function playClockSound() {
 
 
-            if (!clockEnabled) {
-
-                return;
-
-            }
-
-
-
             if (
-                getTimeRemaining()
-                <=
-                0
+
+                !clockEnabled
+
             ) {
 
                 return;
@@ -554,33 +799,60 @@
 
 
 
-            if (tickNext) {
+            if (
+
+                getTimeRemaining()
+
+                <=
+
+                0
+
+            ) {
+
+                return;
+
+            }
 
 
-                tickSound.currentTime =
-                    0;
+
+            if (
+
+                tickNext
+
+            ) {
+
+
+                tickSound.currentTime = 0;
 
 
                 tickSound
+
                     .play()
+
                     .catch(
+
                         () => {}
+
                     );
 
 
             }
 
+
             else {
 
 
-                tockSound.currentTime =
-                    0;
+                tockSound.currentTime = 0;
 
 
                 tockSound
+
                     .play()
+
                     .catch(
+
                         () => {}
+
                     );
 
             }
@@ -588,15 +860,16 @@
 
 
             tickNext =
+
                 !tickNext;
 
         }
 
 
 
-        /* ====================================
-           MAIN CLOCK
-        ==================================== */
+        /* =====================================
+           MAIN TIMER
+        ====================================== */
 
 
         updateCountdown();
@@ -607,9 +880,12 @@
 
             function() {
 
+
                 updateCountdown();
 
+
                 playClockSound();
+
 
             },
 
@@ -619,35 +895,43 @@
 
 
 
-        /* ====================================
-           ENABLE SOUND
-        ==================================== */
+        /* =====================================
+           ENABLE AUDIO
+        ====================================== */
 
 
         /*
-            Browsers block automatic sound.
+            Browsers don't allow
+            automatic sound.
 
-            First click/keypress enables
-            the ticking.
+            First click or key press
+            activates the clock.
         */
 
 
         function enableSiteAudio() {
 
 
-            if (clockEnabled) {
+            if (
+
+                clockEnabled
+
+            ) {
 
                 return;
 
             }
 
 
-            clockEnabled =
-                true;
+
+            clockEnabled = true;
+
 
 
             soundNotice.textContent =
+
                 "AUDIO ENABLED";
+
 
 
             playClockSound();
@@ -684,77 +968,97 @@
 
 
 
-        /* ====================================
+        /* =====================================
            RADIO
-        ==================================== */
+        ====================================== */
 
 
         const radioAudio =
+
             document.getElementById(
+
                 "radioAudio"
+
             );
+
 
 
         const radioImage =
+
             document.getElementById(
+
                 "radioImage"
+
             );
+
 
 
         const radioStatus =
+
             document.getElementById(
+
                 "radioStatus"
+
             );
 
 
 
+        /* =====================================
+           SONG LIST
+        ====================================== */
+
+
         /*
-            ADD YOUR SONGS HERE
+            ALL SONGS ARE IN THE
+            SAME PLACE AS INDEX.HTML
         */
 
 
         const songs = [
 
-            "music/song1.mp3",
 
-            "music/song2.mp3",
+            "song1.mp3",
 
-            "music/song3.mp3",
 
-            "music/song4.mp3",
+            "song2.mp3",
 
-            "music/song5.mp3"
+
+            "song3.mp3",
+
+
+            "song4.mp3",
+
+
+            "song5.mp3"
+
 
         ];
 
 
 
-        let radioOn =
-            false;
+        let radioOn = false;
 
 
-        let currentSong =
-            "";
-
-
-
-        radioAudio.volume =
-            0.35;
+        let currentSong = "";
 
 
 
-        /* ====================================
+        radioAudio.volume = 0.35;
+
+
+
+        /* =====================================
            RANDOM SONG
-        ==================================== */
+        ====================================== */
 
 
         function randomSong() {
 
 
             if (
-                songs.length
-                ===
-                0
+
+                songs.length === 0
+
             ) {
 
                 return;
@@ -785,6 +1089,7 @@
 
 
                 song =
+
                     songs[
                         randomIndex
                     ];
@@ -792,38 +1097,48 @@
 
             }
 
+
             while (
+
 
                 song === currentSong
 
+
                 &&
 
+
                 songs.length > 1
+
 
             );
 
 
 
-            currentSong =
-                song;
+            currentSong = song;
 
 
 
-            radioAudio.src =
-                song;
+            radioAudio.src = song;
 
 
 
             radioAudio
+
                 .play()
+
                 .catch(
 
                     function(error) {
 
+
                         console.log(
+
                             "Radio could not play:",
+
                             error
+
                         );
+
 
                     }
 
@@ -833,9 +1148,9 @@
 
 
 
-        /* ====================================
-           RADIO CLICK
-        ==================================== */
+        /* =====================================
+           RADIO BUTTON
+        ====================================== */
 
 
         function toggleRadio() {
@@ -846,18 +1161,24 @@
 
 
             /*
-                At 25 days the radio
-                becomes unusable.
+                RADIO STOPS WORKING
+                AT 25 DAYS
             */
 
 
             if (
+
                 getDaysRemaining()
+
                 <=
+
                 25
+
             ) {
 
+
                 disableRadio();
+
 
                 return;
 
@@ -865,80 +1186,89 @@
 
 
 
-            /*
-                TURN ON
-            */
+            /* TURN RADIO ON */
 
 
-            if (!radioOn) {
+            if (
+
+                !radioOn
+
+            ) {
 
 
-                radioOn =
-                    true;
+                radioOn = true;
 
 
 
                 radioStatus.textContent =
+
                     "RECEIVING";
 
 
 
                 radioImage
+
                     .classList
+
                     .add(
+
                         "radio-playing"
+
                     );
 
 
 
-                /*
-                    Resume previous song
-                    if paused.
-                */
+                /* Resume paused song */
 
 
                 if (
 
+
                     radioAudio.src
+
 
                     &&
 
+
                     radioAudio.currentTime > 0
+
 
                 ) {
 
 
                     radioAudio
+
                         .play()
+
                         .catch(
+
                             () => {}
+
                         );
 
 
                 }
+
 
                 else {
 
 
                     randomSong();
 
-                }
 
+                }
 
             }
 
 
 
-            /*
-                TURN OFF
-            */
+            /* TURN RADIO OFF */
 
 
             else {
 
 
-                radioOn =
-                    false;
+                radioOn = false;
 
 
 
@@ -947,20 +1277,30 @@
 
 
                 radioStatus.textContent =
+
                     "OFF";
 
 
 
                 radioImage
+
                     .classList
+
                     .remove(
+
                         "radio-playing"
+
                     );
 
             }
 
         }
 
+
+
+        /* =====================================
+           CLICK RADIO IMAGE
+        ====================================== */
 
 
         radioImage.addEventListener(
@@ -975,15 +1315,16 @@
 
                 toggleRadio();
 
+
             }
 
         );
 
 
 
-        /* ====================================
-           NEXT RANDOM SONG
-        ==================================== */
+        /* =====================================
+           SONG FINISHED
+        ====================================== */
 
 
         radioAudio.addEventListener(
@@ -995,18 +1336,25 @@
 
                 if (
 
+
                     radioOn
+
 
                     &&
 
+
                     getDaysRemaining()
+
                     >
+
                     25
+
 
                 ) {
 
 
                     randomSong();
+
 
                 }
 
@@ -1016,9 +1364,9 @@
 
 
 
-        /* ====================================
+        /* =====================================
            DAY 25
-        ==================================== */
+        ====================================== */
 
 
         function checkRadioCountdown() {
@@ -1026,14 +1374,19 @@
 
             if (
 
+
                 getDaysRemaining()
+
                 <=
+
                 25
+
 
             ) {
 
 
                 disableRadio();
+
 
             }
 
@@ -1041,11 +1394,15 @@
 
 
 
+        /* =====================================
+           DISABLE RADIO
+        ====================================== */
+
+
         function disableRadio() {
 
 
-            radioOn =
-                false;
+            radioOn = false;
 
 
 
@@ -1054,26 +1411,40 @@
 
 
             radioStatus.textContent =
+
                 "NO SIGNAL";
 
 
 
             radioImage
+
                 .classList
+
                 .remove(
+
                     "radio-playing"
+
                 );
 
 
 
             radioImage
+
                 .classList
+
                 .add(
+
                     "radio-dead"
+
                 );
 
         }
 
+
+
+        /* =====================================
+           INITIAL RADIO CHECK
+        ====================================== */
 
 
         checkRadioCountdown();
@@ -1081,5 +1452,7 @@
 
     </script>
 
+
 </body>
+
 </html>
