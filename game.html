@@ -33,10 +33,10 @@ body {
 }
 
 
-/* =========================================
-   FULL WINDOW
+/* =========================
+   FULL GAME
    960 x 540
-========================================= */
+========================= */
 
 #layout {
     position: relative;
@@ -52,10 +52,10 @@ body {
 }
 
 
-/* =========================================
+/* =========================
    LEFT GAME
    640 x 540
-========================================= */
+========================= */
 
 #gameSide {
     position: relative;
@@ -71,9 +71,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================
    BACKGROUND
-========================================= */
+========================= */
 
 #background {
     position: absolute;
@@ -89,9 +89,6 @@ body {
     background-size:
         640px 540px;
 
-    background-position:
-        center;
-
     background-repeat:
         no-repeat;
 
@@ -99,9 +96,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================
    HIDDEN OBJECT
-========================================= */
+========================= */
 
 #hiddenObject {
     position: absolute;
@@ -110,15 +107,15 @@ body {
 
     z-index: 5;
 
-    user-select: none;
-
     pointer-events: none;
+
+    user-select: none;
 }
 
 
-/* =========================================
+/* =========================
    FLOWERS
-========================================= */
+========================= */
 
 #flowers {
     position: absolute;
@@ -130,18 +127,15 @@ body {
 
     object-fit: fill;
 
-    pointer-events: none;
-
     z-index: 10;
+
+    pointer-events: none;
 }
 
 
-/* =========================================
-   REVEAL CIRCLE
-
-   This contains:
-   background + hidden object
-========================================= */
+/* =========================
+   GLASS REVEAL
+========================= */
 
 #reveal {
     position: absolute;
@@ -156,18 +150,21 @@ body {
     transform:
         translate(-50%, -50%);
 
-    pointer-events: none;
-
     display: none;
+
+    pointer-events: none;
 
     z-index: 30;
 }
 
 
-/* clean background inside glass */
+/* Clean background inside glass */
 
 #revealBackground {
     position: absolute;
+
+    left: 0;
+    top: 0;
 
     width: 640px;
     height: 540px;
@@ -180,28 +177,25 @@ body {
 
     background-repeat:
         no-repeat;
-
-    left: 0;
-    top: 0;
 }
 
 
-/* copy of object shown inside glass */
+/* Hidden object inside glass */
 
 #revealObject {
     position: absolute;
 
     height: auto;
 
-    user-select: none;
-
     pointer-events: none;
+
+    user-select: none;
 }
 
 
-/* =========================================
+/* =========================
    GLASS
-========================================= */
+========================= */
 
 #glass {
     position: absolute;
@@ -225,9 +219,9 @@ body {
     transform:
         translate(-50%, -50%);
 
-    pointer-events: none;
-
     display: none;
+
+    pointer-events: none;
 
     z-index: 31;
 }
@@ -260,10 +254,10 @@ body {
 }
 
 
-/* =========================================
+/* =========================
    NPC SIDE
    320 x 540
-========================================= */
+========================= */
 
 #npcSide {
     position: relative;
@@ -297,12 +291,14 @@ body {
             rgba(60,60,60,0.18),
             rgba(0,0,0,0.9)
         );
+
+    pointer-events: none;
 }
 
 
-/* =========================================
+/* =========================
    NPC
-========================================= */
+========================= */
 
 #npc {
     position: relative;
@@ -338,9 +334,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================
    DIVIDER
-========================================= */
+========================= */
 
 #divider {
     position: absolute;
@@ -360,9 +356,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================
    FADE
-========================================= */
+========================= */
 
 #fade {
     position: absolute;
@@ -386,38 +382,6 @@ body {
     opacity: 1;
 }
 
-
-/* =========================================
-   SCREEN SCALING
-========================================= */
-
-@media (max-width: 960px) {
-
-    #layout {
-        transform:
-            scale(0.8);
-    }
-
-}
-
-@media (max-width: 780px) {
-
-    #layout {
-        transform:
-            scale(0.65);
-    }
-
-}
-
-@media (max-width: 620px) {
-
-    #layout {
-        transform:
-            scale(0.5);
-    }
-
-}
-
 </style>
 
 </head>
@@ -429,14 +393,12 @@ body {
 <div id="layout">
 
 
-    <!-- LEFT SIDE -->
+    <!-- LEFT GAME -->
 
     <div id="gameSide">
 
         <div id="background"></div>
 
-
-        <!-- REAL OBJECT UNDER FLOWERS -->
 
         <img
             src="mitten.png"
@@ -445,8 +407,6 @@ body {
         >
 
 
-        <!-- FLOWERS COVER EVERYTHING -->
-
         <img
             src="flowers.png"
             id="flowers"
@@ -454,11 +414,11 @@ body {
         >
 
 
-        <!-- CLEAN GLASS VIEW -->
-
         <div id="reveal">
 
-            <div id="revealBackground"></div>
+            <div
+                id="revealBackground"
+            ></div>
 
             <img
                 src="mitten.png"
@@ -479,7 +439,7 @@ body {
 
 
 
-    <!-- RIGHT SIDE -->
+    <!-- NPC SIDE -->
 
     <div id="npcSide">
 
@@ -494,6 +454,7 @@ body {
 
 
     <div id="fade"></div>
+
 
 </div>
 
@@ -510,10 +471,9 @@ body {
 
 <script>
 
-
-/* =========================================
+/* =========================
    ELEMENTS
-========================================= */
+========================= */
 
 const gameSide =
     document.getElementById(
@@ -561,10 +521,9 @@ const fade =
     );
 
 
-
-/* =========================================
-   ROUNDS
-========================================= */
+/* =========================
+   ROUND SETTINGS
+========================= */
 
 const rounds = [
 
@@ -573,7 +532,7 @@ const rounds = [
             "mitten.png",
 
         voice:
-            "mitten.mp3",
+            "mitten.wav",
 
         rate:
             1.0,
@@ -594,7 +553,7 @@ const rounds = [
             "lantern.png",
 
         voice:
-            "lantern.mp3",
+            "lantern.wav",
 
         rate:
             1.28,
@@ -615,7 +574,7 @@ const rounds = [
             "car.png",
 
         voice:
-            "car.mp3",
+            "car.wav",
 
         rate:
             1.6,
@@ -633,30 +592,21 @@ const rounds = [
 ];
 
 
-let currentRound =
-    0;
+let currentRound = 0;
+
+let roundChanging = false;
+
+let glassActive = false;
+
+let glassX = 0;
+let glassY = 0;
+
+let audioUnlocked = false;
 
 
-let roundChanging =
-    false;
-
-
-let glassActive =
-    false;
-
-
-let glassX =
-    0;
-
-
-let glassY =
-    0;
-
-
-
-/* =========================================
+/* =========================
    LOAD ROUND
-========================================= */
+========================= */
 
 function loadRound(index) {
 
@@ -667,53 +617,50 @@ function loadRound(index) {
     hiddenObject.src =
         round.object;
 
-
     hiddenObject.style.left =
         round.x + "px";
 
-
     hiddenObject.style.top =
         round.y + "px";
-
 
     hiddenObject.style.width =
         round.width + "px";
 
 
-    /*
-    Same object also appears
-    inside the reveal circle.
-    */
-
     revealObject.src =
         round.object;
-
 
     revealObject.style.left =
         round.x + "px";
 
-
     revealObject.style.top =
         round.y + "px";
-
 
     revealObject.style.width =
         round.width + "px";
 
 
     /*
-    NPC tells player what to find.
+        After the player has clicked once,
+        later rounds can automatically
+        play their instruction.
     */
 
-    playVoice();
+    if (audioUnlocked) {
+
+        setTimeout(
+            playVoice,
+            350
+        );
+
+    }
 
 }
 
 
-
-/* =========================================
-   VOICE
-========================================= */
+/* =========================
+   PLAY VOICE
+========================= */
 
 function playVoice() {
 
@@ -724,21 +671,34 @@ function playVoice() {
     voiceAudio.pause();
 
 
-    voiceAudio.currentTime =
-        0;
-
+    /*
+        Setting src directly to WAV.
+    */
 
     voiceAudio.src =
         round.voice;
 
 
+    voiceAudio.load();
+
+
     /*
-    Faster = higher pitch because
-    pitch preservation is disabled.
+        Faster playback also raises pitch.
     */
 
     voiceAudio.preservesPitch =
         false;
+
+
+    if (
+        "webkitPreservesPitch"
+        in voiceAudio
+    ) {
+
+        voiceAudio.webkitPreservesPitch =
+            false;
+
+    }
 
 
     voiceAudio.playbackRate =
@@ -746,20 +706,82 @@ function playVoice() {
 
 
     voiceAudio.volume =
-        0.9;
+        1.0;
+
+
+    voiceAudio.currentTime =
+        0;
 
 
     voiceAudio
         .play()
+
+        .then(
+            function() {
+
+                console.log(
+                    "Playing:",
+                    round.voice
+                );
+
+            }
+        )
+
         .catch(
-            () => {}
+            function(error) {
+
+                console.error(
+                    "VOICE AUDIO ERROR:",
+                    error
+                );
+
+            }
         );
 
 }
 
 
+/* =========================
+   FIRST CLICK ENABLES AUDIO
+========================= */
 
-/* click NPC to repeat instruction */
+function unlockAudio() {
+
+    if (audioUnlocked) {
+        return;
+    }
+
+
+    audioUnlocked = true;
+
+
+    /*
+        Play instruction because this
+        function was triggered by
+        a real user click.
+    */
+
+    playVoice();
+
+}
+
+
+document.addEventListener(
+
+    "mousedown",
+
+    unlockAudio,
+
+    {
+        once: true
+    }
+
+);
+
+
+/* =========================
+   CLICK NPC TO REPLAY
+========================= */
 
 npc.addEventListener(
 
@@ -769,6 +791,10 @@ npc.addEventListener(
 
         event.stopPropagation();
 
+
+        audioUnlocked = true;
+
+
         playVoice();
 
     }
@@ -776,28 +802,25 @@ npc.addEventListener(
 );
 
 
-
-/* =========================================
-   GLASS POSITION
-========================================= */
+/* =========================
+   MOVE GLASS
+========================= */
 
 function moveGlass(event) {
 
     const gameRect =
-        gameSide.getBoundingClientRect();
+        gameSide
+            .getBoundingClientRect();
 
-
-    /*
-    Convert browser coordinates
-    into 640x540 game coordinates.
-    */
 
     const scaleX =
+
         640 /
         gameRect.width;
 
 
     const scaleY =
+
         540 /
         gameRect.height;
 
@@ -811,7 +834,6 @@ function moveGlass(event) {
         )
 
         *
-
         scaleX;
 
 
@@ -824,9 +846,7 @@ function moveGlass(event) {
         )
 
         *
-
         scaleY;
-
 
 
     if (
@@ -855,15 +875,12 @@ function moveGlass(event) {
     glassX =
         localX;
 
-
     glassY =
         localY;
 
 
-
     glass.style.left =
         localX + "px";
-
 
     glass.style.top =
         localY + "px";
@@ -872,16 +889,9 @@ function moveGlass(event) {
     reveal.style.left =
         localX + "px";
 
-
     reveal.style.top =
         localY + "px";
 
-
-    /*
-    Move the contents INSIDE
-    the reveal circle so they line
-    up with the normal world.
-    */
 
     const revealHalfX =
         reveal.offsetWidth / 2;
@@ -918,30 +928,37 @@ function moveGlass(event) {
     revealObject.style.transform =
 
         "translate("
+
         +
+
         (
             -localX
             +
             revealHalfX
         )
+
         +
+
         "px,"
+
         +
+
         (
             -localY
             +
             revealHalfY
         )
+
         +
+
         "px)";
 
 }
 
 
-
-/* =========================================
+/* =========================
    START GLASS
-========================================= */
+========================= */
 
 gameSide.addEventListener(
 
@@ -973,10 +990,9 @@ gameSide.addEventListener(
 );
 
 
-
-/* =========================================
+/* =========================
    MOVE GLASS
-========================================= */
+========================= */
 
 document.addEventListener(
 
@@ -996,10 +1012,39 @@ document.addEventListener(
 );
 
 
+/* =========================
+   CHECK OBJECT WHILE CLICKING
+========================= */
 
-/* =========================================
+gameSide.addEventListener(
+
+    "mousedown",
+
+    function() {
+
+        if (roundChanging) {
+            return;
+        }
+
+
+        /*
+            Check after the glass has
+            been positioned.
+        */
+
+        setTimeout(
+            checkObjectFound,
+            20
+        );
+
+    }
+
+);
+
+
+/* =========================
    RELEASE GLASS
-========================================= */
+========================= */
 
 document.addEventListener(
 
@@ -1023,52 +1068,20 @@ document.addEventListener(
 );
 
 
-
-/* =========================================
-   CLICK LEFT SIDE
-========================================= */
-
-gameSide.addEventListener(
-
-    "click",
-
-    function(event) {
-
-        if (roundChanging) {
-            return;
-        }
-
-
-        /*
-        Player MUST be using glass.
-        */
-
-        if (!glassActive) {
-            return;
-        }
-
-
-        checkObjectFound();
-
-    }
-
-);
-
-
-
-/* =========================================
-   CHECK OBJECT
-========================================= */
+/* =========================
+   CHECK FOUND OBJECT
+========================= */
 
 function checkObjectFound() {
+
+    if (!glassActive) {
+        return;
+    }
+
 
     const round =
         rounds[currentRound];
 
-
-    /*
-    Find center of hidden object.
-    */
 
     const objectCenterX =
 
@@ -1077,13 +1090,6 @@ function checkObjectFound() {
         round.width / 2;
 
 
-    /*
-    Approximate height for click area.
-
-    Using width works fine for these
-    simple hidden-object sprites.
-    */
-
     const objectCenterY =
 
         round.y
@@ -1091,20 +1097,23 @@ function checkObjectFound() {
         round.width / 2;
 
 
-
     const distance =
 
         Math.sqrt(
 
             Math.pow(
-                glassX - objectCenterX,
+                glassX
+                -
+                objectCenterX,
                 2
             )
 
             +
 
             Math.pow(
-                glassY - objectCenterY,
+                glassY
+                -
+                objectCenterY,
                 2
             )
 
@@ -1112,8 +1121,8 @@ function checkObjectFound() {
 
 
     /*
-    Glass has to actually be
-    near the object.
+        Player needs the glass
+        close to the item.
     */
 
     if (distance < 75) {
@@ -1125,10 +1134,9 @@ function checkObjectFound() {
 }
 
 
-
-/* =========================================
-   FOUND OBJECT
-========================================= */
+/* =========================
+   OBJECT FOUND
+========================= */
 
 function objectFound() {
 
@@ -1154,16 +1162,13 @@ function objectFound() {
 
 
     /*
-    If this was the car,
-    the game stays on final scene.
+        Final car round.
     */
 
     if (
-
         currentRound
         ===
         rounds.length - 1
-
     ) {
 
         finishGame();
@@ -1172,10 +1177,6 @@ function objectFound() {
 
     }
 
-
-    /*
-    Fade to next item.
-    */
 
     fade.classList.add(
         "active"
@@ -1199,7 +1200,6 @@ function objectFound() {
 
                 function() {
 
-
                     fade.classList.remove(
                         "active"
                     );
@@ -1214,7 +1214,6 @@ function objectFound() {
 
             );
 
-
         },
 
         700
@@ -1224,52 +1223,27 @@ function objectFound() {
 }
 
 
-
-/* =========================================
+/* =========================
    FINAL ROUND
-========================================= */
+========================= */
 
 function finishGame() {
 
     /*
-    For now the final car scene
-    remains visible.
-
-    You can later add another page,
-    sound, fade, etc.
+        Final car scene stays visible.
     */
 
-    setTimeout(
-
-        function() {
-
-            roundChanging =
-                false;
-
-        },
-
-        1000
-
-    );
+    roundChanging =
+        false;
 
 }
 
 
-
-/* =========================================
-   START
-========================================= */
-
-
-/*
-Browser autoplay may block this voice.
-
-If that happens, clicking the NPC
-plays it immediately.
-*/
+/* =========================
+   START GAME
+========================= */
 
 loadRound(0);
-
 
 </script>
 
