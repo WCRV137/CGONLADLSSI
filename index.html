@@ -2,56 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>CGONLADLSSI</title>
 
     <style>
+
+        /* =========================
+           PAGE
+        ========================= */
+
         body {
             margin: 0;
             min-height: 100vh;
+
             background: #080808;
             color: #e8e4d6;
+
             font-family: "Courier New", monospace;
+
             overflow: hidden;
         }
 
+
         .main {
             height: 100vh;
+
             display: flex;
             flex-direction: column;
+
             justify-content: center;
             align-items: center;
+
             text-align: center;
         }
 
+
         h1 {
             margin: 0;
+
             font-size: 18px;
+
             font-weight: normal;
+
             letter-spacing: 8px;
+
             opacity: 0.65;
         }
 
+
         #countdown {
             margin-top: 25px;
-            font-size: clamp(35px, 7vw, 85px);
+
+            font-size: clamp(
+                35px,
+                7vw,
+                85px
+            );
+
             letter-spacing: 4px;
         }
+
 
         #broadcastStatus {
             margin-top: 20px;
+
             font-size: 11px;
+
             letter-spacing: 4px;
+
             opacity: 0.45;
         }
 
+
         #soundNotice {
             margin-top: 10px;
+
             font-size: 9px;
+
             letter-spacing: 2px;
+
             opacity: 0.35;
         }
+
+
 
         /* =========================
            RADIO IMAGE
@@ -59,16 +97,23 @@
 
         .radio-image-container {
             position: fixed;
+
             right: 20px;
             bottom: 20px;
+
             text-align: center;
+
             user-select: none;
         }
 
+
         #radioImage {
             width: 220px;
+
             max-width: 35vw;
+
             height: auto;
+
             cursor: pointer;
 
             transition:
@@ -77,13 +122,18 @@
                 opacity 0.3s;
         }
 
+
         #radioImage:hover {
             transform: scale(1.03);
         }
 
+
         #radioImage:active {
             transform: scale(0.96);
         }
+
+
+        /* Radio turned on */
 
         #radioImage.radio-playing {
             filter:
@@ -94,58 +144,99 @@
                 );
         }
 
+
+        /* Radio dead at 25 days */
+
         #radioImage.radio-dead {
             filter:
                 grayscale(100%)
-                brightness(0.65);
+                brightness(0.55);
 
             cursor: default;
         }
 
+
         #radioStatus {
             margin-top: 5px;
+
             font-size: 9px;
+
             letter-spacing: 3px;
+
             color: #aaa;
+
             opacity: 0.8;
         }
 
+
+
+        /* =========================
+           PHONE SUPPORT
+        ========================= */
+
         @media (max-width: 600px) {
+
             #countdown {
-                font-size: 32px;
+                font-size: 30px;
             }
+
+
+            h1 {
+                font-size: 13px;
+            }
+
 
             .radio-image-container {
                 right: 10px;
                 bottom: 10px;
             }
 
+
             #radioImage {
                 width: 140px;
             }
+
         }
+
     </style>
 </head>
 
+
 <body>
+
+
+    <!-- =========================
+         MAIN COUNTDOWN
+    ========================== -->
 
     <div class="main">
 
-        <h1>CGONLADLSSI</h1>
+        <h1>
+            CGONLADLSSI
+        </h1>
+
 
         <div id="countdown">
             LOADING
         </div>
 
+
         <div id="broadcastStatus">
             BROADCAST ACTIVE
         </div>
+
 
         <div id="soundNotice">
             CLICK ANYWHERE TO ENABLE AUDIO
         </div>
 
     </div>
+
+
+
+    <!-- =========================
+         RADIO
+    ========================== -->
 
     <div class="radio-image-container">
 
@@ -161,18 +252,29 @@
 
     </div>
 
-    <!-- RADIO MUSIC -->
+
+
+    <!-- =========================
+         AUDIO
+    ========================== -->
+
+
+    <!-- Radio music -->
+
     <audio
         id="radioAudio"
         preload="metadata"
     ></audio>
 
-    <!-- CLOCK SOUNDS -->
+
+    <!-- Clock sounds -->
+
     <audio
         id="tickSound"
         src="sounds/tick.mp3"
         preload="auto"
     ></audio>
+
 
     <audio
         id="tockSound"
@@ -180,54 +282,54 @@
         preload="auto"
     ></audio>
 
+
+
     <script>
 
-        /* =========================
-           COUNTDOWN
-        ========================= */
 
-        const countdownLength =
-            137 *
-            24 *
-            60 *
-            60 *
-            1000;
+        /* ====================================
+           GLOBAL COUNTDOWN
+        ==================================== */
 
-        let endDate =
-            localStorage.getItem(
-                "CGONLADLSSI_endDate"
-            );
 
-        if (!endDate) {
+        /*
+            SAME END DATE FOR EVERYBODY
 
-            endDate =
-                Date.now()
-                +
-                countdownLength;
+            December 25, 2026
+            12:00 AM
+            Newfoundland Standard Time
+        */
 
-            localStorage.setItem(
-                "CGONLADLSSI_endDate",
-                endDate
-            );
-        }
 
-        endDate =
-            Number(endDate);
+        const endDate = new Date(
+            "2026-12-25T00:00:00-03:30"
+        ).getTime();
+
+
 
         const countdownElement =
             document.getElementById(
                 "countdown"
             );
 
+
         const broadcastStatus =
             document.getElementById(
                 "broadcastStatus"
             );
 
+
         const soundNotice =
             document.getElementById(
                 "soundNotice"
             );
+
+
+
+        /* ====================================
+           TIME FUNCTIONS
+        ==================================== */
+
 
         function getTimeRemaining() {
 
@@ -236,46 +338,76 @@
                 -
                 Date.now()
             );
+
         }
+
+
 
         function getDaysRemaining() {
 
             const distance =
                 getTimeRemaining();
 
+
             return Math.floor(
-                distance /
+
+                distance
+                /
                 (
                     1000 *
                     60 *
                     60 *
                     24
                 )
+
             );
+
         }
+
+
+
+        /* ====================================
+           UPDATE COUNTDOWN
+        ==================================== */
+
 
         function updateCountdown() {
 
             const distance =
                 getTimeRemaining();
 
+
+
+            /*
+                COUNTDOWN FINISHED
+            */
+
+
             if (distance <= 0) {
 
                 countdownElement.textContent =
                     "0D 00H 00M 00S";
 
+
                 broadcastStatus.textContent =
                     "TRANSMISSION ENDED";
 
+
                 disableRadio();
+
 
                 clockEnabled = false;
 
+
                 return;
+
             }
+
+
 
             const days =
                 Math.floor(
+
                     distance /
                     (
                         1000 *
@@ -283,103 +415,196 @@
                         60 *
                         24
                     )
+
                 );
+
+
 
             const hours =
                 Math.floor(
+
                     distance /
                     (
                         1000 *
                         60 *
                         60
                     )
+
                 ) % 24;
+
+
 
             const minutes =
                 Math.floor(
+
                     distance /
                     (
                         1000 *
                         60
                     )
+
                 ) % 60;
+
+
 
             const seconds =
                 Math.floor(
+
                     distance /
                     1000
+
                 ) % 60;
 
+
+
             countdownElement.textContent =
+
                 days +
+
                 "D " +
-                String(hours).padStart(2, "0") +
+
+                String(hours)
+                    .padStart(
+                        2,
+                        "0"
+                    )
+
+                +
+
                 "H " +
-                String(minutes).padStart(2, "0") +
+
+                String(minutes)
+                    .padStart(
+                        2,
+                        "0"
+                    )
+
+                +
+
                 "M " +
-                String(seconds).padStart(2, "0") +
+
+                String(seconds)
+                    .padStart(
+                        2,
+                        "0"
+                    )
+
+                +
+
                 "S";
 
+
+
             checkRadioCountdown();
+
         }
 
-        updateCountdown();
 
-        /* =========================
-           CLOCK TICK / TOCK
-        ========================= */
+
+        /* ====================================
+           TICK TOCK
+        ==================================== */
+
 
         const tickSound =
             document.getElementById(
                 "tickSound"
             );
 
+
         const tockSound =
             document.getElementById(
                 "tockSound"
             );
 
-        tickSound.volume = 0.20;
-        tockSound.volume = 0.20;
+
+
+        tickSound.volume = 0.18;
+
+        tockSound.volume = 0.18;
+
+
 
         let tickNext = true;
+
         let clockEnabled = false;
+
+
 
         function playClockSound() {
 
+
             if (!clockEnabled) {
+
                 return;
+
             }
 
-            if (getTimeRemaining() <= 0) {
+
+
+            if (
+                getTimeRemaining()
+                <=
+                0
+            ) {
+
                 return;
+
             }
+
+
 
             if (tickNext) {
 
-                tickSound.currentTime = 0;
+
+                tickSound.currentTime =
+                    0;
+
 
                 tickSound
                     .play()
-                    .catch(() => {});
+                    .catch(
+                        () => {}
+                    );
 
-            } else {
 
-                tockSound.currentTime = 0;
+            }
+
+            else {
+
+
+                tockSound.currentTime =
+                    0;
+
 
                 tockSound
                     .play()
-                    .catch(() => {});
+                    .catch(
+                        () => {}
+                    );
+
             }
 
-            tickNext = !tickNext;
+
+
+            tickNext =
+                !tickNext;
+
         }
 
-        /* =========================
-           MAIN TIMER LOOP
-        ========================= */
+
+
+        /* ====================================
+           MAIN CLOCK
+        ==================================== */
+
+
+        updateCountdown();
+
+
 
         setInterval(
+
             function() {
 
                 updateCountdown();
@@ -387,207 +612,244 @@
                 playClockSound();
 
             },
+
             1000
+
         );
 
-        /* =========================
-           ENABLE AUDIO
-        ========================= */
+
+
+        /* ====================================
+           ENABLE SOUND
+        ==================================== */
+
+
+        /*
+            Browsers block automatic sound.
+
+            First click/keypress enables
+            the ticking.
+        */
+
 
         function enableSiteAudio() {
 
+
             if (clockEnabled) {
+
                 return;
+
             }
 
-            clockEnabled = true;
+
+            clockEnabled =
+                true;
+
 
             soundNotice.textContent =
                 "AUDIO ENABLED";
 
+
             playClockSound();
+
         }
 
+
+
         document.addEventListener(
+
             "click",
+
             enableSiteAudio,
-            { once: true }
+
+            {
+                once: true
+            }
+
         );
+
+
 
         document.addEventListener(
+
             "keydown",
+
             enableSiteAudio,
-            { once: true }
+
+            {
+                once: true
+            }
+
         );
 
-        /* =========================
+
+
+        /* ====================================
            RADIO
-        ========================= */
+        ==================================== */
+
 
         const radioAudio =
             document.getElementById(
                 "radioAudio"
             );
 
+
         const radioImage =
             document.getElementById(
                 "radioImage"
             );
+
 
         const radioStatus =
             document.getElementById(
                 "radioStatus"
             );
 
+
+
+        /*
+            ADD YOUR SONGS HERE
+        */
+
+
         const songs = [
 
             "music/song1.mp3",
+
             "music/song2.mp3",
+
             "music/song3.mp3",
+
             "music/song4.mp3",
+
             "music/song5.mp3"
 
         ];
 
-        let radioOn = false;
-        let currentSong = "";
 
-        radioAudio.volume = 0.35;
+
+        let radioOn =
+            false;
+
+
+        let currentSong =
+            "";
+
+
+
+        radioAudio.volume =
+            0.35;
+
+
+
+        /* ====================================
+           RANDOM SONG
+        ==================================== */
+
 
         function randomSong() {
 
-            if (songs.length === 0) {
+
+            if (
+                songs.length
+                ===
+                0
+            ) {
+
                 return;
+
             }
+
+
 
             let song;
 
+
+
             do {
 
+
                 const randomIndex =
+
                     Math.floor(
+
                         Math.random()
+
                         *
+
                         songs.length
+
                     );
+
+
 
                 song =
                     songs[
                         randomIndex
                     ];
 
-            } while (
+
+            }
+
+            while (
+
                 song === currentSong
+
                 &&
+
                 songs.length > 1
+
             );
+
+
 
             currentSong =
                 song;
 
+
+
             radioAudio.src =
                 song;
+
+
 
             radioAudio
                 .play()
                 .catch(
+
                     function(error) {
 
                         console.log(
-                            "Radio audio failed:",
+                            "Radio could not play:",
                             error
                         );
 
                     }
+
                 );
+
         }
+
+
+
+        /* ====================================
+           RADIO CLICK
+        ==================================== */
+
 
         function toggleRadio() {
 
+
             enableSiteAudio();
 
-            const days =
-                getDaysRemaining();
 
-            if (days <= 25) {
 
-                disableRadio();
+            /*
+                At 25 days the radio
+                becomes unusable.
+            */
 
-                return;
-            }
-
-            if (!radioOn) {
-
-                radioOn = true;
-
-                radioStatus.textContent =
-                    "RECEIVING";
-
-                radioImage.classList.add(
-                    "radio-playing"
-                );
-
-                if (
-                    radioAudio.src
-                    &&
-                    radioAudio.currentTime > 0
-                ) {
-
-                    radioAudio
-                        .play()
-                        .catch(() => {});
-
-                } else {
-
-                    randomSong();
-                }
-
-            } else {
-
-                radioOn = false;
-
-                radioAudio.pause();
-
-                radioStatus.textContent =
-                    "OFF";
-
-                radioImage.classList.remove(
-                    "radio-playing"
-                );
-            }
-        }
-
-        radioImage.addEventListener(
-            "click",
-            function(event) {
-
-                event.stopPropagation();
-
-                toggleRadio();
-
-            }
-        );
-
-        radioAudio.addEventListener(
-            "ended",
-            function() {
-
-                if (
-                    radioOn
-                    &&
-                    getDaysRemaining() > 25
-                ) {
-
-                    randomSong();
-                }
-            }
-        );
-
-        /* =========================
-           DAY 25 RADIO SHUTDOWN
-        ========================= */
-
-        function checkRadioCountdown() {
 
             if (
                 getDaysRemaining()
@@ -596,28 +858,226 @@
             ) {
 
                 disableRadio();
+
+                return;
+
             }
+
+
+
+            /*
+                TURN ON
+            */
+
+
+            if (!radioOn) {
+
+
+                radioOn =
+                    true;
+
+
+
+                radioStatus.textContent =
+                    "RECEIVING";
+
+
+
+                radioImage
+                    .classList
+                    .add(
+                        "radio-playing"
+                    );
+
+
+
+                /*
+                    Resume previous song
+                    if paused.
+                */
+
+
+                if (
+
+                    radioAudio.src
+
+                    &&
+
+                    radioAudio.currentTime > 0
+
+                ) {
+
+
+                    radioAudio
+                        .play()
+                        .catch(
+                            () => {}
+                        );
+
+
+                }
+
+                else {
+
+
+                    randomSong();
+
+                }
+
+
+            }
+
+
+
+            /*
+                TURN OFF
+            */
+
+
+            else {
+
+
+                radioOn =
+                    false;
+
+
+
+                radioAudio.pause();
+
+
+
+                radioStatus.textContent =
+                    "OFF";
+
+
+
+                radioImage
+                    .classList
+                    .remove(
+                        "radio-playing"
+                    );
+
+            }
+
         }
+
+
+
+        radioImage.addEventListener(
+
+            "click",
+
+            function(event) {
+
+
+                event.stopPropagation();
+
+
+                toggleRadio();
+
+            }
+
+        );
+
+
+
+        /* ====================================
+           NEXT RANDOM SONG
+        ==================================== */
+
+
+        radioAudio.addEventListener(
+
+            "ended",
+
+            function() {
+
+
+                if (
+
+                    radioOn
+
+                    &&
+
+                    getDaysRemaining()
+                    >
+                    25
+
+                ) {
+
+
+                    randomSong();
+
+                }
+
+            }
+
+        );
+
+
+
+        /* ====================================
+           DAY 25
+        ==================================== */
+
+
+        function checkRadioCountdown() {
+
+
+            if (
+
+                getDaysRemaining()
+                <=
+                25
+
+            ) {
+
+
+                disableRadio();
+
+            }
+
+        }
+
+
 
         function disableRadio() {
 
-            radioOn = false;
+
+            radioOn =
+                false;
+
+
 
             radioAudio.pause();
+
+
 
             radioStatus.textContent =
                 "NO SIGNAL";
 
-            radioImage.classList.remove(
-                "radio-playing"
-            );
 
-            radioImage.classList.add(
-                "radio-dead"
-            );
+
+            radioImage
+                .classList
+                .remove(
+                    "radio-playing"
+                );
+
+
+
+            radioImage
+                .classList
+                .add(
+                    "radio-dead"
+                );
+
         }
 
+
+
         checkRadioCountdown();
+
 
     </script>
 
