@@ -470,11 +470,15 @@ body {
 </div>
 
 
+<!-- NPC VOICE -->
+
 <audio
     id="voiceAudio"
     preload="auto"
 ></audio>
 
+
+<!-- DAISY -->
 
 <audio
     id="backgroundMusic"
@@ -591,13 +595,10 @@ let repeatDelay = 2000;
 let distortionAmount = 0;
 
 
-/* Daisy volumes */
+/* Daisy stays at this volume */
 
 const MUSIC_VOLUME =
-    0.22;
-
-const MUSIC_DUCKED_VOLUME =
-    0.05;
+    0.18;
 
 
 /* ========================================
@@ -614,7 +615,7 @@ let voiceGain = null;
 
 
 /* ========================================
-   CREATE DISTORTION AUDIO GRAPH
+   SETUP DISTORTION GRAPH
 ======================================== */
 
 function setupAudioGraph() {
@@ -854,9 +855,9 @@ function playVoice() {
         );
 
 
-    backgroundMusic.volume =
-        MUSIC_DUCKED_VOLUME;
-
+    /*
+       Music volume does NOT change.
+    */
 
     voiceAudio
         .play()
@@ -870,10 +871,6 @@ function playVoice() {
                     error
                 );
 
-
-                backgroundMusic.volume =
-                    MUSIC_VOLUME;
-
             }
 
         );
@@ -882,25 +879,7 @@ function playVoice() {
 
 
 /* ========================================
-   RESTORE MUSIC
-======================================== */
-
-voiceAudio.addEventListener(
-
-    "ended",
-
-    function() {
-
-        backgroundMusic.volume =
-            MUSIC_VOLUME;
-
-    }
-
-);
-
-
-/* ========================================
-   VOICE GETS MORE DISTORTED
+   MORE DISTORTED EACH REPEAT
 ======================================== */
 
 function startVoiceReminder() {
@@ -938,8 +917,7 @@ function startVoiceReminder() {
 
 
                 /*
-                   More distortion
-                   each repeat
+                   Increase distortion
                 */
 
                 distortionAmount +=
@@ -960,7 +938,7 @@ function startVoiceReminder() {
 
 
                 /*
-                   Repeat sooner
+                   Repeat faster
                 */
 
                 repeatDelay -=
@@ -1017,6 +995,11 @@ function unlockAudio() {
     }
 
 
+    /*
+       Start Daisy once.
+       It keeps playing at this volume.
+    */
+
     backgroundMusic.volume =
         MUSIC_VOLUME;
 
@@ -1038,6 +1021,10 @@ function unlockAudio() {
         );
 
 
+    /*
+       NPC plays on top.
+    */
+
     playVoice();
 
 
@@ -1047,8 +1034,7 @@ function unlockAudio() {
 
 
 /*
-First user interaction
-starts all sound.
+First click/touch/key starts audio.
 */
 
 document.addEventListener(
@@ -1398,7 +1384,7 @@ function checkObjectFound() {
 
 
 /* ========================================
-   OBJECT FOUND
+   FOUND OBJECT
 ======================================== */
 
 function objectFound() {
@@ -1422,10 +1408,6 @@ function objectFound() {
     voiceAudio.pause();
 
 
-    backgroundMusic.volume =
-        MUSIC_VOLUME;
-
-
     glassActive =
         false;
 
@@ -1437,6 +1419,10 @@ function objectFound() {
     reveal.style.display =
         "none";
 
+
+    /*
+       CAR = final item
+    */
 
     if (
 
@@ -1514,8 +1500,9 @@ function finishGame() {
     voiceAudio.pause();
 
 
-    backgroundMusic.volume =
-        MUSIC_VOLUME;
+    /*
+       Daisy keeps playing.
+    */
 
 
     glassActive =
