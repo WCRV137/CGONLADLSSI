@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Transmission</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: black;
+
+    overflow: hidden;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================================
+   WHOLE WINDOW
+   960 x 540
+========================================= */
+
+#layout {
+    position: relative;
+
+    width: 960px;
+    height: 540px;
+
+    display: flex;
+
+    overflow: hidden;
+
+    background: black;
+}
+
+
+/* =========================================
+   LEFT SIDE
+   640 x 540
+========================================= */
+
+#gameSide {
+    position: relative;
+
+    width: 640px;
+    height: 540px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    background: black;
+
+    cursor: crosshair;
+}
+
+
+/* =========================================
+   BACKGROUND
+========================================= */
+
+#background {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 640px;
+    height: 540px;
+
+    background-image:
+        url("background.jpg");
+
+    background-size:
+        640px 540px;
+
+    background-position:
+        center;
+
+    background-repeat:
+        no-repeat;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   FLOWER OVERLAY
+
+   This is ONE flowers.png image.
+========================================= */
+
+#flowers {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 640px;
+    height: 540px;
+
+    object-fit: fill;
+
+    pointer-events: none;
+
+    z-index: 10;
+}
+
+
+/* =========================================
+   RIGHT SIDE
+   320 x 540
+========================================= */
+
+#npcSide {
+    position: relative;
+
+    width: 320px;
+    height: 540px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    background: #080808;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: flex-end;
+}
+
+
+/* Dark background behind NPC */
+
+#npcSide::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(60,60,60,0.18),
+            rgba(0,0,0,0.9)
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   NPC
+========================================= */
+
+#npc {
+    position: relative;
+
+    z-index: 5;
+
+    width: 310px;
+
+    max-width: 100%;
+    max-height: 530px;
+
+    object-fit: contain;
+
+    object-position:
+        bottom center;
+
+    cursor: pointer;
+
+    filter:
+        drop-shadow(
+            0 6px 14px
+            rgba(0,0,0,0.85)
+        );
+
+    transition:
+        transform 0.15s,
+        filter 0.15s;
+}
+
+
+/* NPC reacts slightly when hovered */
+
+#npc:hover {
+    transform:
+        scale(1.015);
+
+    filter:
+        brightness(1.04)
+        drop-shadow(
+            0 6px 14px
+            rgba(0,0,0,0.85)
+        );
+}
+
+
+/* =========================================
+   CENTER DIVIDER
+========================================= */
+
+#divider {
+    position: absolute;
+
+    left: 639px;
+    top: 0;
+
+    width: 2px;
+    height: 540px;
+
+    background:
+        rgba(255,255,255,0.15);
+
+    z-index: 200;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   REVEAL AREA
+
+   This displays background.jpg WITHOUT
+   flowers inside the glass.
+========================================= */
+
+#reveal {
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background-image:
+        url("background.jpg");
+
+    background-size:
+        640px 540px;
+
+    background-repeat:
+        no-repeat;
+
+    transform:
+        translate(-50%, -50%);
+
+    pointer-events: none;
+
+    display: none;
+
+    z-index: 30;
+}
+
+
+/* =========================================
+   MAGNIFYING GLASS
+========================================= */
+
+#glass {
+    position: absolute;
+
+    width: 165px;
+    height: 165px;
+
+    border-radius: 50%;
+
+    border:
+        6px solid
+        rgba(235,235,225,0.95);
+
+    background:
+        rgba(190,210,220,0.08);
+
+    box-shadow:
+        0 0 15px
+        rgba(0,0,0,0.8),
+
+        inset 0 0 15px
+        rgba(255,255,255,0.25);
+
+    transform:
+        translate(-50%, -50%);
+
+    pointer-events: none;
+
+    display: none;
+
+    z-index: 31;
+}
+
+
+/* =========================================
+   GLASS HANDLE
+========================================= */
+
+#glass::after {
+    content: "";
+
+    position: absolute;
+
+    width: 20px;
+    height: 85px;
+
+    right: -38px;
+    bottom: -62px;
+
+    background:
+        #443026;
+
+    border-radius:
+        7px;
+
+    transform:
+        rotate(-45deg);
+
+    transform-origin:
+        top;
+}
+
+
+/* =========================================
+   SMALLER SCREENS
+
+   Keeps the 960x540 proportions.
+========================================= */
+
+@media (max-width: 960px) {
+
+    #layout {
+        transform:
+            scale(0.8);
+    }
+
+}
+
+@media (max-width: 780px) {
+
+    #layout {
+        transform:
+            scale(0.65);
+    }
+
+}
+
+@media (max-width: 620px) {
+
+    #layout {
+        transform:
+            scale(0.5);
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     960 x 540 WINDOW
+========================================= -->
+
+<div id="layout">
+
+
+    <!-- =====================================
+         LEFT GAME
+         640 x 540
+    ====================================== -->
+
+    <div id="gameSide">
+
+
+        <!-- Normal photograph -->
+
+        <div id="background"></div>
+
+
+        <!--
+            ONE flower overlay image.
+
+            Make flowers.png transparent
+            everywhere except the flowers.
+        -->
+
+        <img
+            src="flowers.png"
+            id="flowers"
+            alt=""
+        >
+
+
+        <!--
+            Clean background revealed
+            through the glass.
+        -->
+
+        <div id="reveal"></div>
+
+
+        <!-- Magnifying glass -->
+
+        <div id="glass"></div>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         DIVIDER
+    ====================================== -->
+
+    <div id="divider"></div>
+
+
+
+    <!-- =====================================
+         RIGHT NPC
+         320 x 540
+    ====================================== -->
+
+    <div id="npcSide">
+
+
+        <img
+            src="npc.png"
+            id="npc"
+            alt="Character"
+        >
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     NPC VOICE AUDIO
+========================================= -->
+
+<audio
+    id="voiceAudio"
+    preload="auto"
+></audio>
+
+
+
+<script>
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const gameSide =
+    document.getElementById(
+        "gameSide"
+    );
+
+
+const glass =
+    document.getElementById(
+        "glass"
+    );
+
+
+const reveal =
+    document.getElementById(
+        "reveal"
+    );
+
+
+const npc =
+    document.getElementById(
+        "npc"
+    );
+
+
+const voiceAudio =
+    document.getElementById(
+        "voiceAudio"
+    );
+
+
+
+let glassActive =
+    false;
+
+
+
+/* =========================================
+   MAGNIFYING GLASS MOVEMENT
+========================================= */
+
+function moveGlass(event) {
+
+
+    /*
+        Find where the 640x540 game
+        appears on the browser screen.
+    */
+
+    const gameRect =
+        gameSide.getBoundingClientRect();
+
+
+
+    /*
+        The website might be scaled.
+
+        These values convert the real
+        mouse position back into our
+        640x540 coordinates.
+    */
+
+    const scaleX =
+
+        640 /
+        gameRect.width;
+
+
+    const scaleY =
+
+        540 /
+        gameRect.height;
+
+
+
+    /*
+        Mouse position relative to
+        the LEFT game window.
+    */
+
+    const localX =
+
+        (
+            event.clientX
+            -
+            gameRect.left
+        )
+
+        *
+
+        scaleX;
+
+
+
+    const localY =
+
+        (
+            event.clientY
+            -
+            gameRect.top
+        )
+
+        *
+
+        scaleY;
+
+
+
+    /*
+        Don't allow the glass to
+        work outside the game.
+    */
+
+    if (
+
+        localX < 0
+
+        ||
+
+        localX > 640
+
+        ||
+
+        localY < 0
+
+        ||
+
+        localY > 540
+
+    ) {
+
+        return;
+
+    }
+
+
+
+    /*
+        Move the magnifying glass.
+    */
+
+    glass.style.left =
+        localX + "px";
+
+
+    glass.style.top =
+        localY + "px";
+
+
+
+    /*
+        Move the reveal circle.
+    */
+
+    reveal.style.left =
+        localX + "px";
+
+
+    reveal.style.top =
+        localY + "px";
+
+
+
+    /*
+        Half of reveal circle.
+    */
+
+    const halfWidth =
+
+        reveal.offsetWidth
+        /
+        2;
+
+
+    const halfHeight =
+
+        reveal.offsetHeight
+        /
+        2;
+
+
+
+    /*
+        Move background.jpg in the
+        opposite direction.
+
+        This makes the image inside
+        the glass perfectly line up
+        with the background underneath.
+    */
+
+    reveal.style.backgroundPosition =
+
+        (
+            -localX
+            +
+            halfWidth
+        )
+
+        +
+
+        "px "
+
+        +
+
+        (
+            -localY
+            +
+            halfHeight
+        )
+
+        +
+
+        "px";
+
+}
+
+
+
+/* =========================================
+   START USING GLASS
+========================================= */
+
+gameSide.addEventListener(
+
+    "mousedown",
+
+    function(event) {
+
+
+        glassActive =
+            true;
+
+
+
+        glass.style.display =
+            "block";
+
+
+        reveal.style.display =
+            "block";
+
+
+
+        moveGlass(
+            event
+        );
+
+    }
+
+);
+
+
+
+/* =========================================
+   MOVE WHILE HOLDING MOUSE
+========================================= */
+
+document.addEventListener(
+
+    "mousemove",
+
+    function(event) {
+
+
+        if (!glassActive) {
+
+            return;
+
+        }
+
+
+
+        moveGlass(
+            event
+        );
+
+    }
+
+);
+
+
+
+/* =========================================
+   STOP USING GLASS
+========================================= */
+
+document.addEventListener(
+
+    "mouseup",
+
+    function() {
+
+
+        glassActive =
+            false;
+
+
+
+        glass.style.display =
+            "none";
+
+
+        reveal.style.display =
+            "none";
+
+    }
+
+);
+
+
+
+/* =========================================
+   NPC VOICE LINES
+========================================= */
+
+
+/*
+    Add as many voice files
+    as you want here.
+
+    They should be in the same
+    GitHub folder as game.html.
+*/
+
+const voiceLines = [
+
+    "voice1.mp3",
+
+    "voice2.mp3",
+
+    "voice3.mp3"
+
+];
+
+
+
+let voiceIndex =
+    0;
+
+
+let voiceStarted =
+    false;
+
+
+
+/* =========================================
+   PLAY A VOICE LINE
+========================================= */
+
+function playVoiceLine() {
+
+
+    /*
+        Stop when there are
+        no lines remaining.
+    */
+
+    if (
+
+        voiceIndex
+        >=
+        voiceLines.length
+
+    ) {
+
+        return;
+
+    }
+
+
+
+    /*
+        Stop previous audio.
+    */
+
+    voiceAudio.pause();
+
+
+
+    voiceAudio.currentTime =
+        0;
+
+
+
+    /*
+        Load next voice line.
+    */
+
+    voiceAudio.src =
+
+        voiceLines[
+            voiceIndex
+        ];
+
+
+
+    /*
+        Voice volume.
+    */
+
+    voiceAudio.volume =
+        0.9;
+
+
+
+    /*
+        Play.
+    */
+
+    voiceAudio
+
+        .play()
+
+        .catch(
+
+            function(error) {
+
+                console.log(
+
+                    "Voice could not play:",
+
+                    error
+
+                );
+
+            }
+
+        );
+
+}
+
+
+
+/* =========================================
+   CLICK NPC
+========================================= */
+
+npc.addEventListener(
+
+    "click",
+
+    function(event) {
+
+
+        /*
+            Don't activate anything
+            behind the NPC.
+        */
+
+        event.stopPropagation();
+
+
+
+        /*
+            Only start the sequence once.
+        */
+
+        if (voiceStarted) {
+
+            return;
+
+        }
+
+
+
+        voiceStarted =
+            true;
+
+
+
+        voiceIndex =
+            0;
+
+
+
+        playVoiceLine();
+
+    }
+
+);
+
+
+
+/* =========================================
+   NEXT VOICE LINE
+========================================= */
+
+voiceAudio.addEventListener(
+
+    "ended",
+
+    function() {
+
+
+        /*
+            Move to next recording.
+        */
+
+        voiceIndex++;
+
+
+
+        /*
+            If another recording exists,
+            wait a little before playing.
+        */
+
+        if (
+
+            voiceIndex
+            <
+            voiceLines.length
+
+        ) {
+
+
+            setTimeout(
+
+                function() {
+
+                    playVoiceLine();
+
+                },
+
+                700
+
+            );
+
+        }
+
+    }
+
+);
+
+
+</script>
+
+</body>
+
+</html>
