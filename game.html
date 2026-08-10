@@ -37,7 +37,6 @@ body {
 
 /* ========================================
    WHOLE GAME
-   960 x 540
 ======================================== */
 
 #layout {
@@ -259,8 +258,7 @@ body {
 
 
 /* ========================================
-   RIGHT NPC SIDE
-   320 x 540
+   NPC SIDE
 ======================================== */
 
 #npcSide {
@@ -421,14 +419,9 @@ body {
 
 <div id="layout">
 
-
-    <!-- LEFT GAME -->
-
     <div id="gameSide">
 
-
         <div id="background"></div>
-
 
         <img
             id="flowers"
@@ -437,14 +430,11 @@ body {
             draggable="false"
         >
 
-
         <div id="reveal">
-
 
             <div
                 id="revealBackground"
             ></div>
-
 
             <img
                 id="revealObject"
@@ -453,12 +443,9 @@ body {
                 draggable="false"
             >
 
-
         </div>
 
-
         <div id="glass"></div>
-
 
     </div>
 
@@ -466,10 +453,7 @@ body {
     <div id="divider"></div>
 
 
-    <!-- NPC -->
-
     <div id="npcSide">
-
 
         <img
             id="npc"
@@ -478,26 +462,19 @@ body {
             draggable="false"
         >
 
-
     </div>
 
 
     <div id="fade"></div>
 
-
 </div>
 
-
-
-<!-- NPC VOICE -->
 
 <audio
     id="voiceAudio"
     preload="auto"
 ></audio>
 
-
-<!-- DAISY BACKGROUND MUSIC -->
 
 <audio
     id="backgroundMusic"
@@ -517,34 +494,26 @@ body {
 const gameSide =
     document.getElementById("gameSide");
 
-
 const reveal =
     document.getElementById("reveal");
-
 
 const revealBackground =
     document.getElementById("revealBackground");
 
-
 const revealObject =
     document.getElementById("revealObject");
-
 
 const glass =
     document.getElementById("glass");
 
-
 const fade =
     document.getElementById("fade");
-
 
 const voiceAudio =
     document.getElementById("voiceAudio");
 
-
 const backgroundMusic =
     document.getElementById("backgroundMusic");
-
 
 
 /* ========================================
@@ -558,7 +527,7 @@ const rounds = [
 
         voice: "mitten.wav",
 
-        startRate: 1.0,
+        startDistortion: 0,
 
         x: 155,
         y: 320,
@@ -573,7 +542,7 @@ const rounds = [
 
         voice: "lantern.wav",
 
-        startRate: 1.25,
+        startDistortion: 20,
 
         x: 420,
         y: 190,
@@ -588,7 +557,7 @@ const rounds = [
 
         voice: "car.wav",
 
-        startRate: 1.5,
+        startDistortion: 45,
 
         x: 245,
         y: 300,
@@ -598,7 +567,6 @@ const rounds = [
     }
 
 ];
-
 
 
 /* ========================================
@@ -620,20 +588,155 @@ let voiceTimer = null;
 
 let repeatDelay = 2000;
 
-let currentVoiceRate = 1.0;
+let distortionAmount = 0;
 
 
-/* Normal Daisy volume */
+/* Daisy volumes */
 
 const MUSIC_VOLUME =
     0.22;
 
-
-/* Daisy while NPC talks */
-
 const MUSIC_DUCKED_VOLUME =
-    0.06;
+    0.05;
 
+
+/* ========================================
+   WEB AUDIO DISTORTION
+======================================== */
+
+let audioContext = null;
+
+let voiceSource = null;
+
+let distortion = null;
+
+let voiceGain = null;
+
+
+/* ========================================
+   CREATE DISTORTION AUDIO GRAPH
+======================================== */
+
+function setupAudioGraph() {
+
+    if (audioContext) {
+        return;
+    }
+
+
+    audioContext =
+        new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+
+    voiceSource =
+        audioContext
+            .createMediaElementSource(
+                voiceAudio
+            );
+
+
+    distortion =
+        audioContext
+            .createWaveShaper();
+
+
+    voiceGain =
+        audioContext
+            .createGain();
+
+
+    voiceSource.connect(
+        distortion
+    );
+
+
+    distortion.connect(
+        voiceGain
+    );
+
+
+    voiceGain.connect(
+        audioContext.destination
+    );
+
+
+    distortion.oversample =
+        "4x";
+
+
+    voiceGain.gain.value =
+        1.0;
+}
+
+
+/* ========================================
+   DISTORTION CURVE
+======================================== */
+
+function makeDistortionCurve(amount) {
+
+    const samples =
+        44100;
+
+
+    const curve =
+        new Float32Array(
+            samples
+        );
+
+
+    const deg =
+        Math.PI / 180;
+
+
+    const k =
+        Math.max(
+            amount,
+            0
+        );
+
+
+    for (
+        let i = 0;
+        i < samples;
+        i++
+    ) {
+
+        const x =
+            i * 2 / samples - 1;
+
+
+        curve[i] =
+
+            (
+                3 + k
+            )
+
+            *
+            x
+            *
+            20
+            *
+            deg
+
+            /
+
+            (
+                Math.PI
+                +
+                k
+                *
+                Math.abs(x)
+            );
+
+    }
+
+
+    return curve;
+}
 
 
 /* ========================================
@@ -670,8 +773,8 @@ function loadRound(index) {
         2000;
 
 
-    currentVoiceRate =
-        round.startRate;
+    distortionAmount =
+        round.startDistortion;
 
 
     clearTimeout(
@@ -681,17 +784,13 @@ function loadRound(index) {
 
     if (audioUnlocked) {
 
-
         setTimeout(
 
             function() {
 
-
                 playVoice();
 
-
                 startVoiceReminder();
-
 
             },
 
@@ -699,19 +798,16 @@ function loadRound(index) {
 
         );
 
-
     }
 
 }
 
 
-
 /* ========================================
-   PLAY NPC VOICE
+   PLAY VOICE
 ======================================== */
 
 function playVoice() {
-
 
     if (!audioUnlocked) {
 
@@ -722,6 +818,19 @@ function playVoice() {
 
     const round =
         rounds[currentRound];
+
+
+    setupAudioGraph();
+
+
+    if (
+        audioContext.state ===
+        "suspended"
+    ) {
+
+        audioContext.resume();
+
+    }
 
 
     voiceAudio.pause();
@@ -735,33 +844,15 @@ function playVoice() {
         round.voice;
 
 
-    voiceAudio.preservesPitch =
-        false;
-
-
-    if (
-        "webkitPreservesPitch"
-        in voiceAudio
-    ) {
-
-        voiceAudio.webkitPreservesPitch =
-            false;
-
-    }
-
-
     voiceAudio.playbackRate =
-        currentVoiceRate;
-
-
-    voiceAudio.volume =
         1.0;
 
 
-    /*
-       Make Daisy quieter
-       while NPC is speaking.
-    */
+    distortion.curve =
+        makeDistortionCurve(
+            distortionAmount
+        );
+
 
     backgroundMusic.volume =
         MUSIC_DUCKED_VOLUME;
@@ -774,21 +865,14 @@ function playVoice() {
 
             function(error) {
 
-
                 console.error(
                     "VOICE ERROR:",
                     error
                 );
 
 
-                /*
-                   Restore Daisy
-                   if voice failed.
-                */
-
                 backgroundMusic.volume =
                     MUSIC_VOLUME;
-
 
             }
 
@@ -797,9 +881,8 @@ function playVoice() {
 }
 
 
-
 /* ========================================
-   RESTORE MUSIC AFTER NPC
+   RESTORE MUSIC
 ======================================== */
 
 voiceAudio.addEventListener(
@@ -808,23 +891,19 @@ voiceAudio.addEventListener(
 
     function() {
 
-
         backgroundMusic.volume =
             MUSIC_VOLUME;
-
 
     }
 
 );
 
 
-
 /* ========================================
-   VOICE GETS FASTER + HIGHER
+   VOICE GETS MORE DISTORTED
 ======================================== */
 
 function startVoiceReminder() {
-
 
     clearTimeout(
         voiceTimer
@@ -859,19 +938,20 @@ function startVoiceReminder() {
 
 
                 /*
-                   Faster + higher
+                   More distortion
+                   each repeat
                 */
 
-                currentVoiceRate +=
-                    0.08;
+                distortionAmount +=
+                    12;
 
 
                 if (
-                    currentVoiceRate > 2.0
+                    distortionAmount > 120
                 ) {
 
-                    currentVoiceRate =
-                        2.0;
+                    distortionAmount =
+                        120;
 
                 }
 
@@ -880,7 +960,7 @@ function startVoiceReminder() {
 
 
                 /*
-                   Repeats happen sooner
+                   Repeat sooner
                 */
 
                 repeatDelay -=
@@ -909,18 +989,14 @@ function startVoiceReminder() {
 }
 
 
-
 /* ========================================
    UNLOCK AUDIO
 ======================================== */
 
 function unlockAudio() {
 
-
     if (audioUnlocked) {
-
         return;
-
     }
 
 
@@ -928,9 +1004,18 @@ function unlockAudio() {
         true;
 
 
-    /*
-       Start Daisy.
-    */
+    setupAudioGraph();
+
+
+    if (
+        audioContext.state ===
+        "suspended"
+    ) {
+
+        audioContext.resume();
+
+    }
+
 
     backgroundMusic.volume =
         MUSIC_VOLUME;
@@ -943,21 +1028,15 @@ function unlockAudio() {
 
             function(error) {
 
-
                 console.error(
                     "DAISY ERROR:",
                     error
                 );
 
-
             }
 
         );
 
-
-    /*
-       Start NPC.
-    */
 
     playVoice();
 
@@ -967,10 +1046,9 @@ function unlockAudio() {
 }
 
 
-
 /*
-Browser generally needs one click,
-touch, or key before it can play sound.
+First user interaction
+starts all sound.
 */
 
 document.addEventListener(
@@ -999,13 +1077,11 @@ document.addEventListener(
 );
 
 
-
 /* ========================================
    MOVE GLASS
 ======================================== */
 
 function moveGlass(event) {
-
 
     const rect =
         gameSide
@@ -1033,7 +1109,6 @@ function moveGlass(event) {
         )
 
         *
-
         scaleX;
 
 
@@ -1046,7 +1121,6 @@ function moveGlass(event) {
         )
 
         *
-
         scaleY;
 
 
@@ -1160,7 +1234,6 @@ function moveGlass(event) {
 }
 
 
-
 /* ========================================
    START GLASS
 ======================================== */
@@ -1170,7 +1243,6 @@ gameSide.addEventListener(
     "pointerdown",
 
     function(event) {
-
 
         if (roundChanging) {
 
@@ -1198,11 +1270,9 @@ gameSide.addEventListener(
 
         checkObjectFound();
 
-
     }
 
 );
-
 
 
 /* ========================================
@@ -1215,7 +1285,6 @@ document.addEventListener(
 
     function(event) {
 
-
         if (!glassActive) {
 
             return;
@@ -1227,11 +1296,9 @@ document.addEventListener(
             event
         );
 
-
     }
 
 );
-
 
 
 /* ========================================
@@ -1244,7 +1311,6 @@ document.addEventListener(
 
     function() {
 
-
         glassActive =
             false;
 
@@ -1256,11 +1322,9 @@ document.addEventListener(
         reveal.style.display =
             "none";
 
-
     }
 
 );
-
 
 
 /* ========================================
@@ -1268,7 +1332,6 @@ document.addEventListener(
 ======================================== */
 
 function checkObjectFound() {
-
 
     if (!glassActive) {
 
@@ -1327,14 +1390,11 @@ function checkObjectFound() {
 
     ) {
 
-
         objectFound();
-
 
     }
 
 }
-
 
 
 /* ========================================
@@ -1342,7 +1402,6 @@ function checkObjectFound() {
 ======================================== */
 
 function objectFound() {
-
 
     if (roundChanging) {
 
@@ -1363,11 +1422,6 @@ function objectFound() {
     voiceAudio.pause();
 
 
-    /*
-       Restore Daisy volume
-       if NPC was interrupted.
-    */
-
     backgroundMusic.volume =
         MUSIC_VOLUME;
 
@@ -1384,24 +1438,16 @@ function objectFound() {
         "none";
 
 
-    /*
-       Final car
-    */
-
     if (
 
-        currentRound
-        >=
+        currentRound >=
         rounds.length - 1
 
     ) {
 
-
         finishGame();
 
-
         return;
-
 
     }
 
@@ -1451,9 +1497,7 @@ function objectFound() {
 
     );
 
-
 }
-
 
 
 /* ========================================
@@ -1461,7 +1505,6 @@ function objectFound() {
 ======================================== */
 
 function finishGame() {
-
 
     clearTimeout(
         voiceTimer
@@ -1490,9 +1533,7 @@ function finishGame() {
     roundChanging =
         false;
 
-
 }
-
 
 
 /* ========================================
@@ -1500,7 +1541,6 @@ function finishGame() {
 ======================================== */
 
 loadRound(0);
-
 
 </script>
 
