@@ -33,6 +33,1495 @@ body {
 }
 
 
+/* =========================
+   FULL GAME
+========================= */
+
+#layout {
+    position: relative;
+
+    width: 960px;
+    height: 540px;
+
+    display: flex;
+
+    overflow: hidden;
+
+    background: black;
+}
+
+
+/* =========================
+   LEFT GAME
+   640 x 540
+========================= */
+
+#gameSide {
+    position: relative;
+
+    width: 640px;
+    height: 540px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    background: black;
+
+    cursor: crosshair;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+#background {
+    position: absolute;
+
+    inset: 0;
+
+    width: 640px;
+    height: 540px;
+
+    background-image:
+        url("background.jpg");
+
+    background-size:
+        640px 540px;
+
+    background-position:
+        center;
+
+    background-repeat:
+        no-repeat;
+
+    z-index: 1;
+}
+
+
+/* =========================
+   OBJECT UNDER FLOWERS
+========================= */
+
+#hiddenObject {
+    position: absolute;
+
+    height: auto;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================
+   FLOWERS
+========================= */
+
+#flowers {
+    position: absolute;
+
+    inset: 0;
+
+    width: 640px;
+    height: 540px;
+
+    object-fit: fill;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    z-index: 10;
+}
+
+
+/* =========================
+   REVEAL CIRCLE
+========================= */
+
+#reveal {
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    transform:
+        translate(-50%, -50%);
+
+    display: none;
+
+    pointer-events: none;
+
+    z-index: 30;
+}
+
+
+/* clean background */
+
+#revealBackground {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 640px;
+    height: 540px;
+
+    background-image:
+        url("background.jpg");
+
+    background-size:
+        640px 540px;
+
+    background-repeat:
+        no-repeat;
+}
+
+
+/* object visible inside glass */
+
+#revealObject {
+    position: absolute;
+
+    height: auto;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================
+   GLASS
+========================= */
+
+#glass {
+    position: absolute;
+
+    width: 165px;
+    height: 165px;
+
+    border-radius: 50%;
+
+    border:
+        6px solid
+        rgba(235,235,225,0.95);
+
+    background:
+        rgba(190,210,220,0.08);
+
+    box-shadow:
+        0 0 15px rgba(0,0,0,0.8),
+        inset 0 0 15px rgba(255,255,255,0.25);
+
+    transform:
+        translate(-50%, -50%);
+
+    display: none;
+
+    pointer-events: none;
+
+    z-index: 31;
+}
+
+
+/* handle */
+
+#glass::after {
+    content: "";
+
+    position: absolute;
+
+    width: 20px;
+    height: 85px;
+
+    right: -38px;
+    bottom: -62px;
+
+    background:
+        #443026;
+
+    border-radius:
+        7px;
+
+    transform:
+        rotate(-45deg);
+
+    transform-origin:
+        top;
+}
+
+
+/* =========================
+   NPC SIDE
+   320 x 540
+========================= */
+
+#npcSide {
+    position: relative;
+
+    width: 320px;
+    height: 540px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    background: #080808;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+
+#npcSide::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(60,60,60,0.18),
+            rgba(0,0,0,0.9)
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   NPC
+========================= */
+
+#npc {
+    position: relative;
+
+    z-index: 5;
+
+    width: 310px;
+
+    max-width: 100%;
+    max-height: 530px;
+
+    object-fit: contain;
+
+    object-position:
+        bottom center;
+
+    pointer-events: none;
+
+    filter:
+        drop-shadow(
+            0 6px 14px
+            rgba(0,0,0,0.85)
+        );
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+#divider {
+    position: absolute;
+
+    left: 639px;
+    top: 0;
+
+    width: 2px;
+    height: 540px;
+
+    background:
+        rgba(255,255,255,0.15);
+
+    z-index: 200;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   FADE
+========================= */
+
+#fade {
+    position: absolute;
+
+    inset: 0;
+
+    background: black;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.7s ease;
+
+    z-index: 500;
+}
+
+
+#fade.active {
+    opacity: 1;
+}
+
+
+/* =========================
+   SMALL SCREEN SCALING
+========================= */
+
+@media (max-width: 960px) {
+
+    #layout {
+        transform:
+            scale(0.8);
+    }
+
+}
+
+@media (max-width: 780px) {
+
+    #layout {
+        transform:
+            scale(0.65);
+    }
+
+}
+
+@media (max-width: 620px) {
+
+    #layout {
+        transform:
+            scale(0.5);
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div id="layout">
+
+
+    <!-- LEFT GAME -->
+
+    <div id="gameSide">
+
+        <div id="background"></div>
+
+
+        <img
+            src="mitten.png"
+            id="hiddenObject"
+            alt=""
+        >
+
+
+        <img
+            src="flowers.png"
+            id="flowers"
+            alt=""
+        >
+
+
+        <div id="reveal">
+
+            <div
+                id="revealBackground"
+            ></div>
+
+
+            <img
+                src="mitten.png"
+                id="revealObject"
+                alt=""
+            >
+
+        </div>
+
+
+        <div id="glass"></div>
+
+    </div>
+
+
+
+    <div id="divider"></div>
+
+
+
+    <!-- NPC SIDE -->
+
+    <div id="npcSide">
+
+        <img
+            src="npc.png"
+            id="npc"
+            alt="Character"
+        >
+
+    </div>
+
+
+
+    <div id="fade"></div>
+
+
+</div>
+
+
+
+<audio
+    id="voiceAudio"
+    preload="auto"
+></audio>
+
+
+
+<script>
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const gameSide =
+    document.getElementById(
+        "gameSide"
+    );
+
+const hiddenObject =
+    document.getElementById(
+        "hiddenObject"
+    );
+
+const reveal =
+    document.getElementById(
+        "reveal"
+    );
+
+const revealBackground =
+    document.getElementById(
+        "revealBackground"
+    );
+
+const revealObject =
+    document.getElementById(
+        "revealObject"
+    );
+
+const glass =
+    document.getElementById(
+        "glass"
+    );
+
+const voiceAudio =
+    document.getElementById(
+        "voiceAudio"
+    );
+
+const fade =
+    document.getElementById(
+        "fade"
+    );
+
+
+/* =========================
+   ROUND SETTINGS
+========================= */
+
+const rounds = [
+
+    {
+        object:
+            "mitten.png",
+
+        voice:
+            "mitten.wav",
+
+        startRate:
+            1.0,
+
+        x:
+            155,
+
+        y:
+            320,
+
+        width:
+            85
+    },
+
+
+    {
+        object:
+            "lantern.png",
+
+        voice:
+            "lantern.wav",
+
+        startRate:
+            1.25,
+
+        x:
+            420,
+
+        y:
+            190,
+
+        width:
+            95
+    },
+
+
+    {
+        object:
+            "car.png",
+
+        voice:
+            "car.wav",
+
+        startRate:
+            1.5,
+
+        x:
+            245,
+
+        y:
+            300,
+
+        width:
+            180
+    }
+
+];
+
+
+let currentRound =
+    0;
+
+
+let roundChanging =
+    false;
+
+
+let glassActive =
+    false;
+
+
+let glassX =
+    0;
+
+
+let glassY =
+    0;
+
+
+let audioUnlocked =
+    false;
+
+
+let voiceTimer =
+    null;
+
+
+/*
+Starts at 2 seconds between voices.
+*/
+
+let repeatDelay =
+    2000;
+
+
+/*
+Current speed + pitch.
+*/
+
+let currentVoiceRate =
+    1.0;
+
+
+
+/* =========================
+   LOAD ROUND
+========================= */
+
+function loadRound(index) {
+
+    const round =
+        rounds[index];
+
+
+    /* NEW OBJECT */
+
+    hiddenObject.src =
+        round.object;
+
+
+    hiddenObject.style.left =
+        round.x + "px";
+
+
+    hiddenObject.style.top =
+        round.y + "px";
+
+
+    hiddenObject.style.width =
+        round.width + "px";
+
+
+    /* GLASS VERSION */
+
+    revealObject.src =
+        round.object;
+
+
+    revealObject.style.left =
+        round.x + "px";
+
+
+    revealObject.style.top =
+        round.y + "px";
+
+
+    revealObject.style.width =
+        round.width + "px";
+
+
+    /*
+    Reset repetition delay
+    at the start of each round.
+    */
+
+    repeatDelay =
+        2000;
+
+
+    /*
+    Each round starts at
+    a higher voice rate.
+    */
+
+    currentVoiceRate =
+        round.startRate;
+
+
+    clearTimeout(
+        voiceTimer
+    );
+
+
+    /*
+    Automatically speak
+    if audio is already unlocked.
+    */
+
+    if (audioUnlocked) {
+
+        setTimeout(
+
+            function() {
+
+                playVoice();
+
+                startVoiceReminder();
+
+            },
+
+            400
+
+        );
+
+    }
+
+}
+
+
+
+/* =========================
+   PLAY VOICE
+========================= */
+
+function playVoice() {
+
+    if (!audioUnlocked) {
+
+        return;
+
+    }
+
+
+    const round =
+        rounds[currentRound];
+
+
+    voiceAudio.pause();
+
+
+    voiceAudio.currentTime =
+        0;
+
+
+    voiceAudio.src =
+        round.voice;
+
+
+    /*
+    IMPORTANT:
+
+    false means playback speed
+    also affects pitch.
+    */
+
+    voiceAudio.preservesPitch =
+        false;
+
+
+    if (
+        "webkitPreservesPitch"
+        in voiceAudio
+    ) {
+
+        voiceAudio.webkitPreservesPitch =
+            false;
+
+    }
+
+
+    voiceAudio.playbackRate =
+        currentVoiceRate;
+
+
+    voiceAudio.volume =
+        1.0;
+
+
+    voiceAudio
+        .play()
+        .catch(
+
+            function(error) {
+
+                console.error(
+                    "VOICE ERROR:",
+                    error
+                );
+
+            }
+
+        );
+
+}
+
+
+
+/* =========================
+   GET FASTER + HIGHER
+========================= */
+
+function startVoiceReminder() {
+
+    clearTimeout(
+        voiceTimer
+    );
+
+
+    const savedRound =
+        currentRound;
+
+
+    voiceTimer =
+        setTimeout(
+
+            function() {
+
+
+                if (
+
+                    savedRound
+                    !==
+                    currentRound
+
+                    ||
+
+                    roundChanging
+
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                Increase voice speed.
+
+                Because preservesPitch
+                is false, pitch goes
+                higher too.
+                */
+
+                currentVoiceRate +=
+                    0.08;
+
+
+                /*
+                Maximum speed/pitch.
+                */
+
+                if (
+                    currentVoiceRate > 2.0
+                ) {
+
+                    currentVoiceRate =
+                        2.0;
+
+                }
+
+
+                /*
+                Play again.
+                */
+
+                playVoice();
+
+
+                /*
+                Make next repetition
+                happen sooner.
+                */
+
+                repeatDelay -=
+                    150;
+
+
+                /*
+                Minimum delay:
+                700 milliseconds.
+                */
+
+                if (
+                    repeatDelay < 700
+                ) {
+
+                    repeatDelay =
+                        700;
+
+                }
+
+
+                /*
+                Schedule next repeat.
+                */
+
+                startVoiceReminder();
+
+            },
+
+            repeatDelay
+
+        );
+
+}
+
+
+
+/* =========================
+   UNLOCK AUDIO
+========================= */
+
+function unlockGameAudio() {
+
+    if (audioUnlocked) {
+
+        return;
+
+    }
+
+
+    audioUnlocked =
+        true;
+
+
+    /*
+    NPC immediately begins talking.
+    */
+
+    playVoice();
+
+
+    startVoiceReminder();
+
+}
+
+
+
+/*
+Browser requires ONE user interaction
+before audible audio can normally play.
+*/
+
+document.addEventListener(
+
+    "pointerdown",
+
+    unlockGameAudio,
+
+    {
+        once: true
+    }
+
+);
+
+
+document.addEventListener(
+
+    "keydown",
+
+    unlockGameAudio,
+
+    {
+        once: true
+    }
+
+);
+
+
+
+/* =========================
+   MOVE GLASS
+========================= */
+
+function moveGlass(event) {
+
+    const gameRect =
+        gameSide
+            .getBoundingClientRect();
+
+
+    const scaleX =
+
+        640 /
+        gameRect.width;
+
+
+    const scaleY =
+
+        540 /
+        gameRect.height;
+
+
+    const localX =
+
+        (
+            event.clientX
+            -
+            gameRect.left
+        )
+
+        *
+        scaleX;
+
+
+    const localY =
+
+        (
+            event.clientY
+            -
+            gameRect.top
+        )
+
+        *
+        scaleY;
+
+
+    if (
+
+        localX < 0
+
+        ||
+
+        localX > 640
+
+        ||
+
+        localY < 0
+
+        ||
+
+        localY > 540
+
+    ) {
+
+        return;
+
+    }
+
+
+    glassX =
+        localX;
+
+
+    glassY =
+        localY;
+
+
+    /* GLASS */
+
+    glass.style.left =
+        localX + "px";
+
+
+    glass.style.top =
+        localY + "px";
+
+
+    /* REVEAL */
+
+    reveal.style.left =
+        localX + "px";
+
+
+    reveal.style.top =
+        localY + "px";
+
+
+    const revealHalfX =
+        reveal.offsetWidth / 2;
+
+
+    const revealHalfY =
+        reveal.offsetHeight / 2;
+
+
+    revealBackground.style.left =
+
+        (
+            -localX
+            +
+            revealHalfX
+        )
+
+        +
+        "px";
+
+
+    revealBackground.style.top =
+
+        (
+            -localY
+            +
+            revealHalfY
+        )
+
+        +
+        "px";
+
+
+    revealObject.style.transform =
+
+        "translate("
+
+        +
+
+        (
+            -localX
+            +
+            revealHalfX
+        )
+
+        +
+
+        "px,"
+
+        +
+
+        (
+            -localY
+            +
+            revealHalfY
+        )
+
+        +
+
+        "px)";
+
+}
+
+
+
+/* =========================
+   START GLASS
+========================= */
+
+gameSide.addEventListener(
+
+    "pointerdown",
+
+    function(event) {
+
+        if (roundChanging) {
+
+            return;
+
+        }
+
+
+        glassActive =
+            true;
+
+
+        glass.style.display =
+            "block";
+
+
+        reveal.style.display =
+            "block";
+
+
+        moveGlass(
+            event
+        );
+
+
+        /*
+        Check if player clicked
+        near the object.
+        */
+
+        setTimeout(
+
+            checkObjectFound,
+
+            25
+
+        );
+
+    }
+
+);
+
+
+
+/* =========================
+   MOVE GLASS
+========================= */
+
+document.addEventListener(
+
+    "pointermove",
+
+    function(event) {
+
+
+        if (!glassActive) {
+
+            return;
+
+        }
+
+
+        moveGlass(
+            event
+        );
+
+    }
+
+);
+
+
+
+/* =========================
+   RELEASE GLASS
+========================= */
+
+document.addEventListener(
+
+    "pointerup",
+
+    function() {
+
+
+        glassActive =
+            false;
+
+
+        glass.style.display =
+            "none";
+
+
+        reveal.style.display =
+            "none";
+
+    }
+
+);
+
+
+
+/* =========================
+   CHECK OBJECT
+========================= */
+
+function checkObjectFound() {
+
+    if (!glassActive) {
+
+        return;
+
+    }
+
+
+    const round =
+        rounds[currentRound];
+
+
+    const objectCenterX =
+
+        round.x
+        +
+        round.width / 2;
+
+
+    const objectCenterY =
+
+        round.y
+        +
+        round.width / 2;
+
+
+    const distance =
+
+        Math.sqrt(
+
+            Math.pow(
+
+                glassX
+                -
+                objectCenterX,
+
+                2
+
+            )
+
+            +
+
+            Math.pow(
+
+                glassY
+                -
+                objectCenterY,
+
+                2
+
+            )
+
+        );
+
+
+    if (distance < 75) {
+
+        objectFound();
+
+    }
+
+}
+
+
+
+/* =========================
+   FOUND OBJECT
+========================= */
+
+function objectFound() {
+
+    if (roundChanging) {
+
+        return;
+
+    }
+
+
+    roundChanging =
+        true;
+
+
+    /*
+    Stop current voice cycle.
+    */
+
+    clearTimeout(
+        voiceTimer
+    );
+
+
+    voiceAudio.pause();
+
+
+    glassActive =
+        false;
+
+
+    glass.style.display =
+        "none";
+
+
+    reveal.style.display =
+        "none";
+
+
+    /*
+    Final car.
+    */
+
+    if (
+
+        currentRound ===
+        rounds.length - 1
+
+    ) {
+
+        finishGame();
+
+        return;
+
+    }
+
+
+    /*
+    Fade between objects.
+    */
+
+    fade.classList.add(
+        "active"
+    );
+
+
+    setTimeout(
+
+        function() {
+
+
+            currentRound++;
+
+
+            loadRound(
+                currentRound
+            );
+
+
+            setTimeout(
+
+                function() {
+
+
+                    fade.classList.remove(
+                        "active"
+                    );
+
+
+                    roundChanging =
+                        false;
+
+                },
+
+                300
+
+            );
+
+        },
+
+        750
+
+    );
+
+}
+
+
+
+/* =========================
+   FINAL ROUND
+========================= */
+
+function finishGame() {
+
+    clearTimeout(
+        voiceTimer
+    );
+
+
+    voiceAudio.pause();
+
+
+    roundChanging =
+        false;
+
+}
+
+
+
+/* =========================
+   START
+========================= */
+
+loadRound(0);
+
+</script>
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Transmission</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: black;
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 /* =========================================
    WHOLE WINDOW
 ========================================= */
