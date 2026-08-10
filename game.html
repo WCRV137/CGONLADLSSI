@@ -31,11 +31,13 @@ body {
 
     justify-content: center;
     align-items: center;
+
+    font-family: "Courier New", monospace;
 }
 
 
 /* =========================================
-   WHOLE WINDOW
+   WHOLE GAME
    960 x 540
 ========================================= */
 
@@ -54,7 +56,7 @@ body {
 
 
 /* =========================================
-   LEFT SIDE
+   LEFT GAME SIDE
    640 x 540
 ========================================= */
 
@@ -75,7 +77,7 @@ body {
 
 
 /* =========================================
-   BACKGROUND
+   ROUND BACKGROUND
 ========================================= */
 
 #background {
@@ -88,7 +90,7 @@ body {
     height: 540px;
 
     background-image:
-        url("background.jpg");
+        url("round1.jpg");
 
     background-size:
         640px 540px;
@@ -105,8 +107,6 @@ body {
 
 /* =========================================
    FLOWER OVERLAY
-
-   This is ONE flowers.png image.
 ========================================= */
 
 #flowers {
@@ -127,7 +127,97 @@ body {
 
 
 /* =========================================
-   RIGHT SIDE
+   REVEAL THROUGH GLASS
+========================================= */
+
+#reveal {
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background-image:
+        url("round1.jpg");
+
+    background-size:
+        640px 540px;
+
+    background-repeat:
+        no-repeat;
+
+    transform:
+        translate(-50%, -50%);
+
+    pointer-events: none;
+
+    display: none;
+
+    z-index: 30;
+}
+
+
+/* =========================================
+   MAGNIFYING GLASS
+========================================= */
+
+#glass {
+    position: absolute;
+
+    width: 165px;
+    height: 165px;
+
+    border-radius: 50%;
+
+    border:
+        6px solid
+        rgba(235,235,225,0.95);
+
+    background:
+        rgba(190,210,220,0.08);
+
+    box-shadow:
+        0 0 15px rgba(0,0,0,0.8),
+        inset 0 0 15px rgba(255,255,255,0.25);
+
+    transform:
+        translate(-50%, -50%);
+
+    pointer-events: none;
+
+    display: none;
+
+    z-index: 31;
+}
+
+
+/* glass handle */
+
+#glass::after {
+    content: "";
+
+    position: absolute;
+
+    width: 20px;
+    height: 85px;
+
+    right: -38px;
+    bottom: -62px;
+
+    background: #443026;
+
+    border-radius: 7px;
+
+    transform:
+        rotate(-45deg);
+
+    transform-origin: top;
+}
+
+
+/* =========================================
+   RIGHT NPC SIDE
    320 x 540
 ========================================= */
 
@@ -149,8 +239,6 @@ body {
     align-items: flex-end;
 }
 
-
-/* Dark background behind NPC */
 
 #npcSide::before {
     content: "";
@@ -203,8 +291,6 @@ body {
 }
 
 
-/* NPC reacts slightly when hovered */
-
 #npc:hover {
     transform:
         scale(1.015);
@@ -219,7 +305,7 @@ body {
 
 
 /* =========================================
-   CENTER DIVIDER
+   DIVIDER
 ========================================= */
 
 #divider {
@@ -241,110 +327,34 @@ body {
 
 
 /* =========================================
-   REVEAL AREA
-
-   This displays background.jpg WITHOUT
-   flowers inside the glass.
+   ROUND FADE
 ========================================= */
 
-#reveal {
+#fade {
     position: absolute;
 
-    width: 150px;
-    height: 150px;
+    inset: 0;
 
-    border-radius: 50%;
+    background: black;
 
-    background-image:
-        url("background.jpg");
-
-    background-size:
-        640px 540px;
-
-    background-repeat:
-        no-repeat;
-
-    transform:
-        translate(-50%, -50%);
+    opacity: 0;
 
     pointer-events: none;
 
-    display: none;
+    z-index: 500;
 
-    z-index: 30;
+    transition:
+        opacity 0.8s ease;
+}
+
+
+#fade.active {
+    opacity: 1;
 }
 
 
 /* =========================================
-   MAGNIFYING GLASS
-========================================= */
-
-#glass {
-    position: absolute;
-
-    width: 165px;
-    height: 165px;
-
-    border-radius: 50%;
-
-    border:
-        6px solid
-        rgba(235,235,225,0.95);
-
-    background:
-        rgba(190,210,220,0.08);
-
-    box-shadow:
-        0 0 15px
-        rgba(0,0,0,0.8),
-
-        inset 0 0 15px
-        rgba(255,255,255,0.25);
-
-    transform:
-        translate(-50%, -50%);
-
-    pointer-events: none;
-
-    display: none;
-
-    z-index: 31;
-}
-
-
-/* =========================================
-   GLASS HANDLE
-========================================= */
-
-#glass::after {
-    content: "";
-
-    position: absolute;
-
-    width: 20px;
-    height: 85px;
-
-    right: -38px;
-    bottom: -62px;
-
-    background:
-        #443026;
-
-    border-radius:
-        7px;
-
-    transform:
-        rotate(-45deg);
-
-    transform-origin:
-        top;
-}
-
-
-/* =========================================
-   SMALLER SCREENS
-
-   Keeps the 960x540 proportions.
+   SMALL SCREEN SCALING
 ========================================= */
 
 @media (max-width: 960px) {
@@ -382,32 +392,16 @@ body {
 <body>
 
 
-<!-- =========================================
-     960 x 540 WINDOW
-========================================= -->
-
 <div id="layout">
 
 
     <!-- =====================================
-         LEFT GAME
-         640 x 540
+         LEFT SIDE
     ====================================== -->
 
     <div id="gameSide">
 
-
-        <!-- Normal photograph -->
-
         <div id="background"></div>
-
-
-        <!--
-            ONE flower overlay image.
-
-            Make flowers.png transparent
-            everywhere except the flowers.
-        -->
 
         <img
             src="flowers.png"
@@ -415,39 +409,23 @@ body {
             alt=""
         >
 
-
-        <!--
-            Clean background revealed
-            through the glass.
-        -->
-
         <div id="reveal"></div>
 
-
-        <!-- Magnifying glass -->
-
         <div id="glass"></div>
-
 
     </div>
 
 
-
-    <!-- =====================================
-         DIVIDER
-    ====================================== -->
 
     <div id="divider"></div>
 
 
 
     <!-- =====================================
-         RIGHT NPC
-         320 x 540
+         NPC SIDE
     ====================================== -->
 
     <div id="npcSide">
-
 
         <img
             src="npc.png"
@@ -455,17 +433,15 @@ body {
             alt="Character"
         >
 
-
     </div>
+
+
+
+    <div id="fade"></div>
 
 
 </div>
 
-
-
-<!-- =========================================
-     NPC VOICE AUDIO
-========================================= -->
 
 <audio
     id="voiceAudio"
@@ -473,92 +449,241 @@ body {
 ></audio>
 
 
-
 <script>
-
 
 /* =========================================
    ELEMENTS
 ========================================= */
 
 const gameSide =
-    document.getElementById(
-        "gameSide"
-    );
+    document.getElementById("gameSide");
 
+const background =
+    document.getElementById("background");
 
-const glass =
-    document.getElementById(
-        "glass"
-    );
-
+const flowers =
+    document.getElementById("flowers");
 
 const reveal =
-    document.getElementById(
-        "reveal"
-    );
+    document.getElementById("reveal");
 
+const glass =
+    document.getElementById("glass");
 
 const npc =
-    document.getElementById(
-        "npc"
-    );
-
+    document.getElementById("npc");
 
 const voiceAudio =
-    document.getElementById(
-        "voiceAudio"
-    );
+    document.getElementById("voiceAudio");
+
+const fade =
+    document.getElementById("fade");
 
 
+let glassActive = false;
 
-let glassActive =
-    false;
+let currentRound = 0;
+
+let roundChanging = false;
 
 
 
 /* =========================================
-   MAGNIFYING GLASS MOVEMENT
+   ROUND SETTINGS
 ========================================= */
 
-function moveGlass(event) {
+
+/*
+You need:
+
+round1.jpg
+round2.jpg
+round3.jpg
+
+The third image can contain:
+- the car
+- the distant non-graphic figure
+*/
+
+const rounds = [
+
+    {
+        background:
+            "round1.jpg",
+
+        voice:
+            "mitten.mp3",
+
+        rate:
+            1.0
+    },
+
+
+    {
+        background:
+            "round2.jpg",
+
+        voice:
+            "lantern.mp3",
+
+        rate:
+            1.28
+    },
+
+
+    {
+        background:
+            "round3.jpg",
+
+        voice:
+            "car.mp3",
+
+        rate:
+            1.6
+    }
+
+];
+
+
+
+/* =========================================
+   LOAD ROUND
+========================================= */
+
+function loadRound(index) {
+
+    const round =
+        rounds[index];
+
+
+    background.style.backgroundImage =
+        'url("' +
+        round.background +
+        '")';
+
+
+    reveal.style.backgroundImage =
+        'url("' +
+        round.background +
+        '")';
+
+
+    playRoundVoice();
+
+}
+
+
+
+/* =========================================
+   VOICE
+========================================= */
+
+function playRoundVoice() {
+
+    const round =
+        rounds[currentRound];
+
+
+    voiceAudio.pause();
+
+    voiceAudio.currentTime =
+        0;
+
+
+    voiceAudio.src =
+        round.voice;
 
 
     /*
-        Find where the 640x540 game
-        appears on the browser screen.
+    Turning this OFF means
+    changing playbackRate also
+    changes pitch.
     */
+
+    voiceAudio.preservesPitch =
+        false;
+
+
+    /*
+    ROUND 1:
+    normal
+
+    ROUND 2:
+    faster + higher
+
+    ROUND 3:
+    much faster + higher
+    */
+
+    voiceAudio.playbackRate =
+        round.rate;
+
+
+    voiceAudio.volume =
+        0.9;
+
+
+    voiceAudio
+        .play()
+        .catch(
+            function(error) {
+
+                console.log(
+                    "Voice could not play:",
+                    error
+                );
+
+            }
+        );
+
+}
+
+
+
+/* =========================================
+   CLICK NPC TO HEAR CURRENT INSTRUCTION
+========================================= */
+
+npc.addEventListener(
+
+    "click",
+
+    function(event) {
+
+        event.stopPropagation();
+
+        playRoundVoice();
+
+    }
+
+);
+
+
+
+/* =========================================
+   GLASS MOVEMENT
+========================================= */
+
+function moveGlass(event) {
 
     const gameRect =
         gameSide.getBoundingClientRect();
 
 
-
     /*
-        The website might be scaled.
-
-        These values convert the real
-        mouse position back into our
-        640x540 coordinates.
+    Convert browser mouse coordinates
+    to our 640x540 coordinates.
     */
 
     const scaleX =
-
         640 /
         gameRect.width;
 
 
     const scaleY =
-
         540 /
         gameRect.height;
 
-
-
-    /*
-        Mouse position relative to
-        the LEFT game window.
-    */
 
     const localX =
 
@@ -571,7 +696,6 @@ function moveGlass(event) {
         *
 
         scaleX;
-
 
 
     const localY =
@@ -587,11 +711,6 @@ function moveGlass(event) {
         scaleY;
 
 
-
-    /*
-        Don't allow the glass to
-        work outside the game.
-    */
 
     if (
 
@@ -617,10 +736,6 @@ function moveGlass(event) {
 
 
 
-    /*
-        Move the magnifying glass.
-    */
-
     glass.style.left =
         localX + "px";
 
@@ -628,11 +743,6 @@ function moveGlass(event) {
     glass.style.top =
         localY + "px";
 
-
-
-    /*
-        Move the reveal circle.
-    */
 
     reveal.style.left =
         localX + "px";
@@ -643,33 +753,14 @@ function moveGlass(event) {
 
 
 
-    /*
-        Half of reveal circle.
-    */
-
     const halfWidth =
-
-        reveal.offsetWidth
-        /
-        2;
+        reveal.offsetWidth / 2;
 
 
     const halfHeight =
-
-        reveal.offsetHeight
-        /
-        2;
+        reveal.offsetHeight / 2;
 
 
-
-    /*
-        Move background.jpg in the
-        opposite direction.
-
-        This makes the image inside
-        the glass perfectly line up
-        with the background underneath.
-    */
 
     reveal.style.backgroundPosition =
 
@@ -700,7 +791,7 @@ function moveGlass(event) {
 
 
 /* =========================================
-   START USING GLASS
+   START GLASS
 ========================================= */
 
 gameSide.addEventListener(
@@ -709,10 +800,13 @@ gameSide.addEventListener(
 
     function(event) {
 
+        if (roundChanging) {
+            return;
+        }
+
 
         glassActive =
             true;
-
 
 
         glass.style.display =
@@ -723,10 +817,7 @@ gameSide.addEventListener(
             "block";
 
 
-
-        moveGlass(
-            event
-        );
+        moveGlass(event);
 
     }
 
@@ -735,7 +826,7 @@ gameSide.addEventListener(
 
 
 /* =========================================
-   MOVE WHILE HOLDING MOUSE
+   MOVE GLASS
 ========================================= */
 
 document.addEventListener(
@@ -744,18 +835,12 @@ document.addEventListener(
 
     function(event) {
 
-
         if (!glassActive) {
-
             return;
-
         }
 
 
-
-        moveGlass(
-            event
-        );
+        moveGlass(event);
 
     }
 
@@ -764,7 +849,7 @@ document.addEventListener(
 
 
 /* =========================================
-   STOP USING GLASS
+   RELEASE GLASS
 ========================================= */
 
 document.addEventListener(
@@ -773,10 +858,8 @@ document.addEventListener(
 
     function() {
 
-
         glassActive =
             false;
-
 
 
         glass.style.display =
@@ -793,56 +876,49 @@ document.addEventListener(
 
 
 /* =========================================
-   NPC VOICE LINES
+   ADVANCE ROUND
+
+   For now:
+   DOUBLE CLICK left side
+   when you have found the object.
+
+   Later we can replace this with
+   actual object detection.
 ========================================= */
 
+gameSide.addEventListener(
 
-/*
-    Add as many voice files
-    as you want here.
+    "dblclick",
 
-    They should be in the same
-    GitHub folder as game.html.
-*/
+    function() {
 
-const voiceLines = [
-
-    "voice1.mp3",
-
-    "voice2.mp3",
-
-    "voice3.mp3"
-
-];
+        if (roundChanging) {
+            return;
+        }
 
 
+        nextRound();
 
-let voiceIndex =
-    0;
+    }
 
-
-let voiceStarted =
-    false;
+);
 
 
 
 /* =========================================
-   PLAY A VOICE LINE
+   NEXT ROUND
 ========================================= */
 
-function playVoiceLine() {
-
+function nextRound() {
 
     /*
-        Stop when there are
-        no lines remaining.
+    Round 3 is the final round.
     */
 
     if (
 
-        voiceIndex
-        >=
-        voiceLines.length
+        currentRound >=
+        rounds.length - 1
 
     ) {
 
@@ -851,170 +927,75 @@ function playVoiceLine() {
     }
 
 
+    roundChanging =
+        true;
 
-    /*
-        Stop previous audio.
-    */
 
-    voiceAudio.pause();
+    glassActive =
+        false;
 
 
+    glass.style.display =
+        "none";
 
-    voiceAudio.currentTime =
-        0;
 
+    reveal.style.display =
+        "none";
 
 
-    /*
-        Load next voice line.
-    */
+    fade.classList.add(
+        "active"
+    );
 
-    voiceAudio.src =
 
-        voiceLines[
-            voiceIndex
-        ];
+    setTimeout(
 
+        function() {
 
+            currentRound++;
 
-    /*
-        Voice volume.
-    */
 
-    voiceAudio.volume =
-        0.9;
-
-
-
-    /*
-        Play.
-    */
-
-    voiceAudio
-
-        .play()
-
-        .catch(
-
-            function(error) {
-
-                console.log(
-
-                    "Voice could not play:",
-
-                    error
-
-                );
-
-            }
-
-        );
-
-}
-
-
-
-/* =========================================
-   CLICK NPC
-========================================= */
-
-npc.addEventListener(
-
-    "click",
-
-    function(event) {
-
-
-        /*
-            Don't activate anything
-            behind the NPC.
-        */
-
-        event.stopPropagation();
-
-
-
-        /*
-            Only start the sequence once.
-        */
-
-        if (voiceStarted) {
-
-            return;
-
-        }
-
-
-
-        voiceStarted =
-            true;
-
-
-
-        voiceIndex =
-            0;
-
-
-
-        playVoiceLine();
-
-    }
-
-);
-
-
-
-/* =========================================
-   NEXT VOICE LINE
-========================================= */
-
-voiceAudio.addEventListener(
-
-    "ended",
-
-    function() {
-
-
-        /*
-            Move to next recording.
-        */
-
-        voiceIndex++;
-
-
-
-        /*
-            If another recording exists,
-            wait a little before playing.
-        */
-
-        if (
-
-            voiceIndex
-            <
-            voiceLines.length
-
-        ) {
+            loadRound(
+                currentRound
+            );
 
 
             setTimeout(
 
                 function() {
 
-                    playVoiceLine();
+                    fade.classList.remove(
+                        "active"
+                    );
+
+
+                    roundChanging =
+                        false;
 
                 },
 
-                700
+                250
 
             );
 
-        }
+        },
 
-    }
+        850
 
-);
+    );
 
+}
+
+
+
+/* =========================================
+   START ROUND 1
+
+   Because browsers block autoplay,
+   the player needs to click NPC once.
+========================================= */
+
+loadRound(0);
 
 </script>
 
