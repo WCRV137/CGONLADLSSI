@@ -27,21 +27,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-
-/* ========================================
-   BLOCK EASY IMAGE SAVING
-======================================== */
-
-img {
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-user-drag: none;
-    pointer-events: none;
 }
 
 
@@ -56,6 +41,7 @@ img {
     height: 540px;
 
     display: flex;
+
     flex-shrink: 0;
 
     overflow: hidden;
@@ -96,17 +82,11 @@ img {
     width: 640px;
     height: 540px;
 
-    background-image:
-        url("background.jpg");
+    background-image: url("background.jpg");
 
-    background-size:
-        640px 540px;
-
-    background-position:
-        center;
-
-    background-repeat:
-        no-repeat;
+    background-size: 640px 540px;
+    background-position: center;
+    background-repeat: no-repeat;
 
     z-index: 1;
 }
@@ -127,12 +107,17 @@ img {
 
     object-fit: fill;
 
+    user-select: none;
+    pointer-events: none;
+
     z-index: 10;
 }
 
 
 /* ========================================
-   MAGNIFYING GLASS REVEAL
+   REVEAL AREA
+
+   This is the flower-free view.
 ======================================== */
 
 #reveal {
@@ -145,8 +130,7 @@ img {
 
     overflow: hidden;
 
-    transform:
-        translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 
     pointer-events: none;
 
@@ -156,9 +140,7 @@ img {
 }
 
 
-/* ========================================
-   CLEAN BACKGROUND THROUGH GLASS
-======================================== */
+/* clean background */
 
 #revealBackground {
     position: absolute;
@@ -169,29 +151,22 @@ img {
     left: 0;
     top: 0;
 
-    background-image:
-        url("background.jpg");
+    background-image: url("background.jpg");
 
-    background-size:
-        640px 540px;
-
-    background-position:
-        center;
-
-    background-repeat:
-        no-repeat;
+    background-size: 640px 540px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 
-/* ========================================
-   HIDDEN OBJECT
-======================================== */
+/* hidden object */
 
 #revealObject {
     position: absolute;
 
     height: auto;
 
+    user-select: none;
     pointer-events: none;
 }
 
@@ -208,19 +183,15 @@ img {
 
     border-radius: 50%;
 
-    border:
-        6px solid
-        rgba(235,235,225,0.95);
+    border: 6px solid rgba(235, 235, 225, 0.95);
 
-    background:
-        rgba(190,210,220,0.08);
+    background: rgba(190, 210, 220, 0.08);
 
     box-shadow:
-        0 0 15px rgba(0,0,0,0.8),
-        inset 0 0 15px rgba(255,255,255,0.25);
+        0 0 15px rgba(0, 0, 0, 0.8),
+        inset 0 0 15px rgba(255, 255, 255, 0.25);
 
-    transform:
-        translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 
     pointer-events: none;
 
@@ -230,9 +201,7 @@ img {
 }
 
 
-/* ========================================
-   GLASS HANDLE
-======================================== */
+/* handle */
 
 #glass::after {
     content: "";
@@ -249,8 +218,7 @@ img {
 
     border-radius: 7px;
 
-    transform:
-        rotate(-45deg);
+    transform: rotate(-45deg);
 
     transform-origin: top;
 }
@@ -288,8 +256,8 @@ img {
     background:
         radial-gradient(
             circle at center,
-            rgba(60,60,60,0.18),
-            rgba(0,0,0,0.9)
+            rgba(60, 60, 60, 0.18),
+            rgba(0, 0, 0, 0.9)
         );
 
     pointer-events: none;
@@ -312,14 +280,15 @@ img {
     max-height: 530px;
 
     object-fit: contain;
+    object-position: bottom center;
 
-    object-position:
-        bottom center;
+    user-select: none;
+    pointer-events: none;
 
     filter:
         drop-shadow(
             0 6px 14px
-            rgba(0,0,0,0.85)
+            rgba(0, 0, 0, 0.85)
         );
 }
 
@@ -337,8 +306,7 @@ img {
     width: 2px;
     height: 540px;
 
-    background:
-        rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
 
     pointer-events: none;
 
@@ -361,8 +329,7 @@ img {
 
     pointer-events: none;
 
-    transition:
-        opacity 0.65s ease;
+    transition: opacity 0.65s ease;
 
     z-index: 500;
 }
@@ -374,7 +341,7 @@ img {
 
 
 /* ========================================
-   1964 END IMAGE
+   1964 PNG FLASH
 ======================================== */
 
 #flash1964 {
@@ -392,7 +359,7 @@ img {
     justify-content: center;
     align-items: center;
 
-    z-index: 999;
+    z-index: 9999;
 }
 
 
@@ -401,6 +368,9 @@ img {
     height: 100%;
 
     object-fit: cover;
+
+    user-select: none;
+    pointer-events: none;
 }
 
 
@@ -416,6 +386,7 @@ img {
 
 }
 
+
 @media (max-width: 780px) {
 
     #layout {
@@ -423,6 +394,7 @@ img {
     }
 
 }
+
 
 @media (max-width: 620px) {
 
@@ -443,9 +415,12 @@ img {
 <div id="layout">
 
 
-    <!-- LEFT GAME -->
+    <!-- ===============================
+         LEFT GAME
+    ================================ -->
 
     <div id="gameSide">
+
 
         <div id="background"></div>
 
@@ -458,11 +433,13 @@ img {
         >
 
 
-        <!-- CLEAN VIEW THROUGH GLASS -->
+        <!-- FLOWERS DISAPPEAR HERE -->
 
         <div id="reveal">
 
+
             <div id="revealBackground"></div>
+
 
             <img
                 id="revealObject"
@@ -471,51 +448,68 @@ img {
                 draggable="false"
             >
 
+
         </div>
 
 
         <div id="glass"></div>
 
+
     </div>
 
 
 
-    <!-- DIVIDER -->
+    <!-- ===============================
+         DIVIDER
+    ================================ -->
 
     <div id="divider"></div>
 
 
 
-    <!-- NPC -->
+    <!-- ===============================
+         NPC
+    ================================ -->
 
     <div id="npcSide">
+
 
         <img
             id="npc"
             src="npc.png"
-            alt=""
+            alt="Character"
             draggable="false"
         >
+
 
     </div>
 
 
 
-    <!-- ROUND FADE -->
+    <!-- ===============================
+         FADE
+    ================================ -->
 
     <div id="fade"></div>
 
 
 
-    <!-- 1964 ENDING -->
+    <!-- ===============================
+         FINAL 1964 IMAGE
+
+         IMPORTANT:
+         THIS IS A PNG
+    ================================ -->
 
     <div id="flash1964">
+
 
         <img
             src="1964.png"
             alt=""
             draggable="false"
         >
+
 
     </div>
 
@@ -530,6 +524,7 @@ img {
     id="voiceAudio"
     preload="auto"
 ></audio>
+
 
 
 <!-- DAISY MUSIC -->
@@ -552,39 +547,37 @@ img {
 const gameSide =
     document.getElementById("gameSide");
 
+
 const reveal =
     document.getElementById("reveal");
 
+
 const revealBackground =
-    document.getElementById(
-        "revealBackground"
-    );
+    document.getElementById("revealBackground");
+
 
 const revealObject =
-    document.getElementById(
-        "revealObject"
-    );
+    document.getElementById("revealObject");
+
 
 const glass =
     document.getElementById("glass");
 
+
 const fade =
     document.getElementById("fade");
 
+
 const flash1964 =
-    document.getElementById(
-        "flash1964"
-    );
+    document.getElementById("flash1964");
+
 
 const voiceAudio =
-    document.getElementById(
-        "voiceAudio"
-    );
+    document.getElementById("voiceAudio");
+
 
 const backgroundMusic =
-    document.getElementById(
-        "backgroundMusic"
-    );
+    document.getElementById("backgroundMusic");
 
 
 
@@ -594,8 +587,12 @@ const backgroundMusic =
 
 const rounds = [
 
+
+    /* MITTEN */
+
     {
         object: "mitten.png",
+
         voice: "mitten.wav",
 
         startDistortion: 0,
@@ -608,8 +605,11 @@ const rounds = [
     },
 
 
+    /* LANTERN */
+
     {
         object: "lantern.png",
+
         voice: "lantern.wav",
 
         startDistortion: 20,
@@ -622,8 +622,11 @@ const rounds = [
     },
 
 
+    /* CAR */
+
     {
         object: "car.png",
+
         voice: "car.wav",
 
         startDistortion: 45,
@@ -645,57 +648,43 @@ const rounds = [
 
 let currentRound = 0;
 
+
 let roundChanging = false;
+
 
 let glassActive = false;
 
+
 let glassX = 0;
+
+
 let glassY = 0;
 
+
 let audioUnlocked = false;
+
 
 let voiceTimer = null;
 
 
 /*
-Starts with 2 seconds
-between repeats.
+NPC starts repeating every
+2 seconds.
 */
 
 let repeatDelay = 2000;
 
 
 /*
-Current distortion amount.
+Gets stronger every repetition.
 */
 
 let distortionAmount = 0;
 
 
 /*
-How many times distortion
-has increased this round.
-*/
-
-let distortionSteps = 0;
-
-
-/*
-Maximum FOUR increases.
-*/
-
-const MAX_DISTORTION_STEPS = 4;
-
-
-/*
-Minimum voice repeat delay.
-*/
-
-const MIN_REPEAT_DELAY = 700;
-
-
-/*
-Background music volume.
+Daisy always stays at the
+same volume.
 */
 
 const MUSIC_VOLUME = 0.18;
@@ -717,13 +706,16 @@ let voiceGain = null;
 
 
 /* ========================================
-   SETUP AUDIO GRAPH
+   SETUP DISTORTION
 ======================================== */
 
 function setupAudioGraph() {
 
+
     if (audioContext) {
+
         return;
+
     }
 
 
@@ -735,21 +727,28 @@ function setupAudioGraph() {
 
 
     voiceSource =
-        audioContext
-            .createMediaElementSource(
-                voiceAudio
-            );
+        audioContext.createMediaElementSource(
+            voiceAudio
+        );
 
 
     distortion =
-        audioContext
-            .createWaveShaper();
+        audioContext.createWaveShaper();
 
 
     voiceGain =
-        audioContext
-            .createGain();
+        audioContext.createGain();
 
+
+    /*
+    Voice
+       ↓
+    Distortion
+       ↓
+    Gain
+       ↓
+    Speakers
+    */
 
     voiceSource.connect(
         distortion
@@ -772,23 +771,30 @@ function setupAudioGraph() {
 
     voiceGain.gain.value =
         1.0;
+
 }
 
 
 
 /* ========================================
-   MAKE DISTORTION
+   DISTORTION CURVE
 ======================================== */
 
 function makeDistortionCurve(amount) {
 
+
     const samples = 44100;
 
+
     const curve =
-        new Float32Array(samples);
+        new Float32Array(
+            samples
+        );
+
 
     const deg =
         Math.PI / 180;
+
 
     const k =
         Math.max(
@@ -802,6 +808,7 @@ function makeDistortionCurve(amount) {
         i < samples;
         i++
     ) {
+
 
         const x =
             i * 2 / samples - 1;
@@ -843,6 +850,7 @@ function makeDistortionCurve(amount) {
 
 
     return curve;
+
 }
 
 
@@ -853,12 +861,13 @@ function makeDistortionCurve(amount) {
 
 function loadRound(index) {
 
+
     const round =
         rounds[index];
 
 
     /*
-    Change hidden object.
+    Change hidden item.
     */
 
     revealObject.src =
@@ -882,29 +891,19 @@ function loadRound(index) {
 
 
     /*
-    Reset voice speed.
+    Reset repetition timer.
     */
 
-    repeatDelay =
-        2000;
+    repeatDelay = 2000;
 
 
     /*
-    Reset distortion to the
-    starting amount for this round.
+    Each round can start
+    slightly more distorted.
     */
 
     distortionAmount =
         round.startDistortion;
-
-
-    /*
-    Allow another four distortion
-    increases.
-    */
-
-    distortionSteps =
-        0;
 
 
     clearTimeout(
@@ -912,21 +911,31 @@ function loadRound(index) {
     );
 
 
+    /*
+    Automatically talk
+    when next round starts.
+    */
+
     if (audioUnlocked) {
+
 
         setTimeout(
 
             function() {
 
+
                 playVoice();
 
+
                 startVoiceReminder();
+
 
             },
 
             350
 
         );
+
 
     }
 
@@ -940,8 +949,11 @@ function loadRound(index) {
 
 function playVoice() {
 
+
     if (!audioUnlocked) {
+
         return;
+
     }
 
 
@@ -957,7 +969,9 @@ function playVoice() {
         "suspended"
     ) {
 
+
         audioContext.resume();
+
 
     }
 
@@ -968,22 +982,23 @@ function playVoice() {
 
     voiceAudio.pause();
 
+
     voiceAudio.currentTime = 0;
+
 
     voiceAudio.src =
         round.voice;
 
 
     /*
-    NO PITCH CHANGE.
+    NORMAL PITCH + SPEED
     */
 
-    voiceAudio.playbackRate =
-        1.0;
+    voiceAudio.playbackRate = 1.0;
 
 
     /*
-    Apply current distortion.
+    Apply distortion.
     */
 
     distortion.curve =
@@ -992,16 +1007,24 @@ function playVoice() {
         );
 
 
+    /*
+    Daisy volume is NOT changed.
+    */
+
+
     voiceAudio
         .play()
+
         .catch(
 
             function(error) {
+
 
                 console.error(
                     "VOICE ERROR:",
                     error
                 );
+
 
             }
 
@@ -1012,10 +1035,11 @@ function playVoice() {
 
 
 /* ========================================
-   VOICE REPEAT SYSTEM
+   REPEAT VOICE
 ======================================== */
 
 function startVoiceReminder() {
+
 
     clearTimeout(
         voiceTimer
@@ -1032,74 +1056,74 @@ function startVoiceReminder() {
             function() {
 
 
+                /*
+                Stop if the round
+                changed.
+                */
+
                 if (
-                    savedRound !== currentRound ||
+
+                    savedRound !==
+                    currentRound
+
+                    ||
+
                     roundChanging
+
                 ) {
+
 
                     return;
 
-                }
-
-
-                /* ===========================
-                   DISTORT ONLY FOUR TIMES
-                =========================== */
-
-                if (
-                    distortionSteps <
-                    MAX_DISTORTION_STEPS
-                ) {
-
-                    distortionAmount += 12;
-
-                    distortionSteps++;
-
-
-                    if (
-                        distortionAmount > 120
-                    ) {
-
-                        distortionAmount =
-                            120;
-
-                    }
 
                 }
 
 
                 /*
-                Once distortionSteps = 4,
-                distortionAmount no longer
-                changes.
+                MORE DISTORTED
                 */
 
+                distortionAmount += 12;
+
+
+                if (
+                    distortionAmount > 120
+                ) {
+
+
+                    distortionAmount = 120;
+
+
+                }
+
+
+                /*
+                Talk again.
+                */
 
                 playVoice();
 
 
-
-                /* ===========================
-                   GET FASTER
-                =========================== */
+                /*
+                REPEAT FASTER
+                */
 
                 repeatDelay -= 150;
 
 
                 if (
-                    repeatDelay <
-                    MIN_REPEAT_DELAY
+                    repeatDelay < 700
                 ) {
 
-                    repeatDelay =
-                        MIN_REPEAT_DELAY;
+
+                    repeatDelay = 700;
+
 
                 }
 
 
                 /*
-                Once it reaches 700ms,
-                it stays at 700ms.
+                Schedule another.
                 */
 
                 startVoiceReminder();
@@ -1121,13 +1145,15 @@ function startVoiceReminder() {
 
 function unlockAudio() {
 
+
     if (audioUnlocked) {
+
         return;
+
     }
 
 
-    audioUnlocked =
-        true;
+    audioUnlocked = true;
 
 
     setupAudioGraph();
@@ -1138,13 +1164,15 @@ function unlockAudio() {
         "suspended"
     ) {
 
+
         audioContext.resume();
+
 
     }
 
 
     /*
-    START DAISY
+    Start Daisy.
     */
 
     backgroundMusic.volume =
@@ -1153,14 +1181,17 @@ function unlockAudio() {
 
     backgroundMusic
         .play()
+
         .catch(
 
             function(error) {
 
+
                 console.error(
-                    "MUSIC ERROR:",
+                    "DAISY ERROR:",
                     error
                 );
+
 
             }
 
@@ -1168,10 +1199,11 @@ function unlockAudio() {
 
 
     /*
-    START NPC
+    Start NPC.
     */
 
     playVoice();
+
 
     startVoiceReminder();
 
@@ -1180,25 +1212,33 @@ function unlockAudio() {
 
 
 /*
-Browsers normally require an
-interaction before playing audio.
+Browsers require an interaction
+before sound can normally start.
 */
 
 document.addEventListener(
+
     "pointerdown",
+
     unlockAudio,
+
     {
         once: true
     }
+
 );
 
 
 document.addEventListener(
+
     "keydown",
+
     unlockAudio,
+
     {
         once: true
     }
+
 );
 
 
@@ -1209,14 +1249,13 @@ document.addEventListener(
 
 function moveGlass(event) {
 
+
     const rect =
-        gameSide
-            .getBoundingClientRect();
+        gameSide.getBoundingClientRect();
 
 
     /*
-    Convert screen coordinates into
-    our 640 x 540 game coordinates.
+    Account for responsive scaling.
     */
 
     const scaleX =
@@ -1252,31 +1291,42 @@ function moveGlass(event) {
 
 
     /*
-    Don't move outside game.
+    Ignore outside game.
     */
 
     if (
-        localX < 0 ||
-        localX > 640 ||
-        localY < 0 ||
+
+        localX < 0
+
+        ||
+
+        localX > 640
+
+        ||
+
+        localY < 0
+
+        ||
+
         localY > 540
+
     ) {
 
+
         return;
+
 
     }
 
 
-    glassX =
-        localX;
+    glassX = localX;
 
 
-    glassY =
-        localY;
+    glassY = localY;
 
 
     /*
-    Move glass.
+    Move glass border.
     */
 
     glass.style.left =
@@ -1288,7 +1338,7 @@ function moveGlass(event) {
 
 
     /*
-    Move reveal circle.
+    Move flower-free reveal.
     */
 
     reveal.style.left =
@@ -1308,11 +1358,7 @@ function moveGlass(event) {
 
 
     /*
-    Move clean background opposite
-    the magnifying glass.
-
-    This is what makes the flowers
-    disappear inside the circle.
+    Keep background aligned.
     */
 
     revealBackground.style.left =
@@ -1322,7 +1368,9 @@ function moveGlass(event) {
             halfX
         )
 
-        + "px";
+        +
+
+        "px";
 
 
     revealBackground.style.top =
@@ -1332,12 +1380,13 @@ function moveGlass(event) {
             halfY
         )
 
-        + "px";
+        +
+
+        "px";
 
 
     /*
-    Hidden object must move by
-    the same offset.
+    Keep hidden item aligned.
     */
 
     revealObject.style.transform =
@@ -1371,7 +1420,7 @@ function moveGlass(event) {
 
 
 /* ========================================
-   PRESS MOUSE = USE GLASS
+   USE MAGNIFYING GLASS
 ======================================== */
 
 gameSide.addEventListener(
@@ -1380,14 +1429,21 @@ gameSide.addEventListener(
 
     function(event) {
 
+
         if (roundChanging) {
+
             return;
+
         }
 
 
-        glassActive =
-            true;
+        glassActive = true;
 
+
+        /*
+        Flowers visually disappear
+        inside this circle.
+        */
 
         reveal.style.display =
             "block";
@@ -1404,6 +1460,7 @@ gameSide.addEventListener(
 
         checkObjectFound();
 
+
     }
 
 );
@@ -1411,7 +1468,7 @@ gameSide.addEventListener(
 
 
 /* ========================================
-   DRAG GLASS
+   MOVE WHILE HOLDING
 ======================================== */
 
 document.addEventListener(
@@ -1420,8 +1477,11 @@ document.addEventListener(
 
     function(event) {
 
+
         if (!glassActive) {
+
             return;
+
         }
 
 
@@ -1431,11 +1491,14 @@ document.addEventListener(
 
 
         /*
-        Check while moving too,
-        not only when first clicking.
+        Also check while moving,
+        so you can actually search
+        with the glass instead of
+        needing to click directly.
         */
 
         checkObjectFound();
+
 
     }
 
@@ -1453,8 +1516,8 @@ document.addEventListener(
 
     function() {
 
-        glassActive =
-            false;
+
+        glassActive = false;
 
 
         reveal.style.display =
@@ -1464,6 +1527,7 @@ document.addEventListener(
         glass.style.display =
             "none";
 
+
     }
 
 );
@@ -1471,13 +1535,16 @@ document.addEventListener(
 
 
 /* ========================================
-   CHECK IF ITEM WAS FOUND
+   CHECK HIDDEN OBJECT
 ======================================== */
 
 function checkObjectFound() {
 
+
     if (!glassActive) {
+
         return;
+
     }
 
 
@@ -1503,8 +1570,11 @@ function checkObjectFound() {
         round.height;
 
 
-    const padding =
-        30;
+    /*
+    Makes detection slightly easier.
+    */
+
+    const padding = 30;
 
 
     if (
@@ -1529,7 +1599,9 @@ function checkObjectFound() {
 
     ) {
 
+
         objectFound();
+
 
     }
 
@@ -1543,18 +1615,19 @@ function checkObjectFound() {
 
 function objectFound() {
 
+
     if (roundChanging) {
+
         return;
+
     }
 
 
-    roundChanging =
-        true;
+    roundChanging = true;
 
 
     /*
-    Stop repeating current
-    instruction.
+    Stop current NPC repetition.
     */
 
     clearTimeout(
@@ -1565,8 +1638,11 @@ function objectFound() {
     voiceAudio.pause();
 
 
-    glassActive =
-        false;
+    /*
+    Hide glass.
+    */
+
+    glassActive = false;
 
 
     reveal.style.display =
@@ -1577,25 +1653,34 @@ function objectFound() {
         "none";
 
 
-    /* ====================================
-       CAR FOUND
-    ==================================== */
+    /*
+    ================================
+    FINAL CAR
+    ================================
+    */
 
     if (
+
         currentRound >=
         rounds.length - 1
+
     ) {
+
 
         finishGame();
 
+
         return;
+
 
     }
 
 
-    /* ====================================
-       NEXT OBJECT
-    ==================================== */
+    /*
+    ================================
+    NEXT ROUND
+    ================================
+    */
 
     fade.classList.add(
         "active"
@@ -1619,13 +1704,14 @@ function objectFound() {
 
                 function() {
 
+
                     fade.classList.remove(
                         "active"
                     );
 
 
-                    roundChanging =
-                        false;
+                    roundChanging = false;
+
 
                 },
 
@@ -1650,41 +1736,16 @@ function objectFound() {
 
 function finishGame() {
 
-    /*
-    Stop all future NPC repeats.
-    */
 
     clearTimeout(
         voiceTimer
     );
 
 
-    /*
-    STOP NPC VOICE.
-    */
-
     voiceAudio.pause();
 
-    voiceAudio.currentTime =
-        0;
 
-
-    /*
-    STOP DAISY IMMEDIATELY.
-    */
-
-    backgroundMusic.pause();
-
-    backgroundMusic.currentTime =
-        0;
-
-
-    /*
-    Remove magnifying glass.
-    */
-
-    glassActive =
-        false;
+    glassActive = false;
 
 
     reveal.style.display =
@@ -1696,7 +1757,9 @@ function finishGame() {
 
 
     /*
+    ===================================
     SHOW 1964.PNG
+    ===================================
     */
 
     flash1964.style.display =
@@ -1704,8 +1767,12 @@ function finishGame() {
 
 
     /*
-    Keep it on screen for
-    ONE SECOND.
+    Daisy continues underneath.
+    */
+
+
+    /*
+    Show the image for 1 second.
     */
 
     setTimeout(
@@ -1714,7 +1781,8 @@ function finishGame() {
 
 
             /*
-            Return to countdown page.
+            Return to your main
+            countdown page.
             */
 
             window.location.href =
@@ -1732,67 +1800,11 @@ function finishGame() {
 
 
 /* ========================================
-   MAKE CASUAL IMAGE SAVING HARDER
-======================================== */
-
-
-/*
-Disable right click.
-*/
-
-document.addEventListener(
-
-    "contextmenu",
-
-    function(event) {
-
-        event.preventDefault();
-
-    }
-
-);
-
-
-/*
-Disable image dragging.
-*/
-
-document.addEventListener(
-
-    "dragstart",
-
-    function(event) {
-
-        event.preventDefault();
-
-    }
-
-);
-
-
-/*
-Disable selection.
-*/
-
-document.addEventListener(
-
-    "selectstart",
-
-    function(event) {
-
-        event.preventDefault();
-
-    }
-
-);
-
-
-
-/* ========================================
    START GAME
 ======================================== */
 
 loadRound(0);
+
 
 </script>
 
