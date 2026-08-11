@@ -2,828 +2,1456 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta charset="UTF-8">
 
-    <title>CGONLADLSSI</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <style>
+<title>CGONLADLSSI</title>
 
-        /* =========================
-           PAGE
-        ========================= */
+<style>
 
-        body {
-            margin: 0;
-            min-height: 100vh;
+* {
+    box-sizing: border-box;
+}
 
-            background: #080808;
-            color: #e8e4d6;
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
 
-            font-family: "Courier New", monospace;
+body {
+    background: #070707;
+    color: #e8e4d6;
 
-            overflow: hidden;
-        }
+    overflow: hidden;
 
-
-        /* =========================
-           COUNTDOWN
-        ========================= */
-
-        .main {
-            height: 100vh;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            text-align: center;
-        }
+    font-family:
+        "Courier New",
+        monospace;
+}
 
 
-        #countdown {
-            font-size: clamp(
-                35px,
-                7vw,
-                85px
-            );
+/* =========================================
+   CENTER
+========================================= */
 
-            letter-spacing: 4px;
-        }
+#centerArea {
 
+    position: fixed;
 
-        /* =========================
-           RADIO IMAGE
-        ========================= */
+    left: 50%;
+    top: 45%;
 
-        .radio-image-container {
-            position: fixed;
+    transform:
+        translate(-50%, -50%);
 
-            right: 20px;
-            bottom: 20px;
+    text-align: center;
 
-            text-align: center;
+    z-index: 10;
 
-            user-select: none;
-        }
+}
 
 
-        #radioImage {
-            width: 220px;
-            max-width: 35vw;
+/* =========================================
+   STATUS LIGHT
+========================================= */
 
-            height: auto;
+#statusLight {
 
-            cursor: pointer;
+    width: 9px;
+    height: 9px;
 
-            transition:
-                transform 0.15s,
-                filter 0.3s,
-                opacity 0.3s;
-        }
+    margin:
+        0 auto
+        25px auto;
 
+    border-radius: 50%;
 
-        #radioImage:hover {
-            transform: scale(1.03);
-        }
+    background: #a6c49a;
 
+    box-shadow:
+        0 0 8px
+        rgba(166,196,154,0.7);
 
-        #radioImage:active {
-            transform: scale(0.96);
-        }
+    animation:
+        blink 2.5s infinite;
 
-
-        /* Radio is playing */
-
-        #radioImage.radio-playing {
-            filter:
-                brightness(1.15)
-                drop-shadow(
-                    0 0 10px
-                    rgba(255, 220, 150, 0.4)
-                );
-        }
+}
 
 
-        /* Radio stops at 25 days */
+@keyframes blink {
 
-        #radioImage.radio-dead {
-            filter:
-                grayscale(100%)
-                brightness(0.55);
+    0% {
+        opacity: 0.25;
+    }
 
-            cursor: default;
-        }
+    50% {
+        opacity: 1;
+    }
 
+    100% {
+        opacity: 0.25;
+    }
 
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 600px) {
-
-            #countdown {
-                font-size: 30px;
-            }
+}
 
 
-            .radio-image-container {
-                right: 10px;
-                bottom: 10px;
-            }
+/* =========================================
+   COUNTDOWN
+========================================= */
+
+#countdown {
+
+    font-size:
+        clamp(
+            35px,
+            7vw,
+            85px
+        );
+
+    letter-spacing: 4px;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 0 12px
+        rgba(255,255,255,0.08);
+
+}
 
 
-            #radioImage {
-                width: 140px;
-            }
+/* =========================================
+   DATE
+========================================= */
 
-        }
+#dateText {
 
-    </style>
+    margin-top: 18px;
+
+    font-size: 12px;
+
+    letter-spacing: 6px;
+
+    opacity: 0.38;
+
+}
+
+
+/* =========================================
+   RANDOM MESSAGE
+========================================= */
+
+#message {
+
+    margin-top: 30px;
+
+    height: 20px;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.8s ease;
+
+}
+
+
+#message.visible {
+
+    opacity: 0.45;
+
+}
+
+
+/* =========================================
+   RADIO
+========================================= */
+
+#radioArea {
+
+    position: fixed;
+
+    right: 20px;
+    bottom: 20px;
+
+    width: 220px;
+
+    text-align: center;
+
+    z-index: 20;
+
+    user-select: none;
+
+}
+
+
+#radioImage {
+
+    width: 200px;
+
+    max-width: 30vw;
+
+    height: auto;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s,
+        filter 0.3s;
+
+}
+
+
+#radioImage:hover {
+
+    transform:
+        scale(1.03);
+
+}
+
+
+#radioImage:active {
+
+    transform:
+        scale(0.96);
+
+}
+
+
+#radioImage.radio-playing {
+
+    filter:
+
+        brightness(1.15)
+
+        drop-shadow(
+            0 0 12px
+            rgba(255,220,140,0.45)
+        );
+
+}
+
+
+#radioImage.radio-dead {
+
+    filter:
+
+        grayscale(100%)
+
+        brightness(0.5);
+
+}
+
+
+/* =========================================
+   HIPPO
+========================================= */
+
+#hippoContainer {
+
+    position: fixed;
+
+    right: 20px;
+    top: 20px;
+
+    width: 190px;
+    height: 230px;
+
+    display: none;
+
+    justify-content: center;
+    align-items: flex-end;
+
+    z-index: 50;
+
+}
+
+
+#hippo {
+
+    width: 170px;
+    height: auto;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    transform-origin:
+        bottom center;
+
+    filter:
+        drop-shadow(
+            0 6px 8px
+            rgba(0,0,0,0.75)
+        );
+
+}
+
+
+/* normal bouncing */
+
+#hippo.bouncing {
+
+    animation:
+        hippoBounce
+        0.5s
+        infinite
+        ease-in-out;
+
+}
+
+
+@keyframes hippoBounce {
+
+    0% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-45px);
+
+    }
+
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* crazy bouncing */
+
+#hippo.crazy {
+
+    animation:
+        hippoCrazy
+        0.18s
+        infinite
+        ease-in-out;
+
+}
+
+
+@keyframes hippoCrazy {
+
+    0% {
+
+        transform:
+            translateY(0)
+            rotate(-4deg);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-65px)
+            rotate(5deg);
+
+    }
+
+    100% {
+
+        transform:
+            translateY(0)
+            rotate(-3deg);
+
+    }
+
+}
+
+
+/* disappear */
+
+#hippo.disappear {
+
+    animation:
+        hippoDisappear
+        0.6s
+        forwards;
+
+}
+
+
+@keyframes hippoDisappear {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translateY(-100px)
+            scale(0.2);
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    #countdown {
+
+        font-size: 27px;
+
+    }
+
+
+    #radioArea {
+
+        width: 140px;
+
+        right: 10px;
+        bottom: 10px;
+
+    }
+
+
+    #radioImage {
+
+        width: 130px;
+
+    }
+
+
+    #hippoContainer {
+
+        width: 120px;
+        height: 160px;
+
+        right: 8px;
+        top: 8px;
+
+    }
+
+
+    #hippo {
+
+        width: 105px;
+
+    }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
 
-    <!-- =========================
-         COUNTDOWN
-    ========================== -->
+<!-- =========================================
+     CENTER
+========================================= -->
 
-    <div class="main">
+<div id="centerArea">
 
-        <div id="countdown">
-            LOADING
-        </div>
+    <div id="statusLight"></div>
 
-    </div>
+    <div id="countdown">
 
-
-
-    <!-- =========================
-         RADIO IMAGE
-    ========================== -->
-
-    <div class="radio-image-container">
-
-        <img
-            src="radio.png"
-            id="radioImage"
-            alt="Radio"
-        >
+        LOADING
 
     </div>
 
+    <div id="dateText">
 
+        12 / 25 / 1964
 
-    <!-- =========================
-         AUDIO
-    ========================== -->
+    </div>
 
+    <div id="message"></div>
 
-    <!-- Radio music -->
+</div>
 
-    <audio
-        id="radioAudio"
-        preload="metadata"
-    ></audio>
 
 
-    <!-- Tick sound -->
+<!-- =========================================
+     HIPPO
+========================================= -->
 
-    <audio
-        id="tickSound"
-        src="tick.mp3"
-        preload="auto"
-    ></audio>
+<div id="hippoContainer">
 
+    <img
+        id="hippo"
+        src="hippo.png"
+        alt="Hippo"
+        draggable="false"
+    >
 
-    <!-- Tock sound -->
+</div>
 
-    <audio
-        id="tockSound"
-        src="tock.mp3"
-        preload="auto"
-    ></audio>
 
 
+<!-- =========================================
+     RADIO
+========================================= -->
 
-    <script>
+<div id="radioArea">
 
-        /* =========================
-           GLOBAL COUNTDOWN
-        ========================= */
+    <img
+        src="radio.png"
+        id="radioImage"
+        alt="Radio"
+        draggable="false"
+    >
 
+</div>
 
-        /*
-            Same countdown for everyone.
 
-            Ends:
-            December 25, 2026
-            12:00 AM
-            Newfoundland Time
-        */
 
+<!-- =========================================
+     AUDIO
+========================================= -->
 
-        const endDate = new Date(
-            "2026-12-25T00:00:00-03:30"
-        ).getTime();
+<audio
+    id="radioAudio"
+    preload="metadata"
+></audio>
 
 
+<audio
+    id="tickSound"
+    src="tick.mp3"
+    preload="auto"
+></audio>
 
-        const countdownElement =
-            document.getElementById(
-                "countdown"
-            );
 
+<audio
+    id="tockSound"
+    src="tock.mp3"
+    preload="auto"
+></audio>
 
 
-        /* =========================
-           TIME FUNCTIONS
-        ========================= */
+<audio
+    id="hippoMusic"
+    src="hippo.wav"
+    preload="auto"
+></audio>
 
 
-        function getTimeRemaining() {
 
-            return endDate - Date.now();
+<script>
 
-        }
+/* =========================================
+   COUNTDOWN
+========================================= */
 
+const endDate =
 
-        function getDaysRemaining() {
+    new Date(
 
-            return Math.floor(
+        "2026-12-25T00:00:00-03:30"
 
-                getTimeRemaining()
+    ).getTime();
 
-                /
 
-                (
-                    1000 *
-                    60 *
-                    60 *
-                    24
-                )
+const countdown =
 
-            );
+    document.getElementById(
+        "countdown"
+    );
 
-        }
 
+function getTimeRemaining() {
 
+    return (
 
-        /* =========================
-           UPDATE COUNTDOWN
-        ========================= */
+        endDate
+        -
+        Date.now()
 
+    );
 
-        function updateCountdown() {
+}
 
-            const distance =
-                getTimeRemaining();
 
+function getDaysRemaining() {
 
-            /* Countdown finished */
+    return Math.floor(
 
-            if (distance <= 0) {
+        getTimeRemaining()
 
-                countdownElement.textContent =
-                    "0D 00H 00M 00S";
+        /
 
-                disableRadio();
+        (
+            1000 *
+            60 *
+            60 *
+            24
+        )
 
-                clockEnabled = false;
+    );
 
-                return;
-            }
+}
 
 
-            const days =
-                Math.floor(
 
-                    distance /
+/* =========================================
+   UPDATE COUNTDOWN
+========================================= */
 
-                    (
-                        1000 *
-                        60 *
-                        60 *
-                        24
-                    )
+function updateCountdown() {
 
-                );
+    const distance =
+        getTimeRemaining();
 
 
-            const hours =
-                Math.floor(
+    if (distance <= 0) {
 
-                    distance /
+        countdown.textContent =
+            "0D 00H 00M 00S";
 
-                    (
-                        1000 *
-                        60 *
-                        60
-                    )
+        return;
+    }
 
-                ) % 24;
 
+    const days =
 
-            const minutes =
-                Math.floor(
+        Math.floor(
 
-                    distance /
+            distance /
 
-                    (
-                        1000 *
-                        60
-                    )
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
 
-                ) % 60;
+        );
 
 
-            const seconds =
-                Math.floor(
+    const hours =
 
-                    distance /
-                    1000
+        Math.floor(
 
-                ) % 60;
+            distance /
 
+            (
+                1000 *
+                60 *
+                60
+            )
 
+        ) % 24;
 
-            countdownElement.textContent =
 
-                days +
+    const minutes =
 
-                "D " +
+        Math.floor(
 
-                String(hours)
-                    .padStart(2, "0") +
+            distance /
 
-                "H " +
+            (
+                1000 *
+                60
+            )
 
-                String(minutes)
-                    .padStart(2, "0") +
+        ) % 60;
 
-                "M " +
 
-                String(seconds)
-                    .padStart(2, "0") +
+    const seconds =
 
-                "S";
+        Math.floor(
 
+            distance /
+            1000
 
-            checkRadioCountdown();
+        ) % 60;
 
-        }
 
+    countdown.textContent =
 
+        days +
 
-        /* =========================
-           TICK / TOCK
-        ========================= */
+        "D " +
 
+        String(hours)
+            .padStart(2, "0") +
 
-        const tickSound =
-            document.getElementById(
-                "tickSound"
-            );
+        "H " +
 
+        String(minutes)
+            .padStart(2, "0") +
 
-        const tockSound =
-            document.getElementById(
-                "tockSound"
-            );
+        "M " +
 
+        String(seconds)
+            .padStart(2, "0") +
 
-        tickSound.volume = 0.18;
-        tockSound.volume = 0.18;
+        "S";
 
 
-        let tickNext = true;
-        let clockEnabled = false;
+    checkRadioCountdown();
 
+}
 
 
-        function playClockSound() {
 
-            if (!clockEnabled) {
-                return;
-            }
+/* =========================================
+   TICK TOCK
+========================================= */
 
+const tickSound =
+    document.getElementById(
+        "tickSound"
+    );
 
-            if (getTimeRemaining() <= 0) {
-                return;
-            }
 
+const tockSound =
+    document.getElementById(
+        "tockSound"
+    );
 
-            if (tickNext) {
 
-                tickSound.currentTime = 0;
+tickSound.volume =
+    0.15;
 
-                tickSound
-                    .play()
-                    .catch(() => {});
 
-            }
+tockSound.volume =
+    0.15;
 
-            else {
 
-                tockSound.currentTime = 0;
+let audioEnabled =
+    false;
 
-                tockSound
-                    .play()
-                    .catch(() => {});
 
-            }
+let tickNext =
+    true;
 
 
-            tickNext = !tickNext;
+function enableAudio() {
 
-        }
+    audioEnabled =
+        true;
 
+}
 
 
-        /* =========================
-           TIMER LOOP
-        ========================= */
+function playTickTock() {
 
+    if (!audioEnabled) {
+        return;
+    }
+
+
+    if (
+        getTimeRemaining()
+        <=
+        0
+    ) {
+
+        return;
+    }
+
+
+    if (tickNext) {
+
+        tickSound.currentTime = 0;
+
+        tickSound
+            .play()
+            .catch(() => {});
+
+    }
+
+    else {
+
+        tockSound.currentTime = 0;
+
+        tockSound
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    tickNext =
+        !tickNext;
+
+}
+
+
+
+updateCountdown();
+
+
+setInterval(
+
+    function() {
 
         updateCountdown();
 
+        playTickTock();
+
+    },
+
+    1000
+
+);
+
+
+document.addEventListener(
+
+    "pointerdown",
+
+    enableAudio,
+
+    {
+        once: true
+    }
+
+);
+
+
+
+/* =========================================
+   RADIO
+========================================= */
+
+const radioAudio =
+    document.getElementById(
+        "radioAudio"
+    );
+
+
+const radioImage =
+    document.getElementById(
+        "radioImage"
+    );
+
+
+const songs = [
+
+    "song1.mp3",
+    "song2.mp3",
+    "song3.mp3",
+    "song4.mp3",
+    "song5.mp3"
+
+];
+
+
+let radioOn =
+    false;
+
+
+let currentSong =
+    "";
+
+
+radioAudio.volume =
+    0.30;
+
+
+function randomSong() {
+
+    if (
+        songs.length === 0
+    ) {
+
+        return;
+    }
+
+
+    let song;
+
+
+    do {
+
+        song =
+
+            songs[
+                Math.floor(
+                    Math.random()
+                    *
+                    songs.length
+                )
+            ];
+
+    }
+
+    while (
+
+        song === currentSong
+
+        &&
+
+        songs.length > 1
+
+    );
+
+
+    currentSong =
+        song;
+
+
+    radioAudio.src =
+        song;
+
+
+    radioAudio
+        .play()
+        .catch(() => {});
+
+}
+
+
+function toggleRadio() {
+
+    enableAudio();
+
+
+    if (
+        getDaysRemaining()
+        <=
+        25
+    ) {
+
+        disableRadio();
+
+        return;
+    }
+
+
+    if (!radioOn) {
+
+        radioOn =
+            true;
+
+
+        radioImage
+            .classList
+            .add(
+                "radio-playing"
+            );
+
+
+        randomSong();
+
+    }
+
+    else {
+
+        radioOn =
+            false;
+
+
+        radioAudio.pause();
+
+
+        radioImage
+            .classList
+            .remove(
+                "radio-playing"
+            );
+
+    }
+
+}
+
+
+radioImage.addEventListener(
+
+    "click",
+
+    function(event) {
+
+        event.stopPropagation();
+
+        toggleRadio();
+
+    }
+
+);
+
+
+radioAudio.addEventListener(
+
+    "ended",
+
+    function() {
+
+        if (
+
+            radioOn
+
+            &&
+
+            getDaysRemaining() > 25
+
+        ) {
+
+            randomSong();
+
+        }
+
+    }
+
+);
+
+
+function checkRadioCountdown() {
+
+    if (
+        getDaysRemaining()
+        <=
+        25
+    ) {
+
+        disableRadio();
+
+    }
+
+}
+
+
+function disableRadio() {
+
+    radioOn =
+        false;
+
+
+    radioAudio.pause();
+
+
+    radioImage
+        .classList
+        .remove(
+            "radio-playing"
+        );
+
+
+    radioImage
+        .classList
+        .add(
+            "radio-dead"
+        );
+
+}
+
+
+
+/* =========================================
+   HIPPO EVENT
+========================================= */
+
+const hippoContainer =
+    document.getElementById(
+        "hippoContainer"
+    );
+
+
+const hippo =
+    document.getElementById(
+        "hippo"
+    );
+
+
+const hippoMusic =
+    document.getElementById(
+        "hippoMusic"
+    );
+
+
+let hippoStarted =
+    false;
+
+
+let hippoStage =
+    0;
+
+
+let hippoTimer =
+    null;
+
+
+
+/* =========================================
+   TIME CHECK
+
+   1:10 AM → 1:30 AM
+   every day
+========================================= */
+
+function checkHippoTime() {
+
+    const now =
+        new Date();
+
+
+    const hour =
+        now.getHours();
+
+
+    const minute =
+        now.getMinutes();
+
+
+    const isHippoTime =
+
+        hour === 1
+
+        &&
+
+        minute >= 10
+
+        &&
+
+        minute <= 30;
+
+
+    if (
+        isHippoTime
+        &&
+        !hippoStarted
+    ) {
+
+        hippoContainer.style.display =
+            "flex";
+
+    }
+
+    else if (
+        !isHippoTime
+        &&
+        !hippoStarted
+    ) {
+
+        hippoContainer.style.display =
+            "none";
+
+    }
+
+}
+
+
+
+checkHippoTime();
+
+
+setInterval(
+
+    checkHippoTime,
+
+    10000
+
+);
+
+
+
+/* =========================================
+   CLICK HIPPO
+========================================= */
+
+hippo.addEventListener(
+
+    "click",
+
+    function(event) {
+
+        event.stopPropagation();
+
+
+        if (hippoStarted) {
+            return;
+        }
+
+
+        hippoStarted =
+            true;
+
+
+        hippoStage =
+            0;
+
+
+        hippo.classList.add(
+            "bouncing"
+        );
+
+
+        hippoMusic.currentTime =
+            0;
+
+
+        hippoMusic.volume =
+            0.70;
+
+
+        /*
+        Let playback rate affect
+        the pitch.
+        */
+
+        hippoMusic.preservesPitch =
+            false;
+
+
+        if (
+            "webkitPreservesPitch"
+            in hippoMusic
+        ) {
+
+            hippoMusic.webkitPreservesPitch =
+                false;
+
+        }
+
+
+        hippoMusic.playbackRate =
+            1.0;
+
+
+        hippoMusic
+            .play()
+            .catch(() => {});
+
+
+        startHippoChaos();
+
+    }
+
+);
+
+
+
+/* =========================================
+   GET MORE OUT OF TUNE
+========================================= */
+
+function startHippoChaos() {
+
+    hippoTimer =
 
         setInterval(
 
             function() {
 
-                updateCountdown();
-
-                playClockSound();
-
-            },
-
-            1000
-
-        );
-
-
-
-        /* =========================
-           ENABLE AUDIO
-        ========================= */
-
-
-        /*
-            Browsers require the visitor
-            to interact with the page
-            before sound can play.
-
-            Nothing appears on screen.
-            Clicking anywhere silently
-            enables tick/tock.
-        */
-
-
-        function enableSiteAudio() {
-
-            if (clockEnabled) {
-                return;
-            }
-
-
-            clockEnabled = true;
-
-            playClockSound();
-
-        }
-
-
-        document.addEventListener(
-
-            "click",
-
-            enableSiteAudio,
-
-            {
-                once: true
-            }
-
-        );
-
-
-        document.addEventListener(
-
-            "keydown",
-
-            enableSiteAudio,
-
-            {
-                once: true
-            }
-
-        );
-
-
-
-        /* =========================
-           RADIO
-        ========================= */
-
-
-        const radioAudio =
-            document.getElementById(
-                "radioAudio"
-            );
-
-
-        const radioImage =
-            document.getElementById(
-                "radioImage"
-            );
-
-
-
-        /* =========================
-           SONGS
-        ========================= */
-
-
-        /*
-            Put all of these MP3 files
-            beside index.html.
-        */
-
-
-        const songs = [
-
-            "song1.mp3",
-            "song2.mp3",
-            "song3.mp3",
-            "song4.mp3",
-            "song5.mp3"
-
-        ];
-
-
-        let radioOn = false;
-
-        let currentSong = "";
-
-
-        radioAudio.volume = 0.35;
-
-
-
-        /* =========================
-           RANDOM SONG
-        ========================= */
-
-
-        function randomSong() {
-
-            if (songs.length === 0) {
-                return;
-            }
-
-
-            let song;
-
-
-            do {
-
-                const randomIndex =
-                    Math.floor(
-
-                        Math.random() *
-                        songs.length
-
-                    );
-
-
-                song =
-                    songs[randomIndex];
-
-            }
-
-            while (
-
-                song === currentSong
-
-                &&
-
-                songs.length > 1
-
-            );
-
-
-            currentSong = song;
-
-
-            radioAudio.src = song;
-
-
-            radioAudio
-                .play()
-                .catch(
-
-                    function(error) {
-
-                        console.log(
-                            "Radio could not play:",
-                            error
-                        );
-
-                    }
-
-                );
-
-        }
-
-
-
-        /* =========================
-           CLICK RADIO
-        ========================= */
-
-
-        function toggleRadio() {
-
-            enableSiteAudio();
-
-
-            /*
-                Radio stops working
-                once 25 days remain.
-            */
-
-            if (getDaysRemaining() <= 25) {
-
-                disableRadio();
-
-                return;
-            }
-
-
-            /* TURN ON */
-
-            if (!radioOn) {
-
-                radioOn = true;
-
-
-                radioImage
-                    .classList
-                    .add(
-                        "radio-playing"
-                    );
+                hippoStage++;
 
 
                 /*
-                    Resume the current song
-                    if it was paused.
+                Music gets more wrong.
+                */
+
+                hippoMusic.playbackRate +=
+                    0.07;
+
+
+                /*
+                Switch to faster jumping.
                 */
 
                 if (
-
-                    radioAudio.src
-
-                    &&
-
-                    radioAudio.currentTime > 0
-
+                    hippoStage >= 5
                 ) {
 
-                    radioAudio
-                        .play()
-                        .catch(() => {});
-
-                }
-
-                else {
-
-                    randomSong();
-
-                }
-
-            }
-
-
-            /* TURN OFF */
-
-            else {
-
-                radioOn = false;
-
-
-                radioAudio.pause();
-
-
-                radioImage
-                    .classList
-                    .remove(
-                        "radio-playing"
+                    hippo.classList.remove(
+                        "bouncing"
                     );
 
-            }
 
-        }
-
-
-
-        radioImage.addEventListener(
-
-            "click",
-
-            function(event) {
-
-                event.stopPropagation();
-
-                toggleRadio();
-
-            }
-
-        );
-
-
-
-        /* =========================
-           SONG ENDS
-        ========================= */
-
-
-        radioAudio.addEventListener(
-
-            "ended",
-
-            function() {
-
-                if (
-
-                    radioOn
-
-                    &&
-
-                    getDaysRemaining() > 25
-
-                ) {
-
-                    randomSong();
+                    hippo.classList.add(
+                        "crazy"
+                    );
 
                 }
 
-            }
+
+                /*
+                Eventually disappear.
+                */
+
+                if (
+                    hippoStage >= 12
+                ) {
+
+                    clearInterval(
+                        hippoTimer
+                    );
+
+
+                    disappearHippo();
+
+                }
+
+            },
+
+            850
 
         );
 
-
-
-        /* =========================
-           25 DAYS REMAINING
-        ========================= */
-
-
-        function checkRadioCountdown() {
-
-            if (getDaysRemaining() <= 25) {
-
-                disableRadio();
-
-            }
-
-        }
+}
 
 
 
-        function disableRadio() {
+/* =========================================
+   DISAPPEAR
+========================================= */
 
-            radioOn = false;
+function disappearHippo() {
 
-
-            radioAudio.pause();
-
-
-            radioImage
-                .classList
-                .remove(
-                    "radio-playing"
-                );
+    hippo.classList.remove(
+        "bouncing"
+    );
 
 
-            radioImage
-                .classList
-                .add(
-                    "radio-dead"
-                );
-
-        }
+    hippo.classList.remove(
+        "crazy"
+    );
 
 
+    hippo.classList.add(
+        "disappear"
+    );
 
-        checkRadioCountdown();
 
-    </script>
+    hippoMusic.playbackRate =
+        1.9;
+
+
+    setTimeout(
+
+        function() {
+
+            hippoMusic.pause();
+
+
+            hippoContainer.style.display =
+                "none";
+
+        },
+
+        600
+
+    );
+
+}
+
+
+
+/* =========================================
+   RANDOM MESSAGES
+========================================= */
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+const messages = [
+
+    "STAY TUNED",
+
+    "NO RESPONSE",
+
+    "PLEASE WAIT",
+
+    "DO NOT ADJUST",
+
+    "RECEIVING",
+
+    "..."
+
+];
+
+
+function showRandomMessage() {
+
+    if (
+        Math.random() > 0.50
+    ) {
+
+        return;
+
+    }
+
+
+    message.textContent =
+
+        messages[
+            Math.floor(
+                Math.random()
+                *
+                messages.length
+            )
+        ];
+
+
+    message.classList.add(
+        "visible"
+    );
+
+
+    setTimeout(
+
+        function() {
+
+            message.classList.remove(
+                "visible"
+            );
+
+        },
+
+        2500
+
+    );
+
+}
+
+
+setInterval(
+
+    showRandomMessage,
+
+    6000
+
+);
+
+
+
+/* =========================================
+   START
+========================================= */
+
+checkRadioCountdown();
+
+</script>
 
 
 </body>
