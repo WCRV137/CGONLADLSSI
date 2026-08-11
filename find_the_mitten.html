@@ -42,8 +42,6 @@ body {
 
     display: flex;
 
-    flex-shrink: 0;
-
     overflow: hidden;
 
     background: black;
@@ -52,6 +50,7 @@ body {
 
 /* ========================================
    LEFT GAME
+   640 x 540
 ======================================== */
 
 #gameSide {
@@ -63,8 +62,6 @@ body {
     flex: 0 0 640px;
 
     overflow: hidden;
-
-    cursor: crosshair;
 
     background: black;
 }
@@ -82,11 +79,17 @@ body {
     width: 640px;
     height: 540px;
 
-    background-image: url("background.jpg");
+    background-image:
+        url("background.jpg");
 
-    background-size: 640px 540px;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size:
+        640px 540px;
+
+    background-position:
+        center;
+
+    background-repeat:
+        no-repeat;
 
     z-index: 1;
 }
@@ -99,38 +102,37 @@ body {
 #flowers {
     position: absolute;
 
-    left: 0;
-    top: 0;
+    inset: 0;
 
     width: 640px;
     height: 540px;
 
     object-fit: fill;
 
-    user-select: none;
     pointer-events: none;
+
+    user-select: none;
 
     z-index: 10;
 }
 
 
 /* ========================================
-   REVEAL AREA
-
-   This is the flower-free view.
+   CLEAN REVEAL AREA
 ======================================== */
 
 #reveal {
     position: absolute;
 
-    width: 150px;
-    height: 150px;
+    width: 145px;
+    height: 145px;
 
     border-radius: 50%;
 
     overflow: hidden;
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%);
 
     pointer-events: none;
 
@@ -140,7 +142,9 @@ body {
 }
 
 
-/* clean background */
+/* ========================================
+   CLEAN BACKGROUND INSIDE GLASS
+======================================== */
 
 #revealBackground {
     position: absolute;
@@ -151,49 +155,52 @@ body {
     left: 0;
     top: 0;
 
-    background-image: url("background.jpg");
+    background-image:
+        url("background.jpg");
 
-    background-size: 640px 540px;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+    background-size:
+        640px 540px;
 
+    background-position:
+        center;
 
-/* hidden object */
-
-#revealObject {
-    position: absolute;
-
-    height: auto;
-
-    user-select: none;
-    pointer-events: none;
+    background-repeat:
+        no-repeat;
 }
 
 
 /* ========================================
-   MAGNIFYING GLASS
+   HIDDEN OBJECT INSIDE GLASS
+======================================== */
+
+#revealObject {
+    position: absolute;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* ========================================
+   MAGNIFYING GLASS PNG
 ======================================== */
 
 #glass {
     position: absolute;
 
-    width: 165px;
-    height: 165px;
+    width: 210px;
+    height: auto;
 
-    border-radius: 50%;
+    transform:
+        translate(-50%, -50%);
 
-    border: 6px solid rgba(235, 235, 225, 0.95);
-
-    background: rgba(190, 210, 220, 0.08);
-
-    box-shadow:
-        0 0 15px rgba(0, 0, 0, 0.8),
-        inset 0 0 15px rgba(255, 255, 255, 0.25);
-
-    transform: translate(-50%, -50%);
+    transform-origin:
+        center;
 
     pointer-events: none;
+
+    user-select: none;
 
     display: none;
 
@@ -201,31 +208,9 @@ body {
 }
 
 
-/* handle */
-
-#glass::after {
-    content: "";
-
-    position: absolute;
-
-    width: 20px;
-    height: 85px;
-
-    right: -38px;
-    bottom: -62px;
-
-    background: #443026;
-
-    border-radius: 7px;
-
-    transform: rotate(-45deg);
-
-    transform-origin: top;
-}
-
-
 /* ========================================
    NPC SIDE
+   320 x 540
 ======================================== */
 
 #npcSide {
@@ -256,8 +241,8 @@ body {
     background:
         radial-gradient(
             circle at center,
-            rgba(60, 60, 60, 0.18),
-            rgba(0, 0, 0, 0.9)
+            rgba(60,60,60,0.18),
+            rgba(0,0,0,0.9)
         );
 
     pointer-events: none;
@@ -274,21 +259,23 @@ body {
     z-index: 5;
 
     width: 310px;
-    height: auto;
 
     max-width: 100%;
     max-height: 530px;
 
     object-fit: contain;
-    object-position: bottom center;
+
+    object-position:
+        bottom center;
+
+    pointer-events: none;
 
     user-select: none;
-    pointer-events: none;
 
     filter:
         drop-shadow(
             0 6px 14px
-            rgba(0, 0, 0, 0.85)
+            rgba(0,0,0,0.85)
         );
 }
 
@@ -306,7 +293,8 @@ body {
     width: 2px;
     height: 540px;
 
-    background: rgba(255, 255, 255, 0.15);
+    background:
+        rgba(255,255,255,0.15);
 
     pointer-events: none;
 
@@ -315,7 +303,7 @@ body {
 
 
 /* ========================================
-   ROUND FADE
+   FADE
 ======================================== */
 
 #fade {
@@ -329,7 +317,8 @@ body {
 
     pointer-events: none;
 
-    transition: opacity 0.65s ease;
+    transition:
+        opacity 0.65s ease;
 
     z-index: 500;
 }
@@ -341,7 +330,7 @@ body {
 
 
 /* ========================================
-   1964 PNG FLASH
+   1964 FLASH
 ======================================== */
 
 #flash1964 {
@@ -369,8 +358,9 @@ body {
 
     object-fit: cover;
 
-    user-select: none;
     pointer-events: none;
+
+    user-select: none;
 }
 
 
@@ -381,25 +371,26 @@ body {
 @media (max-width: 960px) {
 
     #layout {
-        transform: scale(0.8);
+        transform:
+            scale(0.8);
     }
 
 }
-
 
 @media (max-width: 780px) {
 
     #layout {
-        transform: scale(0.65);
+        transform:
+            scale(0.65);
     }
 
 }
 
-
 @media (max-width: 620px) {
 
     #layout {
-        transform: scale(0.5);
+        transform:
+            scale(0.5);
     }
 
 }
@@ -415,12 +406,9 @@ body {
 <div id="layout">
 
 
-    <!-- ===============================
-         LEFT GAME
-    ================================ -->
+    <!-- LEFT GAME -->
 
     <div id="gameSide">
-
 
         <div id="background"></div>
 
@@ -433,12 +421,13 @@ body {
         >
 
 
-        <!-- FLOWERS DISAPPEAR HERE -->
+        <!-- flower-free view -->
 
         <div id="reveal">
 
-
-            <div id="revealBackground"></div>
+            <div
+                id="revealBackground"
+            ></div>
 
 
             <img
@@ -448,31 +437,29 @@ body {
                 draggable="false"
             >
 
-
         </div>
 
 
-        <div id="glass"></div>
+        <!-- REAL PNG MAGNIFYING GLASS -->
 
+        <img
+            id="glass"
+            src="magnifyingglass.png"
+            alt=""
+            draggable="false"
+        >
 
     </div>
 
 
 
-    <!-- ===============================
-         DIVIDER
-    ================================ -->
-
     <div id="divider"></div>
 
 
 
-    <!-- ===============================
-         NPC
-    ================================ -->
+    <!-- NPC -->
 
     <div id="npcSide">
-
 
         <img
             id="npc"
@@ -481,35 +468,23 @@ body {
             draggable="false"
         >
 
-
     </div>
 
 
-
-    <!-- ===============================
-         FADE
-    ================================ -->
 
     <div id="fade"></div>
 
 
 
-    <!-- ===============================
-         FINAL 1964 IMAGE
-
-         IMPORTANT:
-         THIS IS A PNG
-    ================================ -->
+    <!-- FINAL IMAGE -->
 
     <div id="flash1964">
-
 
         <img
             src="1964.png"
             alt=""
             draggable="false"
         >
-
 
     </div>
 
@@ -526,8 +501,7 @@ body {
 ></audio>
 
 
-
-<!-- DAISY MUSIC -->
+<!-- BACKGROUND MUSIC -->
 
 <audio
     id="backgroundMusic"
@@ -545,97 +519,135 @@ body {
 ======================================== */
 
 const gameSide =
-    document.getElementById("gameSide");
+    document.getElementById(
+        "gameSide"
+    );
 
 
 const reveal =
-    document.getElementById("reveal");
+    document.getElementById(
+        "reveal"
+    );
 
 
 const revealBackground =
-    document.getElementById("revealBackground");
+    document.getElementById(
+        "revealBackground"
+    );
 
 
 const revealObject =
-    document.getElementById("revealObject");
+    document.getElementById(
+        "revealObject"
+    );
 
 
 const glass =
-    document.getElementById("glass");
+    document.getElementById(
+        "glass"
+    );
 
 
 const fade =
-    document.getElementById("fade");
+    document.getElementById(
+        "fade"
+    );
 
 
 const flash1964 =
-    document.getElementById("flash1964");
+    document.getElementById(
+        "flash1964"
+    );
 
 
 const voiceAudio =
-    document.getElementById("voiceAudio");
+    document.getElementById(
+        "voiceAudio"
+    );
 
 
 const backgroundMusic =
-    document.getElementById("backgroundMusic");
+    document.getElementById(
+        "backgroundMusic"
+    );
 
 
 
 /* ========================================
-   ROUNDS
+   ROUND SETTINGS
 ======================================== */
 
 const rounds = [
 
-
-    /* MITTEN */
-
     {
-        object: "mitten.png",
+        object:
+            "mitten.png",
 
-        voice: "mitten.wav",
+        voice:
+            "mitten.wav",
 
-        startDistortion: 0,
+        startDistortion:
+            0,
 
-        x: 155,
-        y: 320,
+        centerX:
+            200,
 
-        width: 85,
-        height: 85
+        centerY:
+            360,
+
+        width:
+            85,
+
+        height:
+            85
     },
 
 
-    /* LANTERN */
-
     {
-        object: "lantern.png",
+        object:
+            "lantern.png",
 
-        voice: "lantern.wav",
+        voice:
+            "lantern.wav",
 
-        startDistortion: 20,
+        startDistortion:
+            20,
 
-        x: 420,
-        y: 190,
+        centerX:
+            465,
 
-        width: 95,
-        height: 120
+        centerY:
+            250,
+
+        width:
+            95,
+
+        height:
+            120
     },
 
 
-    /* CAR */
-
     {
-        object: "car.png",
+        object:
+            "car.png",
 
-        voice: "car.wav",
+        voice:
+            "car.wav",
 
-        startDistortion: 45,
+        startDistortion:
+            45,
 
-        x: 245,
-        y: 300,
+        centerX:
+            335,
 
-        width: 180,
-        height: 100
+        centerY:
+            350,
+
+        width:
+            180,
+
+        height:
+            100
     }
 
 ];
@@ -646,48 +658,44 @@ const rounds = [
    VARIABLES
 ======================================== */
 
-let currentRound = 0;
+let currentRound =
+    0;
 
 
-let roundChanging = false;
+let roundChanging =
+    false;
 
 
-let glassActive = false;
+let glassActive =
+    false;
 
 
-let glassX = 0;
+let glassX =
+    0;
 
 
-let glassY = 0;
+let glassY =
+    0;
 
 
-let audioUnlocked = false;
+let audioUnlocked =
+    false;
 
 
-let voiceTimer = null;
+let voiceTimer =
+    null;
 
 
-/*
-NPC starts repeating every
-2 seconds.
-*/
-
-let repeatDelay = 2000;
+let repeatDelay =
+    2000;
 
 
-/*
-Gets stronger every repetition.
-*/
-
-let distortionAmount = 0;
+let distortionAmount =
+    0;
 
 
-/*
-Daisy always stays at the
-same volume.
-*/
-
-const MUSIC_VOLUME = 0.18;
+const MUSIC_VOLUME =
+    0.18;
 
 
 
@@ -695,13 +703,20 @@ const MUSIC_VOLUME = 0.18;
    WEB AUDIO
 ======================================== */
 
-let audioContext = null;
+let audioContext =
+    null;
 
-let voiceSource = null;
 
-let distortion = null;
+let voiceSource =
+    null;
 
-let voiceGain = null;
+
+let distortion =
+    null;
+
+
+let voiceGain =
+    null;
 
 
 
@@ -720,35 +735,37 @@ function setupAudioGraph() {
 
 
     audioContext =
+
         new (
-            window.AudioContext ||
+
+            window.AudioContext
+
+            ||
+
             window.webkitAudioContext
+
         )();
 
 
     voiceSource =
-        audioContext.createMediaElementSource(
-            voiceAudio
-        );
+
+        audioContext
+            .createMediaElementSource(
+                voiceAudio
+            );
 
 
     distortion =
-        audioContext.createWaveShaper();
+
+        audioContext
+            .createWaveShaper();
 
 
     voiceGain =
-        audioContext.createGain();
 
+        audioContext
+            .createGain();
 
-    /*
-    Voice
-       ↓
-    Distortion
-       ↓
-    Gain
-       ↓
-    Speakers
-    */
 
     voiceSource.connect(
         distortion
@@ -783,7 +800,8 @@ function setupAudioGraph() {
 function makeDistortionCurve(amount) {
 
 
-    const samples = 44100;
+    const samples =
+        44100;
 
 
     const curve =
@@ -866,20 +884,34 @@ function loadRound(index) {
         rounds[index];
 
 
-    /*
-    Change hidden item.
-    */
+    const objectLeft =
+
+        round.centerX
+
+        -
+
+        round.width / 2;
+
+
+    const objectTop =
+
+        round.centerY
+
+        -
+
+        round.height / 2;
+
 
     revealObject.src =
         round.object;
 
 
     revealObject.style.left =
-        round.x + "px";
+        objectLeft + "px";
 
 
     revealObject.style.top =
-        round.y + "px";
+        objectTop + "px";
 
 
     revealObject.style.width =
@@ -887,20 +919,12 @@ function loadRound(index) {
 
 
     revealObject.style.height =
-        "auto";
+        round.height + "px";
 
 
-    /*
-    Reset repetition timer.
-    */
+    repeatDelay =
+        2000;
 
-    repeatDelay = 2000;
-
-
-    /*
-    Each round can start
-    slightly more distorted.
-    */
 
     distortionAmount =
         round.startDistortion;
@@ -910,11 +934,6 @@ function loadRound(index) {
         voiceTimer
     );
 
-
-    /*
-    Automatically talk
-    when next round starts.
-    */
 
     if (audioUnlocked) {
 
@@ -944,7 +963,7 @@ function loadRound(index) {
 
 
 /* ========================================
-   PLAY NPC VOICE
+   PLAY VOICE
 ======================================== */
 
 function playVoice() {
@@ -976,40 +995,26 @@ function playVoice() {
     }
 
 
-    /*
-    Restart voice line.
-    */
-
     voiceAudio.pause();
 
 
-    voiceAudio.currentTime = 0;
+    voiceAudio.currentTime =
+        0;
 
 
     voiceAudio.src =
         round.voice;
 
 
-    /*
-    NORMAL PITCH + SPEED
-    */
+    voiceAudio.playbackRate =
+        1.0;
 
-    voiceAudio.playbackRate = 1.0;
-
-
-    /*
-    Apply distortion.
-    */
 
     distortion.curve =
+
         makeDistortionCurve(
             distortionAmount
         );
-
-
-    /*
-    Daisy volume is NOT changed.
-    */
 
 
     voiceAudio
@@ -1035,7 +1040,7 @@ function playVoice() {
 
 
 /* ========================================
-   REPEAT VOICE
+   VOICE REPEAT
 ======================================== */
 
 function startVoiceReminder() {
@@ -1051,15 +1056,11 @@ function startVoiceReminder() {
 
 
     voiceTimer =
+
         setTimeout(
 
             function() {
 
-
-                /*
-                Stop if the round
-                changed.
-                */
 
                 if (
 
@@ -1079,11 +1080,8 @@ function startVoiceReminder() {
                 }
 
 
-                /*
-                MORE DISTORTED
-                */
-
-                distortionAmount += 12;
+                distortionAmount +=
+                    12;
 
 
                 if (
@@ -1091,24 +1089,18 @@ function startVoiceReminder() {
                 ) {
 
 
-                    distortionAmount = 120;
+                    distortionAmount =
+                        120;
 
 
                 }
 
 
-                /*
-                Talk again.
-                */
-
                 playVoice();
 
 
-                /*
-                REPEAT FASTER
-                */
-
-                repeatDelay -= 150;
+                repeatDelay -=
+                    150;
 
 
                 if (
@@ -1116,15 +1108,12 @@ function startVoiceReminder() {
                 ) {
 
 
-                    repeatDelay = 700;
+                    repeatDelay =
+                        700;
 
 
                 }
 
-
-                /*
-                Schedule another.
-                */
 
                 startVoiceReminder();
 
@@ -1153,7 +1142,8 @@ function unlockAudio() {
     }
 
 
-    audioUnlocked = true;
+    audioUnlocked =
+        true;
 
 
     setupAudioGraph();
@@ -1170,10 +1160,6 @@ function unlockAudio() {
 
     }
 
-
-    /*
-    Start Daisy.
-    */
 
     backgroundMusic.volume =
         MUSIC_VOLUME;
@@ -1198,10 +1184,6 @@ function unlockAudio() {
         );
 
 
-    /*
-    Start NPC.
-    */
-
     playVoice();
 
 
@@ -1210,11 +1192,6 @@ function unlockAudio() {
 }
 
 
-
-/*
-Browsers require an interaction
-before sound can normally start.
-*/
 
 document.addEventListener(
 
@@ -1244,32 +1221,35 @@ document.addEventListener(
 
 
 /* ========================================
-   MOVE MAGNIFYING GLASS
+   MOVE GLASS
 ======================================== */
 
 function moveGlass(event) {
 
 
     const rect =
-        gameSide.getBoundingClientRect();
 
+        gameSide
+            .getBoundingClientRect();
 
-    /*
-    Account for responsive scaling.
-    */
 
     const scaleX =
-        640 / rect.width;
+
+        640 /
+        rect.width;
 
 
     const scaleY =
-        540 / rect.height;
+
+        540 /
+        rect.height;
 
 
     const localX =
 
         (
-            event.clientX -
+            event.clientX
+            -
             rect.left
         )
 
@@ -1281,7 +1261,8 @@ function moveGlass(event) {
     const localY =
 
         (
-            event.clientY -
+            event.clientY
+            -
             rect.top
         )
 
@@ -1289,10 +1270,6 @@ function moveGlass(event) {
 
         scaleY;
 
-
-    /*
-    Ignore outside game.
-    */
 
     if (
 
@@ -1319,14 +1296,17 @@ function moveGlass(event) {
     }
 
 
-    glassX = localX;
+    glassX =
+        localX;
 
 
-    glassY = localY;
+    glassY =
+        localY;
+
 
 
     /*
-    Move glass border.
+    Move PNG glass.
     */
 
     glass.style.left =
@@ -1338,7 +1318,7 @@ function moveGlass(event) {
 
 
     /*
-    Move flower-free reveal.
+    Move clear reveal circle.
     */
 
     reveal.style.left =
@@ -1350,21 +1330,27 @@ function moveGlass(event) {
 
 
     const halfX =
-        reveal.offsetWidth / 2;
+
+        reveal.offsetWidth /
+        2;
 
 
     const halfY =
-        reveal.offsetHeight / 2;
+
+        reveal.offsetHeight /
+        2;
+
 
 
     /*
-    Keep background aligned.
+    Keep clean background aligned.
     */
 
     revealBackground.style.left =
 
         (
-            -localX +
+            -localX
+            +
             halfX
         )
 
@@ -1376,7 +1362,8 @@ function moveGlass(event) {
     revealBackground.style.top =
 
         (
-            -localY +
+            -localY
+            +
             halfY
         )
 
@@ -1386,7 +1373,7 @@ function moveGlass(event) {
 
 
     /*
-    Keep hidden item aligned.
+    Keep object aligned.
     */
 
     revealObject.style.transform =
@@ -1396,7 +1383,8 @@ function moveGlass(event) {
         +
 
         (
-            -localX +
+            -localX
+            +
             halfX
         )
 
@@ -1407,7 +1395,8 @@ function moveGlass(event) {
         +
 
         (
-            -localY +
+            -localY
+            +
             halfY
         )
 
@@ -1420,7 +1409,7 @@ function moveGlass(event) {
 
 
 /* ========================================
-   USE MAGNIFYING GLASS
+   START USING GLASS
 ======================================== */
 
 gameSide.addEventListener(
@@ -1437,13 +1426,9 @@ gameSide.addEventListener(
         }
 
 
-        glassActive = true;
+        glassActive =
+            true;
 
-
-        /*
-        Flowers visually disappear
-        inside this circle.
-        */
 
         reveal.style.display =
             "block";
@@ -1490,13 +1475,6 @@ document.addEventListener(
         );
 
 
-        /*
-        Also check while moving,
-        so you can actually search
-        with the glass instead of
-        needing to click directly.
-        */
-
         checkObjectFound();
 
 
@@ -1517,7 +1495,8 @@ document.addEventListener(
     function() {
 
 
-        glassActive = false;
+        glassActive =
+            false;
 
 
         reveal.style.display =
@@ -1535,7 +1514,7 @@ document.addEventListener(
 
 
 /* ========================================
-   CHECK HIDDEN OBJECT
+   CHECK OBJECT CENTER
 ======================================== */
 
 function checkObjectFound() {
@@ -1552,51 +1531,48 @@ function checkObjectFound() {
         rounds[currentRound];
 
 
-    const left =
-        round.x;
+    const distanceX =
+
+        glassX
+
+        -
+
+        round.centerX;
 
 
-    const right =
-        round.x +
-        round.width;
+    const distanceY =
+
+        glassY
+
+        -
+
+        round.centerY;
 
 
-    const top =
-        round.y;
+    const distance =
 
+        Math.sqrt(
 
-    const bottom =
-        round.y +
-        round.height;
+            distanceX
+            *
+            distanceX
+
+            +
+
+            distanceY
+            *
+            distanceY
+
+        );
 
 
     /*
-    Makes detection slightly easier.
+    The lens needs to be near
+    the middle of the item.
     */
 
-    const padding = 30;
-
-
     if (
-
-        glassX >=
-        left - padding
-
-        &&
-
-        glassX <=
-        right + padding
-
-        &&
-
-        glassY >=
-        top - padding
-
-        &&
-
-        glassY <=
-        bottom + padding
-
+        distance < 40
     ) {
 
 
@@ -1610,7 +1586,7 @@ function checkObjectFound() {
 
 
 /* ========================================
-   OBJECT FOUND
+   FOUND OBJECT
 ======================================== */
 
 function objectFound() {
@@ -1623,12 +1599,9 @@ function objectFound() {
     }
 
 
-    roundChanging = true;
+    roundChanging =
+        true;
 
-
-    /*
-    Stop current NPC repetition.
-    */
 
     clearTimeout(
         voiceTimer
@@ -1638,11 +1611,8 @@ function objectFound() {
     voiceAudio.pause();
 
 
-    /*
-    Hide glass.
-    */
-
-    glassActive = false;
+    glassActive =
+        false;
 
 
     reveal.style.display =
@@ -1654,9 +1624,7 @@ function objectFound() {
 
 
     /*
-    ================================
-    FINAL CAR
-    ================================
+    CAR FOUND
     */
 
     if (
@@ -1675,12 +1643,6 @@ function objectFound() {
 
     }
 
-
-    /*
-    ================================
-    NEXT ROUND
-    ================================
-    */
 
     fade.classList.add(
         "active"
@@ -1710,7 +1672,8 @@ function objectFound() {
                     );
 
 
-                    roundChanging = false;
+                    roundChanging =
+                        false;
 
 
                 },
@@ -1731,7 +1694,7 @@ function objectFound() {
 
 
 /* ========================================
-   CAR ENDING
+   FINAL CAR ENDING
 ======================================== */
 
 function finishGame() {
@@ -1745,7 +1708,8 @@ function finishGame() {
     voiceAudio.pause();
 
 
-    glassActive = false;
+    glassActive =
+        false;
 
 
     reveal.style.display =
@@ -1757,9 +1721,7 @@ function finishGame() {
 
 
     /*
-    ===================================
-    SHOW 1964.PNG
-    ===================================
+    Show 1964.png.
     */
 
     flash1964.style.display =
@@ -1767,23 +1729,19 @@ function finishGame() {
 
 
     /*
-    Daisy continues underneath.
+    Daisy continues playing.
     */
 
 
     /*
-    Show the image for 1 second.
+    Return to index.html
+    after 1 second.
     */
 
     setTimeout(
 
         function() {
 
-
-            /*
-            Return to your main
-            countdown page.
-            */
 
             window.location.href =
                 "index.html";
@@ -1800,7 +1758,7 @@ function finishGame() {
 
 
 /* ========================================
-   START GAME
+   START
 ======================================== */
 
 loadRound(0);
