@@ -2,12 +2,21 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>CGONLADLSSI</title>
 
 <style>
+
+/* =========================================
+   PAGE
+========================================= */
 
 * {
     box-sizing: border-box;
@@ -32,7 +41,7 @@ body {
 
 
 /* =========================================
-   CENTER COUNTDOWN
+   COUNTDOWN
 ========================================= */
 
 #centerArea {
@@ -59,7 +68,6 @@ body {
         );
 
     letter-spacing: 4px;
-
     white-space: nowrap;
 
     text-shadow:
@@ -172,8 +180,6 @@ body {
 }
 
 
-/* stronger glitch */
-
 #radioArea.big-glitch {
     filter:
         contrast(2.5)
@@ -186,7 +192,7 @@ body {
 
 
 /* =========================================
-   RADIO GETS HIT
+   RADIO HIT
 ========================================= */
 
 #radioArea.hit {
@@ -261,12 +267,6 @@ body {
 #tvStaticGif {
     position: absolute;
 
-    /*
-    Adjust these if static.gif
-    doesn't line up perfectly
-    with the screen in tv.png.
-    */
-
     left: 37px;
     top: 34px;
 
@@ -278,6 +278,59 @@ body {
     z-index: 1;
 
     pointer-events: none;
+}
+
+
+/* =========================================
+   HIPPO INSIDE TV
+========================================= */
+
+#tvHippo {
+    position: absolute;
+
+    left: 37px;
+    top: 34px;
+
+    width: 165px;
+    height: 115px;
+
+    object-fit: contain;
+
+    display: none;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    transform-origin:
+        bottom center;
+}
+
+
+#tvHippo.tv-bouncing {
+    display: block;
+
+    animation:
+        tvHippoBounce
+        0.45s
+        infinite
+        ease-in-out;
+}
+
+
+@keyframes tvHippoBounce {
+
+    0%,
+    100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-25px);
+    }
+
 }
 
 
@@ -355,8 +408,6 @@ body {
 }
 
 
-/* TV stays */
-
 #tvArea.finished {
     display: block;
 
@@ -388,29 +439,19 @@ body {
         width: 130px;
     }
 
-
-    #tvArea {
-        right: 10px;
-        bottom: 10px;
-
-        transform-origin:
-            bottom right;
-
-        scale: 0.7;
-    }
-
 }
 
 </style>
+
 </head>
 
 
 <body>
 
 
-<!-- ======================================
+<!-- =========================================
      COUNTDOWN
-====================================== -->
+========================================= -->
 
 <div id="centerArea">
 
@@ -421,9 +462,10 @@ body {
 </div>
 
 
-<!-- ======================================
+
+<!-- =========================================
      RADIO
-====================================== -->
+========================================= -->
 
 <div id="radioArea">
 
@@ -437,13 +479,12 @@ body {
 </div>
 
 
-<!-- ======================================
+
+<!-- =========================================
      TV
-====================================== -->
+========================================= -->
 
 <div id="tvArea">
-
-    <!-- STATIC GIF -->
 
     <img
         id="tvStaticGif"
@@ -452,7 +493,14 @@ body {
         draggable="false"
     >
 
-    <!-- TV FRAME -->
+
+    <img
+        id="tvHippo"
+        src="hippo.png"
+        alt=""
+        draggable="false"
+    >
+
 
     <img
         id="tvImage"
@@ -464,9 +512,10 @@ body {
 </div>
 
 
-<!-- ======================================
+
+<!-- =========================================
      AUDIO
-====================================== -->
+========================================= -->
 
 <audio
     id="radioAudio"
@@ -524,6 +573,14 @@ body {
 ></audio>
 
 
+<audio
+    id="hippoMusic"
+    src="hippo.wav"
+    preload="auto"
+></audio>
+
+
+
 <script>
 
 /* =========================================
@@ -549,12 +606,15 @@ function updateCountdown() {
         Date.now();
 
 
-    if (distance <= 0) {
+    if (
+        distance <= 0
+    ) {
 
         countdown.textContent =
             "0D 00H 00M 00S";
 
         return;
+
     }
 
 
@@ -593,30 +653,35 @@ function updateCountdown() {
         "D " +
 
         String(hours)
-            .padStart(2,"0") +
+            .padStart(2,"0")
+
+        +
 
         "H " +
 
         String(minutes)
-            .padStart(2,"0") +
+            .padStart(2,"0")
+
+        +
 
         "M " +
 
         String(seconds)
-            .padStart(2,"0") +
+            .padStart(2,"0")
+
+        +
 
         "S";
 
 }
 
 
+
 /* =========================================
    SPECIAL EVENT
-
-   AUGUST 17, 2026
+   AUGUST 17 2026
    11:30 PM NEWFOUNDLAND
-
-   LASTS 2 MINUTES
+   2 MINUTES
 ========================================= */
 
 const EVENT_TIME =
@@ -629,8 +694,9 @@ const EVENT_DURATION =
     2 * 60 * 1000;
 
 
+
 /* =========================================
-   NEW SAVE KEYS
+   SAVE KEYS
 ========================================= */
 
 const EVENT_STARTED_KEY =
@@ -643,6 +709,11 @@ const EVENT_START_TIME_KEY =
 
 const EVENT_FINISHED_KEY =
     "CGONLADLSSI_1130_FINISHED";
+
+
+const TV_HIPPO_KEY =
+    "CGONLADLSSI_TV_HIPPO_DATE";
+
 
 
 /* =========================================
@@ -673,9 +744,27 @@ const tvArea =
     );
 
 
+const tvStaticGif =
+    document.getElementById(
+        "tvStaticGif"
+    );
+
+
+const tvHippo =
+    document.getElementById(
+        "tvHippo"
+    );
+
+
 const staticMusic =
     document.getElementById(
         "staticMusic"
+    );
+
+
+const hippoMusic =
+    document.getElementById(
+        "hippoMusic"
     );
 
 
@@ -697,8 +786,9 @@ const tockSound =
     );
 
 
+
 /* =========================================
-   AUDIO UNLOCK
+   AUDIO
 ========================================= */
 
 let audioUnlocked =
@@ -711,28 +801,32 @@ function unlockAudio() {
         true;
 
 
-    /*
-    Event already finished:
-    allow TV static music.
-    */
-
     if (
         localStorage.getItem(
             EVENT_FINISHED_KEY
         ) === "yes"
     ) {
 
-        startStaticMusic();
+        if (tvHippoRunning) {
+
+            startHippoMusic();
+
+        }
+
+        else {
+
+            startStaticMusic();
+
+        }
+
     }
 
 
-    /*
-    Event running:
-    ensure radio song can play.
-    */
-
     if (
-        specialEventRunning &&
+        specialEventRunning
+
+        &&
+
         radioAudio.paused
     ) {
 
@@ -741,31 +835,42 @@ function unlockAudio() {
 
 
         randomSong();
+
     }
 
 }
 
 
+
 document.addEventListener(
+
     "pointerdown",
+
     unlockAudio,
+
     {
         once: true
     }
+
 );
 
 
 document.addEventListener(
+
     "keydown",
+
     unlockAudio,
+
     {
         once: true
     }
+
 );
+
 
 
 /* =========================================
-   TICK / TOCK
+   TICK TOCK
 ========================================= */
 
 tickSound.volume =
@@ -808,8 +913,9 @@ function playTickTock() {
 }
 
 
+
 /* =========================================
-   RADIO SONGS
+   RADIO
 ========================================= */
 
 const songs = [
@@ -835,19 +941,7 @@ radioAudio.volume =
     0.30;
 
 
-/* =========================================
-   RANDOM SONG
-========================================= */
-
 function randomSong() {
-
-    if (
-        songs.length === 0
-    ) {
-
-        return;
-    }
-
 
     let song;
 
@@ -865,7 +959,10 @@ function randomSong() {
     }
 
     while (
-        song === currentSong &&
+        song === currentSong
+
+        &&
+
         songs.length > 1
     );
 
@@ -893,25 +990,17 @@ function randomSong() {
 }
 
 
-/* =========================================
-   RADIO CLICK
-========================================= */
 
 function toggleRadio() {
 
-    /*
-    Radio cannot be manually controlled
-    during special event.
-    */
+    if (
+        specialEventRunning
+    ) {
 
-    if (specialEventRunning) {
         return;
+
     }
 
-
-    /*
-    Radio is gone after event.
-    */
 
     if (
         localStorage.getItem(
@@ -920,6 +1009,7 @@ function toggleRadio() {
     ) {
 
         return;
+
     }
 
 
@@ -929,9 +1019,11 @@ function toggleRadio() {
             true;
 
 
-        radioImage.classList.add(
-            "radio-playing"
-        );
+        radioImage
+            .classList
+            .add(
+                "radio-playing"
+            );
 
 
         randomSong();
@@ -947,16 +1039,20 @@ function toggleRadio() {
         radioAudio.pause();
 
 
-        radioImage.classList.remove(
-            "radio-playing"
-        );
+        radioImage
+            .classList
+            .remove(
+                "radio-playing"
+            );
 
     }
 
 }
 
 
+
 radioImage.addEventListener(
+
     "click",
 
     function(event) {
@@ -969,33 +1065,41 @@ radioImage.addEventListener(
 
 
         toggleRadio();
+
     }
+
 );
 
 
-/* next song */
 
 radioAudio.addEventListener(
+
     "ended",
 
     function() {
 
         if (
-            radioOn &&
+            radioOn
+
+            &&
+
             localStorage.getItem(
                 EVENT_FINISHED_KEY
             ) !== "yes"
         ) {
 
             randomSong();
+
         }
 
     }
+
 );
 
 
+
 /* =========================================
-   STATIC TV MUSIC
+   STATIC MUSIC
 ========================================= */
 
 function startStaticMusic() {
@@ -1003,6 +1107,9 @@ function startStaticMusic() {
     if (!audioUnlocked) {
         return;
     }
+
+
+    hippoMusic.pause();
 
 
     radioAudio.pause();
@@ -1021,6 +1128,37 @@ function startStaticMusic() {
         .catch(() => {});
 
 }
+
+
+
+/* =========================================
+   HIPPO MUSIC
+========================================= */
+
+function startHippoMusic() {
+
+    if (!audioUnlocked) {
+        return;
+    }
+
+
+    staticMusic.pause();
+
+
+    hippoMusic.currentTime =
+        0;
+
+
+    hippoMusic.volume =
+        0.65;
+
+
+    hippoMusic
+        .play()
+        .catch(() => {});
+
+}
+
 
 
 /* =========================================
@@ -1042,6 +1180,7 @@ const glitchSounds = [
     )
 
 ];
+
 
 
 /* =========================================
@@ -1072,11 +1211,9 @@ let eventEndTimer =
     null;
 
 
+
 /* =========================================
    EVENT PROGRESS
-
-   0 = beginning
-   1 = end
 ========================================= */
 
 function getEventProgress() {
@@ -1118,15 +1255,12 @@ function getEventProgress() {
 }
 
 
+
 /* =========================================
-   SETUP EVENT
+   SETUP TV EVENT
 ========================================= */
 
 function setupGlobalEvent() {
-
-    /*
-    Already finished.
-    */
 
     if (
         localStorage.getItem(
@@ -1137,12 +1271,9 @@ function setupGlobalEvent() {
         showPermanentTV();
 
         return;
+
     }
 
-
-    /*
-    Event was running before refresh.
-    */
 
     if (
         localStorage.getItem(
@@ -1153,6 +1284,7 @@ function setupGlobalEvent() {
         resumeSpecialEvent();
 
         return;
+
     }
 
 
@@ -1160,28 +1292,24 @@ function setupGlobalEvent() {
         Date.now();
 
 
-    /*
-    BEFORE 11:30 PM
-    */
-
     if (
-        now <
-        EVENT_TIME
+        now < EVENT_TIME
     ) {
 
         setTimeout(
+
             startSpecialEvent,
-            EVENT_TIME - now
+
+            EVENT_TIME -
+            now
+
         );
 
 
         return;
+
     }
 
-
-    /*
-    BETWEEN 11:30 AND 11:32
-    */
 
     if (
         now >= EVENT_TIME
@@ -1209,12 +1337,9 @@ function setupGlobalEvent() {
 
 
         return;
+
     }
 
-
-    /*
-    AFTER 11:32
-    */
 
     if (
         now >=
@@ -1235,14 +1360,19 @@ function setupGlobalEvent() {
 }
 
 
+
 /* =========================================
    START EVENT
 ========================================= */
 
 function startSpecialEvent() {
 
-    if (specialEventRunning) {
+    if (
+        specialEventRunning
+    ) {
+
         return;
+
     }
 
 
@@ -1271,6 +1401,7 @@ function startSpecialEvent() {
 
 
     eventEndTimer =
+
         setTimeout(
 
             dropTelevision,
@@ -1289,14 +1420,19 @@ function startSpecialEvent() {
 }
 
 
+
 /* =========================================
-   RESUME EVENT AFTER REFRESH
+   RESUME EVENT
 ========================================= */
 
 function resumeSpecialEvent() {
 
-    if (specialEventRunning) {
+    if (
+        specialEventRunning
+    ) {
+
         return;
+
     }
 
 
@@ -1326,6 +1462,7 @@ function resumeSpecialEvent() {
         dropTelevision();
 
         return;
+
     }
 
 
@@ -1349,36 +1486,41 @@ function resumeSpecialEvent() {
 }
 
 
+
 /* =========================================
-   BEGIN CORRUPTION
+   START GLITCHING
 ========================================= */
 
 function beginGlitchSequence() {
 
-    radioArea.classList.add(
-        "event-glitch"
-    );
+    radioArea
+        .classList
+        .add(
+            "event-glitch"
+        );
 
-
-    /*
-    Radio automatically turns on.
-    */
 
     radioOn =
         true;
 
 
-    radioImage.classList.add(
-        "radio-playing"
-    );
+    radioImage
+        .classList
+        .add(
+            "radio-playing"
+        );
 
 
     if (
-        audioUnlocked &&
+        audioUnlocked
+
+        &&
+
         radioAudio.paused
     ) {
 
         randomSong();
+
     }
 
 
@@ -1391,14 +1533,19 @@ function beginGlitchSequence() {
 }
 
 
+
 /* =========================================
    SONG GLITCH SCHEDULER
 ========================================= */
 
 function scheduleSongGlitch() {
 
-    if (!specialEventRunning) {
+    if (
+        !specialEventRunning
+    ) {
+
         return;
+
     }
 
 
@@ -1406,22 +1553,16 @@ function scheduleSongGlitch() {
         getEventProgress();
 
 
-    /*
-    Beginning:
-    roughly every 4-7 seconds.
-
-    Ending:
-    almost constant.
-    */
-
     const minimum =
         4000 -
-        progress * 3850;
+        progress *
+        3850;
 
 
     const randomRange =
         3000 -
-        progress * 2600;
+        progress *
+        2600;
 
 
     const delay =
@@ -1442,18 +1583,17 @@ function scheduleSongGlitch() {
 
             function() {
 
-                if (!specialEventRunning) {
+                if (
+                    !specialEventRunning
+                ) {
+
                     return;
+
                 }
 
 
                 glitchCurrentSong();
 
-
-                /*
-                Near end:
-                possible immediate second glitch.
-                */
 
                 if (
                     progress > 0.70
@@ -1488,14 +1628,19 @@ function scheduleSongGlitch() {
 }
 
 
+
 /* =========================================
-   GLITCH CURRENT SONG
+   GLITCH SONG
 ========================================= */
 
 function glitchCurrentSong() {
 
-    if (!specialEventRunning) {
+    if (
+        !specialEventRunning
+    ) {
+
         return;
+
     }
 
 
@@ -1505,16 +1650,15 @@ function glitchCurrentSong() {
 
     const type =
         Math.floor(
-            Math.random() *
-            6
+            Math.random() * 6
         );
 
 
-    /* =================================
-       SILENCE
-    ================================= */
+    /* SILENCE */
 
-    if (type === 0) {
+    if (
+        type === 0
+    ) {
 
         const oldVolume =
             radioAudio.volume;
@@ -1544,7 +1688,8 @@ function glitchCurrentSong() {
             Math.random() *
             (
                 200 +
-                progress * 1100
+                progress *
+                1100
             )
 
         );
@@ -1552,9 +1697,7 @@ function glitchCurrentSong() {
     }
 
 
-    /* =================================
-       SKIP
-    ================================= */
+    /* SKIP */
 
     else if (
         type === 1
@@ -1609,9 +1752,7 @@ function glitchCurrentSong() {
     }
 
 
-    /* =================================
-       SPEED / PITCH
-    ================================= */
+    /* SPEED / PITCH */
 
     else if (
         type === 2
@@ -1628,6 +1769,7 @@ function glitchCurrentSong() {
 
             radioAudio.webkitPreservesPitch =
                 false;
+
         }
 
 
@@ -1660,9 +1802,7 @@ function glitchCurrentSong() {
     }
 
 
-    /* =================================
-       STUTTER
-    ================================= */
+    /* STUTTER */
 
     else if (
         type === 3
@@ -1677,8 +1817,7 @@ function glitchCurrentSong() {
             2 +
 
             Math.floor(
-                progress *
-                14
+                progress * 14
             );
 
 
@@ -1687,14 +1826,12 @@ function glitchCurrentSong() {
 
 
         const speed =
-
             Math.max(
 
                 30,
 
                 120 -
-                progress *
-                90
+                progress * 90
 
             );
 
@@ -1719,6 +1856,7 @@ function glitchCurrentSong() {
 
 
                         return;
+
                     }
 
 
@@ -1737,9 +1875,7 @@ function glitchCurrentSong() {
     }
 
 
-    /* =================================
-       RANDOM NEW SONG
-    ================================= */
+    /* SWITCH SONG */
 
     else if (
         type === 4
@@ -1756,14 +1892,13 @@ function glitchCurrentSong() {
         ) {
 
             randomSong();
+
         }
 
     }
 
 
-    /* =================================
-       HARD CUT
-    ================================= */
+    /* HARD CUT */
 
     else {
 
@@ -1784,7 +1919,10 @@ function glitchCurrentSong() {
 
                     radioAudio
                         .play()
-                        .catch(() => {});
+                        .catch(
+                            () => {}
+                        );
+
                 }
 
             },
@@ -1794,7 +1932,8 @@ function glitchCurrentSong() {
             Math.random() *
             (
                 250 +
-                progress * 700
+                progress *
+                700
             )
 
         );
@@ -1804,8 +1943,9 @@ function glitchCurrentSong() {
 }
 
 
+
 /* =========================================
-   RANDOM GLITCH SOUND
+   RANDOM GLITCH AUDIO
 ========================================= */
 
 function playRandomGlitchSound() {
@@ -1843,16 +1983,6 @@ function playRandomGlitchSound() {
         false;
 
 
-    if (
-        "webkitPreservesPitch"
-        in sound
-    ) {
-
-        sound.webkitPreservesPitch =
-            false;
-    }
-
-
     sound.playbackRate =
 
         0.65 +
@@ -1867,14 +1997,19 @@ function playRandomGlitchSound() {
 }
 
 
+
 /* =========================================
-   GLITCH SOUND SCHEDULER
+   GLITCH AUDIO SCHEDULER
 ========================================= */
 
 function scheduleGlitchSound() {
 
-    if (!specialEventRunning) {
+    if (
+        !specialEventRunning
+    ) {
+
         return;
+
     }
 
 
@@ -1883,19 +2018,20 @@ function scheduleGlitchSound() {
 
 
     const delay =
-
         Math.max(
 
             250,
 
             4000 -
 
-            progress * 3600 +
+            progress *
+            3600 +
 
             Math.random() *
             (
                 2000 -
-                progress * 1400
+                progress *
+                1400
             )
 
         );
@@ -1906,8 +2042,12 @@ function scheduleGlitchSound() {
 
             function() {
 
-                if (!specialEventRunning) {
+                if (
+                    !specialEventRunning
+                ) {
+
                     return;
+
                 }
 
 
@@ -1928,6 +2068,7 @@ function scheduleGlitchSound() {
                         playRandomGlitchSound,
 
                         100 +
+
                         Math.random() *
                         250
 
@@ -1947,14 +2088,19 @@ function scheduleGlitchSound() {
 }
 
 
+
 /* =========================================
    VISUAL GLITCH
 ========================================= */
 
 function scheduleVisualGlitch() {
 
-    if (!specialEventRunning) {
+    if (
+        !specialEventRunning
+    ) {
+
         return;
+
     }
 
 
@@ -1963,19 +2109,20 @@ function scheduleVisualGlitch() {
 
 
     const delay =
-
         Math.max(
 
             120,
 
             4500 -
 
-            progress * 4300 +
+            progress *
+            4300 +
 
             Math.random() *
             (
                 2500 -
-                progress * 2200
+                progress *
+                2200
             )
 
         );
@@ -1986,21 +2133,28 @@ function scheduleVisualGlitch() {
 
             function() {
 
-                if (!specialEventRunning) {
+                if (
+                    !specialEventRunning
+                ) {
+
                     return;
+
                 }
 
 
-                radioArea.classList.add(
-                    "big-glitch"
-                );
+                radioArea
+                    .classList
+                    .add(
+                        "big-glitch"
+                    );
 
 
                 const duration =
 
                     60 +
 
-                    progress * 400 +
+                    progress *
+                    400 +
 
                     Math.random() *
                     160;
@@ -2010,9 +2164,11 @@ function scheduleVisualGlitch() {
 
                     function() {
 
-                        radioArea.classList.remove(
-                            "big-glitch"
-                        );
+                        radioArea
+                            .classList
+                            .remove(
+                                "big-glitch"
+                            );
 
                     },
 
@@ -2032,8 +2188,9 @@ function scheduleVisualGlitch() {
 }
 
 
+
 /* =========================================
-   STOP GLITCHES
+   STOP GLITCH
 ========================================= */
 
 function stopGlitches() {
@@ -2053,14 +2210,18 @@ function stopGlitches() {
     );
 
 
-    radioArea.classList.remove(
-        "event-glitch"
-    );
+    radioArea
+        .classList
+        .remove(
+            "event-glitch"
+        );
 
 
-    radioArea.classList.remove(
-        "big-glitch"
-    );
+    radioArea
+        .classList
+        .remove(
+            "big-glitch"
+        );
 
 
     glitchSounds.forEach(
@@ -2084,14 +2245,19 @@ function stopGlitches() {
 }
 
 
+
 /* =========================================
-   TV FALLS
+   DROP TV
 ========================================= */
 
 function dropTelevision() {
 
-    if (televisionDropping) {
+    if (
+        televisionDropping
+    ) {
+
         return;
+
     }
 
 
@@ -2106,10 +2272,6 @@ function dropTelevision() {
     stopGlitches();
 
 
-    /*
-    Radio finally dies.
-    */
-
     radioAudio.pause();
 
 
@@ -2117,29 +2279,27 @@ function dropTelevision() {
         false;
 
 
-    radioImage.classList.remove(
-        "radio-playing"
-    );
+    radioImage
+        .classList
+        .remove(
+            "radio-playing"
+        );
 
 
-    /*
-    TV falls.
-    */
+    tvArea
+        .classList
+        .add(
+            "falling"
+        );
 
-    tvArea.classList.add(
-        "falling"
-    );
-
-
-    /*
-    Impact.
-    */
 
     setTimeout(
 
         function() {
 
-            if (audioUnlocked) {
+            if (
+                audioUnlocked
+            ) {
 
                 impactSound.currentTime =
                     0;
@@ -2151,13 +2311,18 @@ function dropTelevision() {
 
                 impactSound
                     .play()
-                    .catch(() => {});
+                    .catch(
+                        () => {}
+                    );
+
             }
 
 
-            radioArea.classList.add(
-                "hit"
-            );
+            radioArea
+                .classList
+                .add(
+                    "hit"
+                );
 
         },
 
@@ -2165,10 +2330,6 @@ function dropTelevision() {
 
     );
 
-
-    /*
-    Finish.
-    */
 
     setTimeout(
 
@@ -2181,50 +2342,43 @@ function dropTelevision() {
 }
 
 
+
 /* =========================================
-   FINAL STATE
+   FINISH TV EVENT
 ========================================= */
 
 function finishSpecialEvent() {
 
-    /*
-    Radio gone.
-    */
-
-    radioArea.classList.remove(
-        "hit"
-    );
+    radioArea
+        .classList
+        .remove(
+            "hit"
+        );
 
 
-    radioArea.classList.add(
-        "gone"
-    );
+    radioArea
+        .classList
+        .add(
+            "gone"
+        );
 
 
-    /*
-    TV stays.
-    */
-
-    tvArea.classList.remove(
-        "falling"
-    );
+    tvArea
+        .classList
+        .remove(
+            "falling"
+        );
 
 
-    tvArea.classList.add(
-        "finished"
-    );
+    tvArea
+        .classList
+        .add(
+            "finished"
+        );
 
-
-    /*
-    Static music begins.
-    */
 
     startStaticMusic();
 
-
-    /*
-    Save state.
-    */
 
     localStorage.setItem(
         EVENT_FINISHED_KEY,
@@ -2245,11 +2399,15 @@ function finishSpecialEvent() {
     televisionDropping =
         false;
 
+
+    checkTVHippoTime();
+
 }
 
 
+
 /* =========================================
-   LOAD AFTER EVENT
+   FINAL TV STATE
 ========================================= */
 
 function showPermanentTV() {
@@ -2257,19 +2415,345 @@ function showPermanentTV() {
     radioAudio.pause();
 
 
-    radioArea.classList.add(
-        "gone"
-    );
+    radioArea
+        .classList
+        .add(
+            "gone"
+        );
 
 
-    tvArea.classList.add(
-        "finished"
-    );
+    tvArea
+        .classList
+        .add(
+            "finished"
+        );
 
 
     startStaticMusic();
 
 }
+
+
+
+/* =========================================
+   NEWFOUNDLAND CLOCK
+========================================= */
+
+function getNewfoundlandTimeParts() {
+
+    const formatter =
+        new Intl.DateTimeFormat(
+
+            "en-CA",
+
+            {
+                timeZone:
+                    "America/St_Johns",
+
+                year:
+                    "numeric",
+
+                month:
+                    "2-digit",
+
+                day:
+                    "2-digit",
+
+                hour:
+                    "2-digit",
+
+                minute:
+                    "2-digit",
+
+                second:
+                    "2-digit",
+
+                hourCycle:
+                    "h23"
+            }
+
+        );
+
+
+    const parts =
+        formatter.formatToParts(
+            new Date()
+        );
+
+
+    const values =
+        {};
+
+
+    parts.forEach(
+
+        function(part) {
+
+            values[
+                part.type
+            ] =
+                part.value;
+
+        }
+
+    );
+
+
+    return {
+
+        year:
+            Number(
+                values.year
+            ),
+
+        month:
+            Number(
+                values.month
+            ),
+
+        day:
+            Number(
+                values.day
+            ),
+
+        hour:
+            Number(
+                values.hour
+            ),
+
+        minute:
+            Number(
+                values.minute
+            ),
+
+        second:
+            Number(
+                values.second
+            )
+
+    };
+
+}
+
+
+
+/* =========================================
+   TV HIPPO
+========================================= */
+
+let tvHippoRunning =
+    false;
+
+
+function checkTVHippoTime() {
+
+    /*
+    TV must already exist.
+    */
+
+    if (
+        !tvArea
+            .classList
+            .contains(
+                "finished"
+            )
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        tvHippoRunning
+    ) {
+
+        return;
+
+    }
+
+
+    const time =
+        getNewfoundlandTimeParts();
+
+
+    const todayKey =
+
+        time.year
+
+        +
+
+        "-"
+
+        +
+
+        String(
+            time.month
+        ).padStart(
+            2,
+            "0"
+        )
+
+        +
+
+        "-"
+
+        +
+
+        String(
+            time.day
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const lastHippoDate =
+        localStorage.getItem(
+            TV_HIPPO_KEY
+        );
+
+
+    /*
+    1:00 AM - 1:29 AM
+    Newfoundland time.
+    */
+
+    const allowed =
+
+        time.hour === 1
+
+        &&
+
+        time.minute < 30;
+
+
+    if (
+        allowed
+
+        &&
+
+        lastHippoDate !==
+        todayKey
+    ) {
+
+        localStorage.setItem(
+            TV_HIPPO_KEY,
+            todayKey
+        );
+
+
+        startTVHippo();
+
+    }
+
+}
+
+
+
+/* =========================================
+   START HIPPO ON TV
+========================================= */
+
+function startTVHippo() {
+
+    tvHippoRunning =
+        true;
+
+
+    /*
+    STATIC OFF
+    */
+
+    tvStaticGif.style.display =
+        "none";
+
+
+    /*
+    HIPPO ON
+    */
+
+    tvHippo.style.display =
+        "block";
+
+
+    tvHippo
+        .classList
+        .add(
+            "tv-bouncing"
+        );
+
+
+    /*
+    MUSIC SWITCH
+    */
+
+    staticMusic.pause();
+
+
+    startHippoMusic();
+
+
+    /*
+    HIPPO LASTS 10 SECONDS
+    */
+
+    setTimeout(
+
+        function() {
+
+            /*
+            Stop animation.
+            */
+
+            tvHippo
+                .classList
+                .remove(
+                    "tv-bouncing"
+                );
+
+
+            tvHippo.style.display =
+                "none";
+
+
+            /*
+            Stop hippo music.
+            */
+
+            hippoMusic.pause();
+
+
+            hippoMusic.currentTime =
+                0;
+
+
+            /*
+            Static comes back.
+            */
+
+            tvStaticGif.style.display =
+                "block";
+
+
+            /*
+            Static music comes back.
+            */
+
+            startStaticMusic();
+
+
+            tvHippoRunning =
+                false;
+
+        },
+
+        10000
+
+    );
+
+}
+
 
 
 /* =========================================
@@ -2280,6 +2764,10 @@ updateCountdown();
 
 
 setupGlobalEvent();
+
+
+checkTVHippoTime();
+
 
 
 setInterval(
@@ -2293,6 +2781,16 @@ setInterval(
     },
 
     1000
+
+);
+
+
+
+setInterval(
+
+    checkTVHippoTime,
+
+    10000
 
 );
 
